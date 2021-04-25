@@ -1,0 +1,28 @@
+version: "3.7"
+
+services:  
+  flask:
+    build: ./
+    container_name: petition_app_api
+    restart: always
+    links:
+      - db
+    expose:
+      - 8080
+  
+  nginx:
+    build: ./nginx
+    container_name: petition_app_nginx
+    restart: always
+    ports:
+      - "80:80"
+
+  db:
+    image: mysql
+    container_name: petition_app_mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d/:ro
