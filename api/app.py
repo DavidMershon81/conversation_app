@@ -3,6 +3,7 @@ import pymysql
 pymysql.install_as_MySQLdb()
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from time import sleep
 
 #init flask app
 app = Flask(__name__, static_folder='../build', static_url_path='/')
@@ -35,7 +36,16 @@ def db_add_city(city_name):
     return new_city
 
 # Connect to the DB
-db.create_all()
+db_connected = False
+while not db_connected:
+    try:
+        db.create_all()
+        db_connected = True
+        print('Connected to DB!')
+    except:
+        print('Failed to connect to db, trying again...')
+        sleep(1)
+
 
 #routes
 @app.route('/')
