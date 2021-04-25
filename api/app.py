@@ -34,6 +34,7 @@ def db_add_city(city_name):
     print(f"adding city to DB... id:{new_city.id} name: {new_city.name}")
     return new_city
 
+# Connect to the DB
 db.create_all()
 
 #routes
