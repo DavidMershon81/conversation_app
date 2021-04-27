@@ -1,12 +1,9 @@
+from app import app
 from dotenv import dotenv_values
 import pymysql
 pymysql.install_as_MySQLdb()
-from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from time import sleep
-
-#init flask app
-app = Flask(__name__, static_folder='../build', static_url_path='/')
 
 #import and configure database
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = 'false'
@@ -18,6 +15,9 @@ db_url_key = 'PRODUCTION_DATABASE_URL' if config['FLASK_ENV'] == 'production' el
 db_url = config[db_url_key]
 app.config['SQLALCHEMY_DATABASE_URI'] = db_url
 
+flask_env = config['FLASK_ENV']
+print(f"flaks_env: {flask_env}")
+
 db = SQLAlchemy(app)
 
 class City(db.Model):
@@ -25,10 +25,10 @@ class City(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(256))
 
-def db_get_all_cities():
+def get_all_cities():
     return City.query.all()
 
-def db_add_city(city_name):
+def add_city(city_name):
     new_city = City(name=city_name)
     db.session.add(new_city)
     db.session.commit()
@@ -36,30 +36,21 @@ def db_add_city(city_name):
     return new_city
 
 # Connect to the DB
-db_connected = False
-while not db_connected:
+def connect():
     try:
-        db.create_all()
-        db_connected = True
-        print('Connected to DB!')
-    except:
-        print('Failed to connect to db, trying again...')
-        sleep(1)
-
-
-#routes
-@app.route('/')
-def index():
-    return app.send_static_file('index.html')
-
-@app.route('/api/get_cities', methods=["GET"])
-def get_cities():
-    return jsonify([ { 'id' : city.id, 'name' : city.name } for city in db_get_all_cities()])
-
-@app.route('/api/add_city', methods=["POST"])
-def add_city():
-    city_name = request.json['newCityName']
-    print(f"city_name: {city_name}")
-    new_city = db_add_city(city_name)
-    return jsonify({ 'id' : new_city.id, 'name' : new_city.name })
+        _try_connect()
+    except KeyboardInterrupt:
+        print('Interrupted database connect loop, exiting...')
+        exit()
     
+    
+def _try_connect():
+    db_connected = False
+    while not db_connected:
+        try:
+            db.create_all()
+            db_connected = True
+            print('Connected to DB!')
+        except:
+            print('Failed to connect to db, trying again...')
+            sleep(5)
