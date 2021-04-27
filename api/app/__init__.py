@@ -11,15 +11,16 @@ db.connect()
 def index():
     return app.send_static_file('index.html')
 
-@app.route('/api/get_cities', methods=["GET"])
-def get_cities():
-    all_cities = db.get_all_cities()
-    return jsonify([ { 'id' : city.id, 'name' : city.name } for city in all_cities])
+@app.route('/api/get_users', methods=["GET"])
+def get_users():
+    all_users = db.get_all_users()
+    return jsonify([ { 'id' : user.id, 'name' : user.name, 'password' : user.password } for user in all_users])
 
-@app.route('/api/add_city', methods=["POST"])
-def add_city():
-    city_name = request.json['newCityName']
-    print(f"city_name: {city_name}")
-    new_city = db.add_city(city_name)
-    return jsonify({ 'id' : new_city.id, 'name' : new_city.name })
+@app.route('/api/add_user', methods=["POST"])
+def add_user():
+    user_name = request.json['username']
+    password = request.json['password']
+    print(f"user_name: {user_name}")
+    new_user = db.add_user(user_name, password)
+    return jsonify({ 'id' : new_user.id, 'name' : new_user.name, 'password' : new_user.password })
     

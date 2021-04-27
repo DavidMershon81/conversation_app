@@ -4,6 +4,7 @@ import pymysql
 pymysql.install_as_MySQLdb()
 from flask_sqlalchemy import SQLAlchemy
 from time import sleep
+from werkzeug.security import generate_password_hash, check_password_hash
 
 #import and configure database
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = 'false'
@@ -12,28 +13,25 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = 'false'
 # or with a standalone test db in development
 config = dotenv_values("app_env")
 db_url_key = 'PRODUCTION_DATABASE_URL' if config['FLASK_ENV'] == 'production' else 'DEVELOPMENT_DATABASE_URL'
-db_url = config[db_url_key]
-app.config['SQLALCHEMY_DATABASE_URI'] = db_url
-
-flask_env = config['FLASK_ENV']
-print(f"flaks_env: {flask_env}")
-
+app.config['SQLALCHEMY_DATABASE_URI'] = config[db_url_key]
 db = SQLAlchemy(app)
 
-class City(db.Model):
-    __tablename__ = 'cities'
+class User(db.Model):
+    __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(256))
+    name = db.Column(db.Text)
+    password = db.Column(db.Text)
 
-def get_all_cities():
-    return City.query.all()
+def get_all_users():
+    return User.query.all()
 
-def add_city(city_name):
-    new_city = City(name=city_name)
-    db.session.add(new_city)
+def add_user(username, password):
+    password_hashed = generate_password_hash(password)
+    new_user = User(name=username, password=password_hashed)
+    db.session.add(new_user)
     db.session.commit()
-    print(f"adding city to DB... id:{new_city.id} name: {new_city.name}")
-    return new_city
+    print(f"adding new user to DB... id:{new_user.id} name: {new_user.name} password: {new_user.password}")
+    return new_user
 
 # Connect to the DB
 def connect():

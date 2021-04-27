@@ -1,53 +1,46 @@
 import { useState, useEffect } from 'react'
-import FormWithText from './components/FormWithText'
+import AddUserForm from './components/AddUserForm'
 import './App.css';
 
 
 const App = () => {
-  const [cities, setCities] = useState([]);
+  const [users, setUsers] = useState([]);
 
   //testing pulling an array of cities from the test mysql db on the backend
   useEffect(() => {
-    fetch('/api/get_cities').then(res => res.json()).then(data => {
-      setCities(data);
+    fetch('/api/get_users').then(res => res.json()).then(data => {
+      setUsers(data);
     });
   }, []);
-  console.log(cities);
+  console.log(users);
 
-  const addCity = (newCityName) => {
-    fetch('/api/add_city', {
+  const addUser = (newUser) => {
+    fetch('/api/add_user', {
       method: 'POST',
       headers: { 
         'Content-type' : 'application/json' 
       },
-      body: JSON.stringify({ 'newCityName' : newCityName })
+      body: JSON.stringify(newUser)
     }).then(res => { 
       return res.json(); 
-    }).then(newCity => {
-      console.log(newCity);
-      setCities([...cities, newCity]);
+    }).then(newUser => {
+      console.log(newUser);
+      setUsers([...users, newUser]);
     });
   };
 
-  /*
-  const onAddCity = (newCityName) => {
-    console.log('adding city: ' + newCityName);
-    const newCity = {
-      id: cities.length + 1,
-      name: newCityName
-    };
-    setCities([...cities, newCity]);
-  }
-  */
-
   return (
     <div className="App">
-      <h1>Reacting with Flask!</h1>
-      <FormWithText submitLabel='Add City' placeholderText='City Name' submitEvent={addCity}/>
-      <h4>A List of Cities for You!</h4>
-      <ul>
-      {cities.map((city) => <li key={city['id']}>{city['name']}</li>)}
-      </ul>
+      <h1>Petition App Debug UI</h1>
+      <section>
+        <h2>Users</h2>
+        <AddUserForm submitLabel='Add User' placeholderText='User Name' submitEvent={addUser}/>
+        <h4>A List of Users</h4>
+        <ul>
+        {users.map((user) => <li key={user['id']}>id: {user['id']}<br/>username: {user['name']}<br/>password: {user['password']}</li>)}
+        </ul>
+      </section>
+      
     </div>
   );
 }
