@@ -7,3 +7,48 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+.form_text_input {
+  border-style: none;
+
+  margin-bottom: 4px;
+  padding: 10px;
+  background-color: lightgray;
+}
+
+.form_submit_btn {
+  border-style: none;
+  padding: 20px;
+  background-color: coral;
+  font-weight: bolder;
+  font-size: 1em;
+}
+
+.loading_box {
+  display: flex;
+  flex-direction: column;
+  height: 30px;
+}
+
+li {
+  background-color: dimgray;
+  height: 40px;
+  margin-bottom: 10px;
+  padding: 16px;
+  color: lightgray;
+}
+
+ul {
+  list-style: none;
+  padding-left: 20;
+}
+
+
+h1, h2, h4 {
+  text-align: center;
+}
+
+strong {
+  color:coral;
+}
+

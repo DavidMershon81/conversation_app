@@ -14,13 +14,12 @@ def index():
 @app.route('/api/get_users', methods=["GET"])
 def get_users():
     all_users = db.get_all_users()
-    return jsonify([ { 'id' : user.id, 'name' : user.name, 'password' : user.password } for user in all_users])
+    return jsonify([ { 'id' : user.id, 'name' : user.name } for user in all_users])
 
 @app.route('/api/add_user', methods=["POST"])
 def add_user():
     user_name = request.json['username']
     password = request.json['password']
-    print(f"user_name: {user_name}")
     new_user = db.add_user(user_name, password)
-    return jsonify({ 'id' : new_user.id, 'name' : new_user.name, 'password' : new_user.password })
+    return jsonify({ 'id' : new_user.id, 'name' : new_user.name })
     

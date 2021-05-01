@@ -5,6 +5,7 @@ import './App.css';
 
 const App = () => {
   const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   //testing pulling an array of cities from the test mysql db on the backend
   useEffect(() => {
@@ -15,6 +16,7 @@ const App = () => {
   console.log(users);
 
   const addUser = (newUser) => {
+    setLoading(true);
     fetch('/api/add_user', {
       method: 'POST',
       headers: { 
@@ -26,6 +28,7 @@ const App = () => {
     }).then(newUser => {
       console.log(newUser);
       setUsers([...users, newUser]);
+      setLoading(false);
     });
   };
 
@@ -35,9 +38,12 @@ const App = () => {
       <section>
         <h2>Users</h2>
         <AddUserForm submitLabel='Add User' placeholderText='User Name' submitEvent={addUser}/>
+        <div className="loading_box">
+          {loading && <p>Loading...</p>}
+        </div>
         <h4>A List of Users</h4>
         <ul>
-        {users.map((user) => <li key={user['id']}>id: {user['id']}<br/>username: {user['name']}<br/>password: {user['password']}</li>)}
+        {users.map((user) => <li key={user['id']}>id: <strong>{user['id']}</strong> | username: <strong>{user['name']}</strong></li>)}
         </ul>
       </section>
       

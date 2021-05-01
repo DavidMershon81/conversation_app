@@ -20,13 +20,15 @@ const AddUserForm = ({ submitEvent }) => {
       }
   
       submitEvent({ 'username' : username, 'password' : password })
+      setUsername('');
+      setPassword('');
     }
   
     return (
       <form onSubmit={onSubmit} className='input_form'>
         <FormTextInput placeholderText='username' text={username} setText={setUsername}/>
-        <FormTextInput placeholderText='password' text={password} setText={setPassword}/>
-        <input type="submit" value='Add User'/>
+        <FormTextInput placeholderText='password' text={password} setText={setPassword} isPassword='true'/>
+        <input type="submit" value='Add User' className="form_submit_btn" />
       </form>
     )
   }
