@@ -24,5 +24,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-#python environment vars
+#environment vars
 /api/app_env
+.env
