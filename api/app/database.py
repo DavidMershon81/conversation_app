@@ -22,6 +22,21 @@ class User(db.Model):
     name = db.Column(db.Text)
     password = db.Column(db.Text)
 
+class Petition(db.Model):
+    __tablename__ = 'petitions'
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.Text)
+    email_domain = db.Column(db.Text)
+    max_users = db.Column(db.Integer)
+
+def get_all_petitions():
+    return Petition.query.all()
+
+def add_petition(text, email_domain, max_users):
+    new_petition = Petition(text=text, email_domain=email_domain, max_users=max_users)
+    db.session.add(new_petition)
+    db.session.commit()
+
 def get_all_users():
     return User.query.all()
 
@@ -30,7 +45,6 @@ def add_user(username, password):
     new_user = User(name=username, password=password_hashed)
     db.session.add(new_user)
     db.session.commit()
-    print(f"adding new user to DB... id:{new_user.id} name: {new_user.name} password: {new_user.password}")
     return new_user
 
 # Connect to the DB
