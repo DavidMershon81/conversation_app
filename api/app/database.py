@@ -36,6 +36,7 @@ def add_petition(text, email_domain, max_users):
     new_petition = Petition(text=text, email_domain=email_domain, max_users=max_users)
     db.session.add(new_petition)
     db.session.commit()
+    return new_petition
 
 def get_all_users():
     return User.query.all()
