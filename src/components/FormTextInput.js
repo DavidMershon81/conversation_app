@@ -1,11 +1,12 @@
-const FormTextInput = ({placeholderText, varName, text, setText, isPassword}) => {
+const FormTextInput = ({index, fieldInfo, setText}) => {
+
   return (
       <input
         className="form_text_input" 
-        type={isPassword ? "password" : "text"} 
-        placeholder={placeholderText} 
-        value={text} 
-        onChange={ (e) => setText(varName, e.target.value) }
+        type={fieldInfo.isPassword ? "password" : "text"} 
+        placeholder={fieldInfo.placeholder} 
+        value={fieldInfo.value} 
+        onChange={ (e) => setText(index, e.target.value) }
       />
     )
   }
