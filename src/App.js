@@ -1,36 +1,10 @@
 import { useState, useEffect } from 'react'
 import AddUserForm from './components/AddUserForm'
 import './App.css';
-
+import useFetchData from  './hooks/useFetchData'
 
 const App = () => {
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(false);
-
-  //testing pulling an array of cities from the test mysql db on the backend
-  useEffect(() => {
-    fetch('/api/get_users').then(res => res.json()).then(data => {
-      setUsers(data);
-    });
-  }, []);
-  console.log(users);
-
-  const addUser = (newUser) => {
-    setLoading(true);
-    fetch('/api/add_user', {
-      method: 'POST',
-      headers: { 
-        'Content-type' : 'application/json' 
-      },
-      body: JSON.stringify(newUser)
-    }).then(res => { 
-      return res.json(); 
-    }).then(newUser => {
-      console.log(newUser);
-      setUsers([...users, newUser]);
-      setLoading(false);
-    });
-  };
+  const [ users, getUsers, addUser, loading ] = useFetchData('/api/get_users', '/api/add_user');
 
   return (
     <div className="App">
@@ -43,7 +17,7 @@ const App = () => {
         </div>
         <h4>A List of Users</h4>
         <ul>
-        {users.map((user) => <li key={user['id']}>id: <strong>{user['id']}</strong> | username: <strong>{user['name']}</strong></li>)}
+        {users && users.map((user) => <li key={user['id']}>id: <strong>{user['id']}</strong> | username: <strong>{user['name']}</strong></li>)}
         </ul>
       </section>
       
