@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react'
 import AddUserForm from './components/AddUserForm'
 import './App.css';
 import useFetchData from  './hooks/useFetchData'

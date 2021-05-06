@@ -2,35 +2,44 @@ import { useState } from 'react'
 import FormTextInput from './FormTextInput'
 
 const AddUserForm = ({ submitEvent }) => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-  
-    const onSubmit = (e) => {
-      e.preventDefault();
-      if(!username)
-      {
-        alert('Enter a user name');
-        return;
-      }
+  const cleanFormData = {
+    username : '',
+    password : ''
+  };
+  const [formData, setFormData] = useState(cleanFormData);
 
-      if(!password)
-      {
-        alert('Enter a password');
-        return;
-      }
-  
-      submitEvent({ 'username' : username, 'password' : password })
-      setUsername('');
-      setPassword('');
+  const onTextUpdate = (textKey, textValue) => {
+    const newFormData = {...formData};
+    newFormData[textKey] = textValue;
+    setFormData(newFormData);
+    console.log("formData[" + textKey + "]: " + formData[textKey]);
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if(formData.username === '')
+    {
+      alert('Enter a user name');
+      return;
     }
-  
-    return (
-      <form onSubmit={onSubmit} className='input_form'>
-        <FormTextInput placeholderText='username' text={username} setText={setUsername}/>
-        <FormTextInput placeholderText='password' text={password} setText={setPassword} isPassword='true'/>
-        <input type="submit" value='Add User' className="form_submit_btn" />
-      </form>
-    )
+
+    if(formData.password === '')
+    {
+      alert('Enter a password');
+      return;
+    }
+
+    submitEvent(formData)
+    setFormData(cleanFormData);
   }
 
-  export default AddUserForm
+  return (
+    <form onSubmit={onSubmit} className='input_form'>
+      <FormTextInput placeholderText='username' varName='username' text={formData['username']} setText={onTextUpdate}/>
+      <FormTextInput placeholderText='password' varName='password' text={formData['password']} setText={onTextUpdate} isPassword='true'/>
+      <input type="submit" value='Add User' className="form_submit_btn" />
+    </form>
+  )
+}
+
+export default AddUserForm

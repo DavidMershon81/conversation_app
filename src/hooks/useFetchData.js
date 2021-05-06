@@ -5,7 +5,7 @@ const useFetchData = (getUrl, addUrl) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => { 
-        getData(); 
+      getData(); 
     }, []);
 
     const getData = () => {
@@ -19,21 +19,21 @@ const useFetchData = (getUrl, addUrl) => {
     };
 
     const addData = (newData) => {
-        setLoading(true);
-        fetch(addUrl, {
-          method: 'POST',
-          headers: { 
-            'Content-type' : 'application/json' 
-          },
-          body: JSON.stringify(newData)
-        }).then(res => { 
-          return res.json(); 
-        }).then(newData => {
-          console.log(newData);
-          setData([...data, newData]);
-          setLoading(false);
-        });
-      };
+      setLoading(true);
+      fetch(addUrl, {
+        method: 'POST',
+        headers: { 
+          'Content-type' : 'application/json' 
+        },
+        body: JSON.stringify(newData)
+      }).then(res => { 
+        return res.json(); 
+      }).then(newData => {
+        console.log(newData);
+        setData([...data, newData]);
+        setLoading(false);
+      });
+    };
 
     return [ data, getData, addData, loading ];
 }
