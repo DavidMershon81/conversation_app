@@ -7,9 +7,9 @@
     const [ petitions, getPetitions, addPetition, loading ] = useFetchData('/api/get_petitions', '/api/add_petition');
   
     const addUserFormFields = [
-      new FormFieldInfo({name:'text'}),
-      new FormFieldInfo({name:'email_domain'}),
-      new FormFieldInfo({name:'max_users'})
+      new FormFieldInfo({name:'text', inputType: 'text_area', placeholder: 'petition text...'}),
+      new FormFieldInfo({name:'email_domain', placeholder: 'email domain'}),
+      new FormFieldInfo({name:'max_users', inputType: 'number', placeholder: 'max users for this petition'})
     ];
   
     return (
@@ -24,10 +24,10 @@
           {petitions && petitions.map((petition) => 
             <li 
                 key={petition['id']}>
-                id: <strong>{petition['id']}</strong><br/>
-                email_domain: <strong>{petition['email_domain']}</strong><br/>
-                max_users: <strong>{petition['max_users']}</strong><br/>
-                text: {petition['text']}
+                <strong>id:</strong> {petition['id']}<br/>
+                <strong>email_domain:</strong> {petition['email_domain']}<br/>
+                <strong>max_users:</strong> {petition['max_users']}<br/>
+                <strong>text:</strong> {petition['text']}
             </li>)}
           </ul>
         </section>

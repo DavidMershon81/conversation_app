@@ -9,8 +9,9 @@ body {
   display: flex;
   flex-direction: column;
   background-color: white;
-  padding: 0px 100px;
+  padding: 0px 50px;
   min-height: 100vh;
+  max-width: 540px;
 }
 
 .input_form {
@@ -19,6 +20,14 @@ body {
 }
 
 .form_text_input {
+  border-style: none;
+
+  margin-bottom: 4px;
+  padding: 10px;
+  background-color: lightgray;
+}
+
+.form_text_area {
   border-style: none;
 
   margin-bottom: 4px;
@@ -49,7 +58,7 @@ li {
 
 ul {
   list-style: none;
-  padding-left: 20;
+  padding-left: 0px;
 }
 
 

@@ -19,7 +19,9 @@
             {loading && <p>Loading...</p>}
           </div>
           <ul>
-          {users && users.map((user) => <li key={user['id']}>id: <strong>{user['id']}</strong> | username: <strong>{user['name']}</strong></li>)}
+            { users && users.map((user) => 
+                <li key={user['id']}> <strong>id:</strong> {user['id']} <strong>username:</strong> {user['name']}></li>
+            )}
           </ul>
         </section>
     );
