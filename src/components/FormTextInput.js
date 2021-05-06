@@ -3,7 +3,7 @@ const FormTextInput = ({index, fieldInfo, setText}) => {
   return (
       <input
         className="form_text_input" 
-        type={fieldInfo.isPassword ? "password" : "text"} 
+        type={fieldInfo.inputType}
         placeholder={fieldInfo.placeholder} 
         value={fieldInfo.value} 
         onChange={ (e) => setText(index, e.target.value) }

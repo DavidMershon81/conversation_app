@@ -1,0 +1,28 @@
+
+ import TextEntryForm from './TextEntryForm'
+ import useFetchData from  '../hooks/useFetchData'
+ import FormFieldInfo from '../common/FormFieldInfo'
+
+ const UsersView = () => {
+    const [ users, getUsers, addUser, loading ] = useFetchData('/api/get_users', '/api/add_user');
+  
+    const addUserFormFields = [
+      new FormFieldInfo({name:'username'}),
+      new FormFieldInfo({name:'password', inputType: 'password'})
+    ];
+  
+    return (
+        <section>
+          <h2>Users</h2>
+          <TextEntryForm formFields={addUserFormFields} submitBtnLabel='Add User' submitEvent={addUser}/>
+          <div className="loading_box">
+            {loading && <p>Loading...</p>}
+          </div>
+          <ul>
+          {users && users.map((user) => <li key={user['id']}>id: <strong>{user['id']}</strong> | username: <strong>{user['name']}</strong></li>)}
+          </ul>
+        </section>
+    );
+  }
+
+export default UsersView
