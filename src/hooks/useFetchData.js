@@ -35,7 +35,7 @@ const useFetchData = (getUrl, addUrl) => {
       });
     };
 
-    return [ data, getData, addData, loading ];
+    return [ data, addData, loading ];
 }
 
 export default useFetchData

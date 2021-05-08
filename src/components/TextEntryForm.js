@@ -3,6 +3,7 @@ import FormTextInput from './FormTextInput'
 
 const TextEntryForm = ({ formFields, submitBtnLabel, submitEvent  }) => {
   const [formData, setFormData] = useState(formFields);
+  const [showFormErrors, setShowFormErrors] = useState(false);
 
   const onTextUpdate = (index, newValue) => {
     const newFormData = [...formData];
@@ -12,10 +13,12 @@ const TextEntryForm = ({ formFields, submitBtnLabel, submitEvent  }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    console.log('onSubmit running...');
 
     const invalidEntires = formData.filter(entry => !entry.isValid());
     if(invalidEntires.length > 0){
-      alert(`enter a ${invalidEntires[0].name}`);
+      //alert('You forgot to enter something into this form.');
+      setShowFormErrors(true);
       return;
     }
 
@@ -27,7 +30,7 @@ const TextEntryForm = ({ formFields, submitBtnLabel, submitEvent  }) => {
 
   return (
     <form onSubmit={onSubmit} className='input_form'>
-      {formData.map((field, index) => <FormTextInput key={index} index={index} fieldInfo={field} setText={onTextUpdate}/>)}
+      {formData.map((field, index) => <FormTextInput key={index} index={index} fieldInfo={field} setText={onTextUpdate} showFormErrors={showFormErrors}/>)}
       <input type="submit" value={submitBtnLabel} className="form_submit_btn" />
     </form>
   )

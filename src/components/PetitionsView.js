@@ -4,12 +4,12 @@
  import FormFieldInfo from '../common/FormFieldInfo'
 
  const PetitionsView = () => {
-    const [ petitions, getPetitions, addPetition, loading ] = useFetchData('/api/get_petitions', '/api/add_petition');
+    const [ petitions, addPetition, loading ] = useFetchData('/api/get_petitions', '/api/add_petition');
   
     const addUserFormFields = [
-      new FormFieldInfo({name:'text', inputType: 'text_area', placeholder: 'petition text...'}),
-      new FormFieldInfo({name:'email_domain', placeholder: 'email domain'}),
-      new FormFieldInfo({name:'max_users', inputType: 'number', placeholder: 'max users for this petition'})
+      new FormFieldInfo({name:'text', label:'petition text', inputType: 'text_area', placeholder: 'petition text...'}),
+      new FormFieldInfo({name:'email_domain', label:'email domain name', placeholder: 'email domain'}),
+      new FormFieldInfo({name:'max_users', label:'number of users for this petition', inputType: 'number', placeholder: 'max users for this petition'})
     ];
   
     return (

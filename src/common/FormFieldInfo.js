@@ -1,7 +1,7 @@
-function FormFieldInfo({name='name', inputType='text', value='', placeholder=null, isValid=null}) {
+function FormFieldInfo({name='name', inputType='text', value='', label=null, isValid=null}) {
     this.name = name;
     this.value = value;
-    this.placeholder = placeholder ? placeholder : name;
+    this.label = label ? label : name;
     this.inputType = inputType;
     this.isValid = () => {
       console.log(this.name + ': ' + this.value);

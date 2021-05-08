@@ -4,11 +4,11 @@
  import FormFieldInfo from '../common/FormFieldInfo'
 
  const UsersView = () => {
-    const [ users, getUsers, addUser, loading ] = useFetchData('/api/get_users', '/api/add_user');
+    const [ users, addUser, loading ] = useFetchData('/api/get_users', '/api/add_user');
   
     const addUserFormFields = [
-      new FormFieldInfo({name:'username', inputType:'email' }),
-      new FormFieldInfo({name:'password', inputType: 'password'})
+      new FormFieldInfo({name:'username', label:'email address', inputType:'email' }),
+      new FormFieldInfo({name:'password', inputType:'password'})
     ];
   
     return (

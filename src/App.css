@@ -42,6 +42,11 @@ body {
   font-size: 1em;
 }
 
+.form_error_message {
+  color: red;
+  margin-top: 0px;
+}
+
 .loading_box {
   display: flex;
   flex-direction: column;
