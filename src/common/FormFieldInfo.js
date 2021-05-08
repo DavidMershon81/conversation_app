@@ -3,10 +3,13 @@ function FormFieldInfo({name='name', inputType='text', value='', placeholder=nul
     this.value = value;
     this.placeholder = placeholder ? placeholder : name;
     this.inputType = inputType;
-    this.isValid = isValid ? isValid : (ffi) => {
-      console.log(ffi.name + ': ' + ffi.value);
-      return ffi.value !== ''; 
+    this.isValid = () => {
+      console.log(this.name + ': ' + this.value);
+      return this.value !== ''; 
+    };
+    this.updateValue = (newValue) => {
+        return new FormFieldInfo({...this, value:newValue});
     };
 };
 
-export default FormFieldInfo
+export default FormFieldInfo;

@@ -6,14 +6,14 @@ const TextEntryForm = ({ formFields, submitBtnLabel, submitEvent  }) => {
 
   const onTextUpdate = (index, newValue) => {
     const newFormData = [...formData];
-    newFormData[index] = {...newFormData[index], value:newValue};
+    newFormData[index] = formData[index].updateValue(newValue);
     setFormData(newFormData);
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
 
-    const invalidEntires = formData.filter(entry => !entry.isValid(entry));
+    const invalidEntires = formData.filter(entry => !entry.isValid());
     if(invalidEntires.length > 0){
       alert(`enter a ${invalidEntires[0].name}`);
       return;

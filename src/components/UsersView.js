@@ -7,7 +7,7 @@
     const [ users, getUsers, addUser, loading ] = useFetchData('/api/get_users', '/api/add_user');
   
     const addUserFormFields = [
-      new FormFieldInfo({name:'username'}),
+      new FormFieldInfo({name:'username', inputType:'email' }),
       new FormFieldInfo({name:'password', inputType: 'password'})
     ];
   
@@ -20,7 +20,7 @@
           </div>
           <ul>
             { users && users.map((user) => 
-                <li key={user['id']}> <strong>id:</strong> {user['id']} <strong>username:</strong> {user['name']}></li>
+                <li key={user['id']}> <strong>id:</strong> {user['id']} <strong>username:</strong> {user['name']}</li>
             )}
           </ul>
         </section>

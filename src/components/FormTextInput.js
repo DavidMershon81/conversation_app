@@ -1,5 +1,5 @@
 const FormTextInput = ({index, fieldInfo, setText}) => {
-  const isTextArea = fieldInfo.inputType == 'text_area';
+  const isTextArea = fieldInfo.inputType === 'text_area';
 
   const standardTextInput = () => { 
     return (
