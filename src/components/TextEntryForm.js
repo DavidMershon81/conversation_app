@@ -17,7 +17,6 @@ const TextEntryForm = ({ formFields, submitBtnLabel, submitEvent  }) => {
 
     const invalidEntires = formData.filter(entry => !entry.isValid());
     if(invalidEntires.length > 0){
-      //alert('You forgot to enter something into this form.');
       setShowFormErrors(true);
       return;
     }
@@ -26,12 +25,14 @@ const TextEntryForm = ({ formFields, submitBtnLabel, submitEvent  }) => {
     formData.forEach(fd => submitData[fd.name] = fd.value);
     submitEvent(submitData);
     setFormData(formFields);
+    setShowFormErrors(false);
   }
 
   return (
     <form onSubmit={onSubmit} className='input_form'>
       {formData.map((field, index) => <FormTextInput key={index} index={index} fieldInfo={field} setText={onTextUpdate} showFormErrors={showFormErrors}/>)}
       <input type="submit" value={submitBtnLabel} className="form_submit_btn" />
+      {showFormErrors && <p className='form_error_message'>Looks like you forgot to enter something in this form.</p>}
     </form>
   )
 }
