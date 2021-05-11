@@ -7,7 +7,6 @@ const TextEntryForm = ({ formDataTemplate, submitBtnLabel, submitEvent  }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log('onSubmit running...');
 
     if(!formData.isSectionValid()){
       setShowFormErrors(true);

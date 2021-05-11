@@ -11,7 +11,7 @@ body {
   background-color: white;
   padding: 0px 50px;
   min-height: 100vh;
-  max-width: 540px;
+  width: 540px;
 }
 
 .input_form {

@@ -10,7 +10,7 @@ class FormFieldInfo {
     console.log(this.name + ': ' + this.value);
     return this.value !== ''; 
   }
-  
+
   updateValue(newValue) {
     return new FormFieldInfo({...this, value:newValue});
   }
