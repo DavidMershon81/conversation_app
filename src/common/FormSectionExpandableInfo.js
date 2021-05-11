@@ -10,6 +10,10 @@ class FormSectionExpandableInfo extends FormSectionInfo {
       const newFields = [...this.fields, this.fieldTemplate]
       return new FormSectionExpandableInfo({fieldTemplate:this.fieldTemplate, fields: newFields});
     }
+
+    updateSection(index, newValue) {
+      return new FormSectionExpandableInfo(this.fieldTemplate, this.getUpdatedFields(index, newValue));
+    }
   }
   
   export default FormSectionExpandableInfo;

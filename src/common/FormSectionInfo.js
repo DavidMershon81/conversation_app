@@ -8,11 +8,15 @@ class FormSectionInfo {
       this.fields.forEach(fd => result[fd.name] = fd.value);
       return result;
     }
+
+    getUpdatedFields(index, newValue) {
+      const result = [...this.fields];
+      result[index] = this.fields[index].updateValue(newValue);
+      return result;
+    }
     
     updateSection(index, newValue) {
-      const newFields = [...this.fields];
-      newFields[index] = this.fields[index].updateValue(newValue);
-      return new FormSectionInfo(newFields);
+      return new FormSectionInfo(this.getUpdatedFields(index, newValue));
     }
     
     isSectionValid() {
