@@ -1,5 +1,5 @@
 class FormFieldInfo {
-  constructor({name='name', inputType='text', value='', label=null, isValid=null}) {
+  constructor({name='name', inputType='text', value='', label=null}) {
     this.name = name;
     this.value = value;
     this.label = label ? label : name;
