@@ -20,7 +20,7 @@ class FormSectionInfo {
     }
     
     isSectionValid() {
-        return this.fields.filter(entry => !entry.isValid()) == 0;
+        return this.fields.filter(entry => !entry.isValid()) < 1;
     }
   }
   

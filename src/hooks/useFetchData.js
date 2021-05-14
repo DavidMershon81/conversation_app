@@ -4,19 +4,20 @@ const useFetchData = (getUrl, addUrl) => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => { 
-      getData(); 
-    }, []);
-
-    const getData = () => {
+    useEffect(() => {
+      const getData = () => {
         setLoading(true);
         fetch(getUrl)
         .then(res => res.json())
         .then(resData => {
-            setData(resData);
-            setLoading(false);
+          setData(resData);
+          setLoading(false);
         });
-    };
+      };
+
+      getData();
+    },[getUrl]);
+
 
     const addData = (newData) => {
       setLoading(true);
