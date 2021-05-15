@@ -78,8 +78,8 @@ const TestReactHookForm = () => {
                 selectedRadioBtn === 'listserv' &&
                 (
                     <fieldset className='notification_emails_section'>
-                        <input className="form_text_input" type="email" placeholder={"mailing list email"} {...register("mailing_list_email", { required: true})} />
-                        <input className="form_text_input" type="number" placeholder={"maximum number of petition signers"} {...register("total_petitioners", { required: true})} />
+                        <FormTextInput register={register} errors={errors} type='email' varName='mailing_list_email' visibleName='mailing list email' />
+                        <FormTextInput register={register} errors={errors} type='number' varName='total_petitioners' visibleName='maximum number of petition signers' />
                     </fieldset>
                 )
             }
