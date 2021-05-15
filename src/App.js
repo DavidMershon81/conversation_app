@@ -1,6 +1,6 @@
 import './App.css';
-import UsersView from './components/UsersView'
-import PetitionsView from './components/PetitionsView'
+//import UsersView from './components/UsersView'
+//import PetitionsView from './components/PetitionsView'
 import TestReactHookForm from './components/TestReactHookForm'
 
 const App = () => {
