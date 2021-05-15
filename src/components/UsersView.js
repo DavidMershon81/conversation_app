@@ -1,16 +1,13 @@
-import useFetchData from  '../hooks/useFetchData'
+import useFetchData from  '../hooks/useFetchData';
+import AddUserForm from './AddUserForm';
 
 const UsersView = () => {
   const [ users, addUser, loading, error ] = useFetchData('/api/get_users', '/api/add_user');
 
-  //const userSectionTemplate = new FormSectionInfo([
-    //new FormFieldInfo({name:'username', label:'email address', inputType:'email' }),
-    //new FormFieldInfo({name:'password', inputType:'password'})
-  //]);
-
   return (
       <section>
         <h2>Users</h2>
+        <AddUserForm onSubmit={addUser}/>
         <div className="loading_box">
           {loading && <p>Loading...</p>}
           {error && <p>error: can't connect to server.</p>}

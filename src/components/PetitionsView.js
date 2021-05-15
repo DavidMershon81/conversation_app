@@ -1,5 +1,5 @@
-
 import useFetchData from  '../hooks/useFetchData'
+import AddPetitionForm from './AddPetitionForm';
  
 const PetitionsView = () => {
   const [ petitions, addPetition, loading, error ] = useFetchData('/api/get_petitions', '/api/add_petition');
@@ -13,6 +13,7 @@ const PetitionsView = () => {
   return (
       <section>
         <h2>Petitions</h2>
+        <AddPetitionForm />
         <div className="loading_box">
           {loading && <p>Loading...</p>}
           {error && <p>error: can't connect to server.</p>}
