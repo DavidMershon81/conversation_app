@@ -1,6 +1,24 @@
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 
+const FormErrorMessage = ({ name, visibleName, errors }) => {
+    const errorPresent = errors[name] != null;
+    const requiredError = errorPresent && errors[name].type === 'required';
+    return requiredError ? (<span className='form_error_message'>{visibleName} required!</span>) : (<span></span>);
+};
+
+const FormTextInput = ({ register, name, visibleName, type, errors }) => {
+    const isTextArea = type === 'textarea';
+    const formParams = { required: true};
+    return (
+        <>
+            { isTextArea ? <textarea rows='10' className="form_text_area" placeholder={visibleName} {...register(name, formParams)} /> :
+            <input className="form_text_input" placeholder={visibleName} type={type} {...register(name, formParams)} />}
+            <FormErrorMessage name={name} visibleName={visibleName} errors={errors} />
+        </>
+    );
+};
+
 const TestReactHookForm = () => {
     const { register, unregister, handleSubmit, formState: { errors }, watch } = useForm();
     const onSubmit = data => console.log(data);
@@ -27,14 +45,10 @@ const TestReactHookForm = () => {
 
     return (
         <form className="input_form" onSubmit={handleSubmit(onSubmit)}>
-
-            <input className="form_text_input" placeholder="group name" {...register("group_name", { required: true})} />
-            {errors['group_name']?.type === 'required' && <span className='form_error_message'>group name required!</span>}
-            <textarea rows='10' className="form_text_area" placeholder="petition text" {...register("petition_text", { required: true})} />
-            {errors['petition_text']?.type === 'required' && <span className='form_error_message'>petition text required!</span>}
-
-            <input className="form_text_input" type="email" placeholder="username" {...register("username", { required: true})} />
-            <input className="form_text_input" type="password" placeholder="password" {...register("password", { required: true})} />
+            <FormTextInput register={register} errors={errors} type='text' name='group_name' visibleName='group name' />
+            <FormTextInput register={register} errors={errors} type='textarea' name='petition_text' visibleName='petition text' />
+            <FormTextInput register={register} errors={errors} type='email' name='username' visibleName='username' />
+            <FormTextInput register={register} errors={errors} type='password' name='password' visibleName='password' />
             
             <fieldset className="form_radio_button_set">
                 <label className="form_checkbox_container">
@@ -52,8 +66,8 @@ const TestReactHookForm = () => {
                 selectedRadioBtn === 'custom_emails' &&
                 (
                     <fieldset className='notification_emails_section'>
-                        { customEmails.map((ce) => (<input key={ce} className="form_text_input" type="email" placeholder={ce} {...register(ce, { required: true})} />)) } 
-                        <input className="add_email_button" type="button" onClick={addCustomEmail} value="Add Another Email"/>
+                    { customEmails.map((ce) => (<FormTextInput key={ce} register={register} errors={errors} type='email' name={ce} visibleName={ce} />)) }
+                    <input className="add_email_button" type="button" onClick={addCustomEmail} value="Add Another Email"/>
                     </fieldset>
                 )
             }
