@@ -5,7 +5,7 @@
  import FormSectionInfo from '../common/FormSectionInfo'
  
  const PetitionsView = () => {
-    const [ petitions, addPetition, loading ] = useFetchData('/api/get_petitions', '/api/add_petition');
+    const [ petitions, addPetition, loading, error ] = useFetchData('/api/get_petitions', '/api/add_petition');
   
     const petitionsTemplate = new FormSectionInfo([
       new FormFieldInfo({name:'text', label:'petition text', inputType: 'text_area', placeholder: 'petition text...'}),
@@ -19,6 +19,7 @@
           <TextEntryForm formDataTemplate={petitionsTemplate} submitBtnLabel='Add Petition' submitEvent={addPetition}/>
           <div className="loading_box">
             {loading && <p>Loading...</p>}
+            {error && <p>error: can't connect to server.</p>}
           </div>
 
           <ul>

@@ -5,7 +5,7 @@
  import FormSectionInfo from '../common/FormSectionInfo'
 
  const UsersView = () => {
-    const [ users, addUser, loading ] = useFetchData('/api/get_users', '/api/add_user');
+    const [ users, addUser, loading, error ] = useFetchData('/api/get_users', '/api/add_user');
   
     const userSectionTemplate = new FormSectionInfo([
       new FormFieldInfo({name:'username', label:'email address', inputType:'email' }),
@@ -18,6 +18,7 @@
           <TextEntryForm formDataTemplate={userSectionTemplate} submitBtnLabel='Add User' submitEvent={addUser}/>
           <div className="loading_box">
             {loading && <p>Loading...</p>}
+            {error && <p>error: can't connect to server.</p>}
           </div>
           <ul>
             { users && users.map((user) => 
