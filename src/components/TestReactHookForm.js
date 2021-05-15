@@ -1,21 +1,30 @@
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 
-const FormErrorMessage = ({ name, visibleName, errors }) => {
-    const errorPresent = errors[name] != null;
-    const requiredError = errorPresent && errors[name].type === 'required';
+const FormErrorMessage = ({ varName, visibleName, errors }) => {
+    const errorPresent = errors[varName] != null;
+    const requiredError = errorPresent && errors[varName].type === 'required';
     return requiredError ? (<span className='form_error_message'>{visibleName} required!</span>) : (<span></span>);
 };
 
-const FormTextInput = ({ register, name, visibleName, type, errors }) => {
+const FormTextInput = ({ register, varName, visibleName, type, errors }) => {
     const isTextArea = type === 'textarea';
     const formParams = { required: true};
     return (
         <>
-            { isTextArea ? <textarea rows='10' className="form_text_area" placeholder={visibleName} {...register(name, formParams)} /> :
-            <input className="form_text_input" placeholder={visibleName} type={type} {...register(name, formParams)} />}
-            <FormErrorMessage name={name} visibleName={visibleName} errors={errors} />
+            { isTextArea ? <textarea rows='10' className="form_text_area" placeholder={visibleName} {...register(varName, formParams)} /> :
+            <input className="form_text_input" placeholder={visibleName} type={type} {...register(varName, formParams)} />}
+            <FormErrorMessage varName={varName} visibleName={visibleName} errors={errors} />
         </>
+    );
+};
+
+const FormRadioButton = ({ register, varName, valueName, valueText }) => {
+    return (
+        <label className="form_checkbox_container">
+            <input {...register(varName, { required: true })} type="radio" value={valueName}/>{valueText}
+            <span className="checkmark"></span>
+        </label>
     );
 };
 
@@ -45,28 +54,22 @@ const TestReactHookForm = () => {
 
     return (
         <form className="input_form" onSubmit={handleSubmit(onSubmit)}>
-            <FormTextInput register={register} errors={errors} type='text' name='group_name' visibleName='group name' />
-            <FormTextInput register={register} errors={errors} type='textarea' name='petition_text' visibleName='petition text' />
-            <FormTextInput register={register} errors={errors} type='email' name='username' visibleName='username' />
-            <FormTextInput register={register} errors={errors} type='password' name='password' visibleName='password' />
+            <FormTextInput register={register} errors={errors} type='text' varName='group_name' visibleName='group name' />
+            <FormTextInput register={register} errors={errors} type='textarea' varName='petition_text' visibleName='petition text' />
+            <FormTextInput register={register} errors={errors} type='email' varName='username' visibleName='username' />
+            <FormTextInput register={register} errors={errors} type='password' varName='password' visibleName='password' />
             
             <fieldset className="form_radio_button_set">
-                <label className="form_checkbox_container">
-                    <input {...register("email_notification_type", { required: true })} type="radio" value="listserv"/>Send petition to a single mailing list
-                    <span className="checkmark"></span>
-                </label>
-                <label className="form_checkbox_container">
-                    <input {...register("email_notification_type", { required: true })} type="radio" value="custom_emails" />Send petition to a list of email addresses
-                    <span className="checkmark"></span>
-                </label>
+                <FormRadioButton register={register} varName='email_notification_type' valueName='listserv' valueText='Send petition to a single mailing list' />
+                <FormRadioButton register={register} varName='email_notification_type' valueName='custom_emails' valueText='Send petition to a list of email addresses' />
+                <FormErrorMessage varName='email_notification_type' visibleName='email notification type' errors={errors} />
             </fieldset>
-            {errors['email_notification_type']?.type === 'required' && <span className='form_error_message'>Select an email notification type!</span>}
-            
+
             {
                 selectedRadioBtn === 'custom_emails' &&
                 (
                     <fieldset className='notification_emails_section'>
-                    { customEmails.map((ce) => (<FormTextInput key={ce} register={register} errors={errors} type='email' name={ce} visibleName={ce} />)) }
+                    { customEmails.map((ce) => (<FormTextInput key={ce} register={register} errors={errors} type='email' varName={ce} visibleName={ce} />)) }
                     <input className="add_email_button" type="button" onClick={addCustomEmail} value="Add Another Email"/>
                     </fieldset>
                 )
@@ -78,7 +81,6 @@ const TestReactHookForm = () => {
                         <input className="form_text_input" type="email" placeholder={"mailing list email"} {...register("mailing_list_email", { required: true})} />
                         <input className="form_text_input" type="number" placeholder={"maximum number of petition signers"} {...register("total_petitioners", { required: true})} />
                     </fieldset>
-                    
                 )
             }
 
