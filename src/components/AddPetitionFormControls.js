@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { FormTextInput, FormRadioButtonGroup } from './FormControls';
+import { FormContext } from '../contexts/FormContext';
 
-const AddPetitionFormRadioBtnGroup = ({register, toggleEmailType, errors }) => {
+const AddPetitionFormRadioBtnGroup = ({ onBtnClick }) => {
     const radioButtonsConfig = [
         { valueName: 'listserv', valueText: 'Send petition to a single mailing list' },
         { valueName: 'custom_emails', valueText: 'Send petition to a list of email addresses' }
@@ -9,16 +10,16 @@ const AddPetitionFormRadioBtnGroup = ({register, toggleEmailType, errors }) => {
 
     return (
         <FormRadioButtonGroup 
-            register={register} 
             varName='email_notification_type' 
             visibleName='email notification type' 
-            buttonsConfig={radioButtonsConfig} 
-            onClick={toggleEmailType} errors={errors} 
+            buttonsConfig={radioButtonsConfig}
+            onClick={onBtnClick}
         />
     );
 };
 
-const AddPetitionFormEmailSection = ({ register, unregister, watch, errors }) => {
+const AddPetitionFormEmailSection = () => {
+    const { unregister, watch } = useContext(FormContext);
     const [customEmails, setCustomEmails] = useState([]);
     const selectedRadioBtn = watch("email_notification_type");
 
@@ -27,7 +28,7 @@ const AddPetitionFormEmailSection = ({ register, unregister, watch, errors }) =>
         setCustomEmails([...customEmails, nextIndex]);
     };
 
-    const toggleEmailType = (valueName) => {
+    const onEmailTypeClick = (valueName) => {
         if(valueName === 'listserv') {
             unregister(customEmails);
             setCustomEmails([]);
@@ -40,17 +41,17 @@ const AddPetitionFormEmailSection = ({ register, unregister, watch, errors }) =>
 
     return (
         <fieldset className='notification_emails_section'>
-            <AddPetitionFormRadioBtnGroup register={register} toggleEmailType={toggleEmailType} errors={errors}/>
+            <AddPetitionFormRadioBtnGroup onBtnClick={onEmailTypeClick} />
             { selectedRadioBtn === 'custom_emails' && (    
             <fieldset className='notification_emails_section'>
-                { customEmails.map((ce) => (<FormTextInput key={ce} register={register} errors={errors} type='email' varName={ce} visibleName={ce} />)) }
+                { customEmails.map((ce) => (<FormTextInput key={ce} type='email' varName={ce} visibleName={ce} />)) }
                 <input className="add_email_button" type="button" onClick={addCustomEmail} value="Add Another Email"/>
             </fieldset>)}
             
             {selectedRadioBtn === 'listserv' && (
             <fieldset className='notification_emails_section'>
-                <FormTextInput register={register} errors={errors} type='email' varName='mailing_list_email' visibleName='mailing list email' />
-                <FormTextInput register={register} errors={errors} type='number' varName='max_users' visibleName='maximum number of petition signers' />
+                <FormTextInput type='email' varName='mailing_list_email' visibleName='mailing list email' />
+                <FormTextInput type='number' varName='max_users' visibleName='maximum number of petition signers' />
             </fieldset>)}
         </fieldset>
     );
