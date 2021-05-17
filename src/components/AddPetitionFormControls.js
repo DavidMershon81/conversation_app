@@ -10,7 +10,7 @@ const AddPetitionFormRadioBtnGroup = ({ onBtnClick }) => {
 
     return (
         <FormRadioButtonGroup 
-            varName='email_notification_type' 
+            varName='email_type' 
             visibleName='email notification type' 
             buttonsConfig={radioButtonsConfig}
             onClick={onBtnClick}
@@ -21,7 +21,7 @@ const AddPetitionFormRadioBtnGroup = ({ onBtnClick }) => {
 const AddPetitionFormEmailSection = () => {
     const { unregister, watch } = useContext(FormContext);
     const [customEmails, setCustomEmails] = useState([]);
-    const selectedRadioBtn = watch("email_notification_type");
+    const selectedRadioBtn = watch("email_type");
 
     const addCustomEmail = () => {
         const nextIndex = `custom_email_${customEmails.length}`;
@@ -34,7 +34,7 @@ const AddPetitionFormEmailSection = () => {
             setCustomEmails([]);
         }
         else if(valueName === 'custom_emails') {
-            unregister(['mailing_list_email', 'max_users']);
+            unregister(['listserv_email']);
             addCustomEmail();
         }
     };
@@ -50,8 +50,7 @@ const AddPetitionFormEmailSection = () => {
             
             {selectedRadioBtn === 'listserv' && (
             <fieldset className='notification_emails_section'>
-                <FormTextInput type='email' varName='mailing_list_email' visibleName='mailing list email' />
-                <FormTextInput type='number' varName='max_users' visibleName='maximum number of petition signers' />
+                <FormTextInput type='email' varName='listserv_email' visibleName='mailing list email' />
             </fieldset>)}
         </fieldset>
     );

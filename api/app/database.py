@@ -25,15 +25,15 @@ class User(db.Model):
 class Petition(db.Model):
     __tablename__ = 'petitions'
     id = db.Column(db.Integer, primary_key=True)
-    text = db.Column(db.Text)
-    email_domain = db.Column(db.Text)
-    max_users = db.Column(db.Integer)
+    group_name = db.Column(db.Text)
+    petition_text = db.Column(db.Text)
+    listserv_email = db.Column(db.Text)
 
 def get_all_petitions():
     return Petition.query.all()
 
-def add_petition(text, email_domain, max_users):
-    new_petition = Petition(text=text, email_domain=email_domain, max_users=max_users)
+def add_petition(group_name, petition_text, listserv_email):
+    new_petition = Petition(group_name=group_name, petition_text=petition_text, listserv_email=listserv_email)
     db.session.add(new_petition)
     db.session.commit()
     return new_petition

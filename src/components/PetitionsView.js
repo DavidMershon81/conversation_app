@@ -4,16 +4,10 @@ import AddPetitionForm from './AddPetitionForm';
 const PetitionsView = () => {
   const [ petitions, addPetition, loading, error ] = useFetchData('/api/get_petitions', '/api/add_petition');
 
-  //const petitionsTemplate = new FormSectionInfo([
-    //new FormFieldInfo({name:'text', label:'petition text', inputType: 'text_area', placeholder: 'petition text...'}),
-    //new FormFieldInfo({name:'email_domain', label:'email domain name', placeholder: 'email domain'}),
-    //new FormFieldInfo({name:'max_users', label:'number of users for this petition', inputType: 'number', placeholder: 'max users for this petition'})
-  //]);
-
   return (
       <section>
         <h2>Petitions</h2>
-        <AddPetitionForm />
+        <AddPetitionForm onSubmit={addPetition}/>
         <div className="loading_box">
           {loading && <p>Loading...</p>}
           {error && <p>error: can't connect to server.</p>}
@@ -24,9 +18,9 @@ const PetitionsView = () => {
           <li 
               key={petition['id']}>
               <strong>id:</strong> {petition['id']}<br/>
-              <strong>email_domain:</strong> {petition['email_domain']}<br/>
-              <strong>max_users:</strong> {petition['max_users']}<br/>
-              <strong>text:</strong> {petition['text']}
+              <strong>group_name:</strong> {petition['group_name']}<br/>
+              <strong>listserv_email:</strong> {petition['listserv_email']}<br/>
+              <strong>petition_text:</strong> {petition['petition_text']}
           </li>)}
         </ul>
       </section>

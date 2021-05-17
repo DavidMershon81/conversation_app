@@ -25,7 +25,7 @@ def add_user():
 
 #petitions
 def petition_to_dict(p):
-    return { 'id' :p.id, 'text' : p.text, 'email_domain' : p.email_domain, 'max_users' : p.max_users }
+    return { 'id':p.id, 'group_name':p.group_name, 'petition_text':p.petition_text, 'listserv_email':p.listserv_email }
 
 @app.route('/api/get_petitions', methods=['GET'])
 def get_petitions():
@@ -35,9 +35,10 @@ def get_petitions():
 
 @app.route('/api/add_petition', methods=['POST'])
 def add_petition():
-    text = request.json['text']
-    email_domain = request.json['email_domain']
-    max_users = request.json['max_users']
-    new_petition = db.add_petition(text, email_domain, max_users)
+    group_name = request.json['group_name']
+    petition_text = request.json['petition_text']
+    use_custom_emails = request.json['email_type'] == 'custom_emails'
+    listserv_email = 'custom_emails' if use_custom_emails else request.json['listserv_email']
+    new_petition = db.add_petition(group_name, petition_text, listserv_email)
     return jsonify(petition_to_dict(new_petition))
 

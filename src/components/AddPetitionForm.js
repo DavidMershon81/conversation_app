@@ -3,12 +3,15 @@ import { FormTextInput } from './FormControls';
 import AddPetitionFormEmailSection from './AddPetitionFormControls';
 import { FormContext } from '../contexts/FormContext';
 
-const AddPetitionForm = () => {
+const AddPetitionForm = ({ onSubmit }) => {
     const { register, unregister, handleSubmit, formState: { errors }, watch } = useForm();
-    const onSubmit = data => console.log(data);
+    const onSubmitClick = (data) => {
+        console.log(data);
+        onSubmit(data);
+    };
 
     return (
-        <form className="input_form" onSubmit={handleSubmit(onSubmit)}>
+        <form className="input_form" onSubmit={handleSubmit(onSubmitClick)}>
             <FormContext.Provider value={{ register, unregister, watch, errors }}>
                 <FormTextInput type='text' varName='group_name' visibleName='group name' />
                 <FormTextInput type='textarea' varName='petition_text' visibleName='petition text' />
