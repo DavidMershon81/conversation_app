@@ -14,6 +14,8 @@ const AddUserForm = ({ onSubmit }) => {
             <FormContext.Provider value={{ register, errors }}>
                 <FormTextInput type='email' varName='username' visibleName='username' />
                 <FormTextInput type='password' varName='password' visibleName='password' />
+                <FormTextInput type='text' varName='firstname' visibleName='first name' />
+                <FormTextInput type='text' varName='lastname' visibleName='last name' />
             </FormContext.Provider>
             <input className="form_submit_btn" type="submit" value="Add New User"/>
         </form>
