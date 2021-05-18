@@ -2,16 +2,20 @@ import useFetchData from  '../hooks/useFetchData'
 import AddPetitionGroupForm from './AddPetitionGroupForm';
  
 const PetitionGroupMembersList = ({ petitionGroupId }) => {
-  const [ members, addMembers, membersLoading, membersError ] = useFetchData(`/api/get_members/${petitionGroupId}`, '/api/add_members');
-  console.log(members);
+  const [ members, addMembers, loading, error ] = useFetchData(`/api/get_members/${petitionGroupId}`, '/api/add_members');
 
   return (
     <>
     <br/><strong>Members</strong>
+    { (loading || error) &&
+    <div className="loading_box">
+          {loading && <p>Members Loading...</p>}
+          {error && <p>error: can't connect to server.</p>}
+    </div>}
     { (members && members.length > 0) ? members.map((member) => 
       <p
           key={member['email']}>
-          <strong>email:</strong> {member['email']}<br/>
+          <strong>email:</strong> {member['email']}
       </p>) : <p>This petition has no members yet.</p>
     }
     </>

@@ -36,7 +36,9 @@ const AddPetitionGroupFormEmailSection = () => {
         }
         else if(valueName === 'custom_emails') {
             unregister(['listserv_email']);
-            addCustomEmail();
+            if(customEmails.length < 1) {
+                addCustomEmail();
+            }
         }
     };
 
