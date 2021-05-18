@@ -29,6 +29,12 @@ class PetitionGroup(db.Model):
     petition_text = db.Column(db.Text)
     listserv_email = db.Column(db.Text)
 
+class Member(db.Model):
+    __tablename__ = 'members'
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.Text)
+    petition_group_id = db.Column(db.Integer)
+
 def get_all_petition_groups():
     return PetitionGroup.query.all()
 
@@ -37,6 +43,16 @@ def add_petition_group(group_name, listserv_email):
     db.session.add(new_group)
     db.session.commit()
     return new_group
+
+def add_members(emails, petition_group_id):
+    new_members = [Member(email=email, petition_group_id=petition_group_id) for email in emails]
+    for nm in new_members:
+        db.session.add(nm)
+    db.session.commit()
+    return new_members
+
+def get_members(petition_group_id):
+    return db.session.query(Member).filter(Member.petition_group_id == petition_group_id)
 
 def get_all_users():
     return User.query.all()
