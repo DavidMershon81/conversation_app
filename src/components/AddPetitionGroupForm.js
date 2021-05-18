@@ -1,8 +1,9 @@
 import { useState, useContext } from 'react';
+import { useForm } from 'react-hook-form';
 import { FormTextInput, FormRadioButtonGroup } from './FormControls';
 import { FormContext } from '../contexts/FormContext';
 
-const AddPetitionFormRadioBtnGroup = ({ onBtnClick }) => {
+const AddGroupFormFormRadioBtnGroup = ({ onBtnClick }) => {
     const radioButtonsConfig = [
         { valueName: 'listserv', valueText: 'Send petition to a single mailing list' },
         { valueName: 'custom_emails', valueText: 'Send petition to a list of email addresses' }
@@ -18,7 +19,7 @@ const AddPetitionFormRadioBtnGroup = ({ onBtnClick }) => {
     );
 };
 
-const AddPetitionFormEmailSection = () => {
+const AddPetitionGroupFormEmailSection = () => {
     const { unregister, watch } = useContext(FormContext);
     const [customEmails, setCustomEmails] = useState([]);
     const selectedRadioBtn = watch("email_type");
@@ -41,7 +42,7 @@ const AddPetitionFormEmailSection = () => {
 
     return (
         <fieldset className='notification_emails_section'>
-            <AddPetitionFormRadioBtnGroup onBtnClick={onEmailTypeClick} />
+            <AddGroupFormFormRadioBtnGroup onBtnClick={onEmailTypeClick} />
             { selectedRadioBtn === 'custom_emails' && (    
             <fieldset className='notification_emails_section'>
                 { customEmails.map((ce) => (<FormTextInput key={ce} type='email' varName={ce} visibleName={ce} />)) }
@@ -56,4 +57,22 @@ const AddPetitionFormEmailSection = () => {
     );
 };
 
-export default AddPetitionFormEmailSection;
+const AddPetitionGroupForm = ({ onSubmit }) => {
+    const { register, unregister, handleSubmit, formState: { errors }, watch } = useForm();
+    const onSubmitClick = (data) => {
+        console.log(data);
+        onSubmit(data);
+    };
+
+    return (
+        <form className="input_form" onSubmit={handleSubmit(onSubmitClick)}>
+            <FormContext.Provider value={{ register, unregister, watch, errors }}>
+                <FormTextInput type='text' varName='group_name' visibleName='group name' />
+                <AddPetitionGroupFormEmailSection />
+            </FormContext.Provider>
+            <input className="form_submit_btn" type="submit" value="Create New Petition Group"/>
+        </form>
+    );
+}
+
+export default AddPetitionGroupForm;

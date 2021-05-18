@@ -24,21 +24,20 @@ def add_user():
     return jsonify(user_to_dict(new_user))
 
 #petitions
-def petition_to_dict(p):
-    return { 'id':p.id, 'group_name':p.group_name, 'petition_text':p.petition_text, 'listserv_email':p.listserv_email }
+def group_to_dict(g):
+    return { 'id':g.id, 'group_name':g.group_name, 'listserv_email':g.listserv_email }
 
-@app.route('/api/get_petitions', methods=['GET'])
-def get_petitions():
-    all_petitions = db.get_all_petitions()
-    petition_list = [petition_to_dict(p) for p in all_petitions]
-    return jsonify(petition_list)
+@app.route('/api/get_petition_groups', methods=['GET'])
+def get_petition_groups():
+    petition_groups = db.get_all_petition_groups()
+    group_list = [group_to_dict(g) for g in petition_groups]
+    return jsonify(group_list)
 
-@app.route('/api/add_petition', methods=['POST'])
-def add_petition():
+@app.route('/api/add_petition_group', methods=['POST'])
+def add_petition_group():
     group_name = request.json['group_name']
-    petition_text = request.json['petition_text']
     use_custom_emails = request.json['email_type'] == 'custom_emails'
     listserv_email = 'custom_emails' if use_custom_emails else request.json['listserv_email']
-    new_petition = db.add_petition(group_name, petition_text, listserv_email)
-    return jsonify(petition_to_dict(new_petition))
+    new_group = db.add_petition_group(group_name=group_name, listserv_email=listserv_email)
+    return jsonify(group_to_dict(new_group))
 

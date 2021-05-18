@@ -22,21 +22,21 @@ class User(db.Model):
     name = db.Column(db.Text)
     password = db.Column(db.Text)
 
-class Petition(db.Model):
-    __tablename__ = 'petitions'
+class PetitionGroup(db.Model):
+    __tablename__ = 'petition_groups'
     id = db.Column(db.Integer, primary_key=True)
     group_name = db.Column(db.Text)
     petition_text = db.Column(db.Text)
     listserv_email = db.Column(db.Text)
 
-def get_all_petitions():
-    return Petition.query.all()
+def get_all_petition_groups():
+    return PetitionGroup.query.all()
 
-def add_petition(group_name, petition_text, listserv_email):
-    new_petition = Petition(group_name=group_name, petition_text=petition_text, listserv_email=listserv_email)
-    db.session.add(new_petition)
+def add_petition_group(group_name, listserv_email):
+    new_group = PetitionGroup(group_name=group_name, listserv_email=listserv_email)
+    db.session.add(new_group)
     db.session.commit()
-    return new_petition
+    return new_group
 
 def get_all_users():
     return User.query.all()
