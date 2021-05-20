@@ -22,6 +22,16 @@ const PetitionGroupMembersList = ({ petitionGroupId }) => {
   );
 };
 
+const PetitionGroupSummary = ({ petitionGroup }) => {
+  return (
+    <>
+        <strong>id:</strong> {petitionGroup['id']}<br/>
+        <strong>group_name:</strong> {petitionGroup['group_name']}<br/>
+        <strong>listserv_email:</strong> {petitionGroup['listserv_email']}<br/>
+    </>
+    );
+};
+
 const PetitionGroupsView = () => {
   const [ groups, addGroup, groupsLoading, groupsError ] = useFetchData('/api/get_petition_groups', '/api/add_petition_group');
 
@@ -38,9 +48,7 @@ const PetitionGroupsView = () => {
         {groups && groups.map((petitionGroup) => 
           <li 
               key={petitionGroup['id']}>
-              <strong>id:</strong> {petitionGroup['id']}<br/>
-              <strong>group_name:</strong> {petitionGroup['group_name']}<br/>
-              <strong>listserv_email:</strong> {petitionGroup['listserv_email']}<br/>
+              <PetitionGroupSummary petitionGroup={petitionGroup} />
               <PetitionGroupMembersList petitionGroupId={petitionGroup['id']} />
           </li>)}
         </ul>
