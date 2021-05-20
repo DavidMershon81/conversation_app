@@ -2,7 +2,7 @@ import useFetchData from  '../hooks/useFetchData'
 import AddPetitionGroupForm from './AddPetitionGroupForm';
  
 const PetitionGroupMembersList = ({ petitionGroupId }) => {
-  const [ members, addMembers, loading, error ] = useFetchData(`/api/get_members/${petitionGroupId}`, '/api/add_members');
+  const { data:members, loading, error } = useFetchData(`/api/get_members/${petitionGroupId}`, '/api/add_members');
 
   return (
     <>
@@ -33,7 +33,7 @@ const PetitionGroupSummary = ({ petitionGroup }) => {
 };
 
 const PetitionGroupsView = () => {
-  const [ groups, addGroup, groupsLoading, groupsError ] = useFetchData('/api/get_petition_groups', '/api/add_petition_group');
+  const { data:groups, addData:addGroup, groupsLoading, groupsError } = useFetchData('/api/get_petition_groups', '/api/add_petition_group');
 
   return (
       <section>

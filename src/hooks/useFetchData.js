@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import axios from 'axios';
 
 const useFetchData = (getUrl, addUrl) => {
@@ -6,21 +6,22 @@ const useFetchData = (getUrl, addUrl) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
 
-    useEffect(() => {
-      const getData = () => {
-        setLoading(true);
-        setError(false);
-        axios.get(getUrl).then((response) => {
-          setData(response.data);
-          setLoading(false);
-        }, (error) => {
-          setLoading(false);
-          setError(true);
-        });
-      };
+    const getDataInternal = () => {
+      setLoading(true);
+      setError(false);
+      axios.get(getUrl).then((response) => {
+        setData(response.data);
+        setLoading(false);
+      }, (error) => {
+        setLoading(false);
+        setError(true);
+      });
+    };
+    const getData = useCallback(getDataInternal, [getUrl])
 
+    useEffect(() => {
       getData();
-    },[getUrl]);
+    },[getData]);
 
     const addData = (newData) => {
       setLoading(true);
@@ -34,7 +35,7 @@ const useFetchData = (getUrl, addUrl) => {
       });
     };
 
-    return [ data, addData, loading, error ];
+    return { data, getData, addData, loading, error };
 }
 
 export default useFetchData

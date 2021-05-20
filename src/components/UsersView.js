@@ -2,7 +2,8 @@ import useFetchData from  '../hooks/useFetchData';
 import AddUserForm from './AddUserForm';
 
 const UsersView = () => {
-  const [ users, addUser, loading, error ] = useFetchData('/api/get_users', '/api/add_user');
+  const { data:users, addData:addUser, loading, error } = useFetchData('/api/get_users', '/api/add_user');
+  console.log('rendering...');
 
   return (
       <section>

@@ -2,9 +2,9 @@ import './App.css';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import UsersView from './components/UsersView';
 import PetitionGroupsView from './components/PetitionGroupsView'
+import TestVariablePaths from './components/TestVariablePaths'
 
 const App = () => {
-  //<UsersView />
   return (
     <Router>
       <div className="App">
@@ -19,6 +19,7 @@ const App = () => {
       
       <Route path='/petition_groups' exact component={PetitionGroupsView} />
       <Route path='/users' exact component={UsersView} />
+      <Route path='/testpath/' render={ () => (<TestVariablePaths basePath='/testpath/' />)} />
     </div>
     </Router>
   );
