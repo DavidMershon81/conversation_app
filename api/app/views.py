@@ -31,6 +31,12 @@ def get_petition_groups():
     group_list = [group_to_dict(g) for g in petition_groups]
     return jsonify(group_list)
 
+@app.route('/api/petition_groups/<petition_group_id>', methods=['GET'])
+def get_petition_group(petition_group_id):
+    print(f"get_petition_group running - {petition_group_id}")
+    petition_group = db.get_petition_group(petition_group_id)
+    return jsonify(group_to_dict(petition_group))
+
 @app.route('/api/add_petition_group', methods=['POST'])
 def add_petition_group():
     json = request.json
@@ -46,7 +52,6 @@ def add_petition_group():
 
 @app.route('/api/get_members/<petition_group_id>', methods=['GET'])
 def get_members(petition_group_id):
-    print(f"get_members running - {petition_group_id}")
     all_members = db.get_members(petition_group_id)
     return jsonify([ member_to_dict(member) for member in all_members])
 

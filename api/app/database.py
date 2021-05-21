@@ -38,6 +38,9 @@ class Member(db.Model):
 def get_all_petition_groups():
     return PetitionGroup.query.all()
 
+def get_petition_group(petition_group_id):
+    return PetitionGroup.query.filter_by(id=petition_group_id).first()
+
 def add_petition_group(group_name, listserv_email):
     new_group = PetitionGroup(group_name=group_name, listserv_email=listserv_email)
     db.session.add(new_group)
@@ -52,7 +55,7 @@ def add_members(emails, petition_group_id):
     return new_members
 
 def get_members(petition_group_id):
-    return db.session.query(Member).filter(Member.petition_group_id == petition_group_id)
+    return Member.query.filter_by(petition_group_id=petition_group_id).all()
 
 def get_all_users():
     return User.query.all()

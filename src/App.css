@@ -14,11 +14,28 @@ body {
   width: 540px;
 }
 
-.nav_link {
-  border-style: none;
-  padding: 20px;
-  background-color: lightgray;
-  font-size: 1em;
+ul {
+  display:flex;
+  flex-direction: column;
+  list-style: none;
+  padding-left: 0px;
+}
+
+li {
+  background-color: dimgray;
+  min-height: 40px;
+  margin-bottom: 10px;
+  padding: 16px;
+  color: lightgray;
+}
+
+
+h1, h2, h4 {
+  text-align: center;
+}
+
+strong {
+  color:coral;
 }
 
 .input_form {
@@ -60,26 +77,36 @@ body {
   height: 30px;
 }
 
-li {
-  background-color: dimgray;
-  min-height: 40px;
+.link_btn {
+  display:flex;
+  border-style: none;
+  padding: 10px;
+  font-size: 20px;
+  background-color: lightgray; 
+  text-decoration-line: none;
+  color:black;
+}
+
+.petition_group_list_preview {
+  display: flex;
+  flex-direction: row;
+}
+
+.top_nav {
+  display: flex;
+  justify-content: stretch;
+  background-color: gray;
   margin-bottom: 10px;
-  padding: 16px;
-  color: lightgray;
 }
 
-ul {
-  list-style: none;
-  padding-left: 0px;
-}
-
-
-h1, h2, h4 {
+.nav_link {
+  border-style: none;
+  padding: 5px;
+  margin:0px;
+  font-size: 20px;
   text-align: center;
-}
-
-strong {
-  color:coral;
+  text-decoration-line: none;
+  color: lightgray;
 }
 
 .notification_emails_section {
