@@ -1,6 +1,32 @@
 import { useLocation, Link } from 'react-router-dom';
 import useFetchData from  '../hooks/useFetchData'
-import { PetitionGroupMembersList, PetitionGroupSummary } from './PetitionGroupControls';
+import { LoadingBox } from './MiscControls';
+
+const PetitionGroupMembersList = ({ petitionGroupId }) => {
+    const { data:members, loading, error } = useFetchData(`/api/get_members/${petitionGroupId}`, '/api/add_members');
+  
+    return (
+      <>
+      <br/><strong>Members</strong>
+      <LoadingBox loading={loading} error={error} />
+      <ul className='users_list_group'>
+      { (members && members.length > 0) ? members.map((member) => 
+        <li className='users_list_item' key={member['email']}>{member['email']}</li>) : 
+        <p>This petition has no members yet.</p>
+      }
+      </ul>
+      </>
+    );
+};
+  
+const PetitionGroupSummary = ({ petitionGroup }) => {
+return (
+    <p>
+        <strong>id:</strong> {petitionGroup['id']}<br/>
+        <strong>listserv_email:</strong> {petitionGroup['listserv_email']}<br/>
+    </p>
+    );
+};
 
 const PetitionGroupView = ({ basePath }) => {
     const location = useLocation();
@@ -10,12 +36,7 @@ const PetitionGroupView = ({ basePath }) => {
     return (
         <section>
             {petitionGroup && <h2>Petition Group: {petitionGroup.group_name}</h2>}
-            {(loading || error) &&
-            (<div className="loading_box">
-            {loading && <p>Groups Loading...</p>}
-            {error && <p>error: can't connect to server (groups).</p>}
-            </div>)}
-
+            <LoadingBox loading={loading} error={error} />
             {petitionGroup && <PetitionGroupSummary petitionGroup={petitionGroup} /> }
             <PetitionGroupMembersList petitionGroupId={petitionGroupId} />
         </section>

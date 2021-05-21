@@ -14,28 +14,54 @@ body {
   width: 540px;
 }
 
-ul {
-  display:flex;
-  flex-direction: column;
-  list-style: none;
-  padding-left: 0px;
-}
-
-li {
-  background-color: dimgray;
-  min-height: 40px;
-  margin-bottom: 10px;
-  padding: 16px;
-  color: lightgray;
-}
-
-
 h1, h2, h4 {
   text-align: center;
 }
 
 strong {
   color:coral;
+}
+
+.users_list_group,
+.petition_groups_list_group {
+  display:flex;
+  flex-direction: column;
+  list-style: none;
+  padding-left: 0px;
+  margin-top: 10px;
+}
+
+.users_list_item,
+.petition_groups_list_item {
+  display:flex;
+  background-color: lightgray;
+  margin-bottom: 6px;
+  color: black;
+}
+
+.users_list_item {
+  padding: 4px 10px;
+  justify-content: left;
+  flex-direction: column;
+}
+
+.petition_groups_list_item {
+  padding: 0px;
+  justify-content:left;
+  flex-direction: row;
+}
+
+.petition_groups_list_item span {
+  padding: 10px;
+  min-width: 30px;
+}
+
+.petition_groups_list_btn {
+  background-color: dimgray;
+  color: lightgray;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
 }
 
 .input_form {

@@ -1,6 +1,6 @@
 import useFetchData from  '../hooks/useFetchData'
 import AddPetitionGroupForm from './AddPetitionGroupForm';
-import { PetitionGroupSummary } from './PetitionGroupControls';
+import { LoadingBox } from './MiscControls';
 import { Link } from 'react-router-dom';
 
 const PetitionGroupsListView = () => {
@@ -10,17 +10,13 @@ const PetitionGroupsListView = () => {
       <section>
         <h2>Petition Groups</h2>
         <AddPetitionGroupForm onSubmit={addGroup}/>
-        <div className="loading_box">
-          {loading && <p>Groups Loading...</p>}
-          {error && <p>error: can't connect to server (groups).</p>}
-        </div>
-
-        <ul>
+        <LoadingBox loading={loading} error={error} />
+        <ul className='petition_groups_list_group'>
         {groups && groups.map((petitionGroup) => 
-          <li
-              key={petitionGroup['id']}>
-              <PetitionGroupSummary petitionGroup={petitionGroup} />
-              <Link className='link_btn' to={`/petition_group/${petitionGroup['id']}`}>View Group</Link>
+          <li className='petition_groups_list_item' key={petitionGroup['id']}>
+            <Link className='petition_groups_list_btn' to={`/petition_group/${petitionGroup['id']}`}>View</Link>
+            <span>id:{petitionGroup['id']}</span>
+            <span>{petitionGroup['group_name']}</span>
           </li>)}
         </ul>
       </section>

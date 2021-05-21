@@ -9,14 +9,16 @@ const UsersView = () => {
       <section>
         <h2>Users</h2>
         <AddUserForm onSubmit={addUser}/>
+        { (loading || error) &&
         <div className="loading_box">
           {loading && <p>Loading...</p>}
           {error && <p>error: can't connect to server.</p>}
         </div>
+        }
 
-        <ul>
+        <ul className='users_list_group'>
           { users && users.map((user) => 
-              <li key={user['id']}> <strong>id:</strong> {user['id']} <strong>username:</strong> {user['name']}</li>
+              <li key={user['id']} className='users_list_item'>id:{user['id']} | {user['name']}</li>
           )}
         </ul>
       </section>
