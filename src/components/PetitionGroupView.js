@@ -5,8 +5,8 @@ import AddPetitionForm from './AddPetitionForm';
 import { useRef } from 'react';
 
 const PetitionGroupMembersList = ({ petitionGroupId }) => {
-    const getParams = useRef({ "petition_group_id" : petitionGroupId });
-    const { data:members, loading, error } = useFetchData({ getUrl:'/api/members', getParams:getParams.current });
+    const getRequestParams = useRef({ petition_group_id : petitionGroupId });
+    const { data:members, loading, error } = useFetchData({ getUrl:'/api/members', getRequestParams:getRequestParams.current });
     
     return (
       <>

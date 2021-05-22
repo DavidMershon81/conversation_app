@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import axios from 'axios';
 
-const useFetchData = ({ getUrl, postUrl, getParams }) => {
+const useFetchData = ({ getUrl, postUrl, getRequestParams }) => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
@@ -9,7 +9,7 @@ const useFetchData = ({ getUrl, postUrl, getParams }) => {
     const getData = useCallback(() => {
       setLoading(true);
       setError(false);
-      const getRequestConfig = { params : getParams };
+      const getRequestConfig = { params : getRequestParams };
       axios.get(getUrl, getRequestConfig && getRequestConfig).then((response) => {
         setData(response.data);
         setLoading(false);
@@ -17,7 +17,7 @@ const useFetchData = ({ getUrl, postUrl, getParams }) => {
         setLoading(false);
         setError(true);
       });
-    }, [getUrl, getParams])
+    }, [getUrl, getRequestParams])
 
     useEffect(() => {
       getData();
