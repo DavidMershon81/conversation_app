@@ -2,12 +2,7 @@ import useFetchData from  '../hooks/useFetchData';
 import AddUserForm from './AddUserForm';
 
 const UsersView = () => {
-  const { data:users, addData:addUser, loading, error } = useFetchData({ getUrl:'/api/users', postUrl:'/api/users'});
-
-  if(users) {
-    users.forEach(user => console.log(user));
-  }
-  
+  const { data:users, addData:addUser, loading, error } = useFetchData({ getUrl:'/api/users', postUrl:'/api/users'});  
 
   return (
       <section>

@@ -1,10 +1,13 @@
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import useFetchData from  '../hooks/useFetchData'
 import { LoadingBox } from './MiscControls';
+import AddPetitionForm from './AddPetitionForm';
+import { useRef } from 'react';
 
 const PetitionGroupMembersList = ({ petitionGroupId }) => {
-    const { data:members, loading, error } = useFetchData({ getUrl:`/api/members/${petitionGroupId}` });
-  
+    const getParams = useRef({ "petition_group_id" : petitionGroupId });
+    const { data:members, loading, error } = useFetchData({ getUrl:'/api/members', getParams:getParams.current });
+    
     return (
       <>
       <br/><strong>Members</strong>
@@ -34,12 +37,14 @@ const PetitionGroupView = ({ basePath }) => {
     const { data:petitionGroup, loading, error } = useFetchData({ getUrl:`/api/petition_groups/${petitionGroupId}` });
 
     return (
+        petitionGroup ?
         <section>
-            {petitionGroup && <h2>Petition Group: {petitionGroup.group_name}</h2>}
+            <h2>Petition Group: {petitionGroup.group_name}</h2>
             <LoadingBox loading={loading} error={error} />
-            {petitionGroup && <PetitionGroupSummary petitionGroup={petitionGroup} /> }
+            <PetitionGroupSummary petitionGroup={petitionGroup} />
             <PetitionGroupMembersList petitionGroupId={petitionGroupId} />
-        </section>
+            <AddPetitionForm petitionGroupId={petitionGroup['id']} />
+        </section> : <section></section>
     );
 }
 

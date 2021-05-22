@@ -11,8 +11,8 @@ const App = () => {
       <div className="App">
       <h1>Petition App Debug UI</h1>
       <nav className='top_nav'>
-        <Link className='nav_link' Link to='/users'>Users</Link>
-        <Link className='nav_link' Link to='/petition_groups'>Petition Groups</Link>
+        <Link className='nav_link' to='/users'>Users</Link>
+        <Link className='nav_link' to='/petition_groups'>Petition Groups</Link>
       </nav>
       
       <Route path='/petition_groups' exact component={PetitionGroupsListView} />

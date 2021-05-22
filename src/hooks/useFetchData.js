@@ -1,23 +1,23 @@
 import { useState, useEffect, useCallback } from 'react'
 import axios from 'axios';
 
-const useFetchData = ({ getUrl, postUrl }) => {
+const useFetchData = ({ getUrl, postUrl, getParams }) => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
 
-    const getDataInternal = () => {
+    const getData = useCallback(() => {
       setLoading(true);
       setError(false);
-      axios.get(getUrl).then((response) => {
+      const getRequestConfig = { params : getParams };
+      axios.get(getUrl, getRequestConfig && getRequestConfig).then((response) => {
         setData(response.data);
         setLoading(false);
       }, (error) => {
         setLoading(false);
         setError(true);
       });
-    };
-    const getData = useCallback(getDataInternal, [getUrl])
+    }, [getUrl, getParams])
 
     useEffect(() => {
       getData();

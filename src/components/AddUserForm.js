@@ -5,7 +5,6 @@ import { FormContext } from '../contexts/FormContext';
 const AddUserForm = ({ onSubmit }) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const onSubmitClick = (data) => {
-        console.log(data);
         onSubmit(data);
     };
 
