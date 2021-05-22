@@ -3,7 +3,7 @@ import useFetchData from  '../hooks/useFetchData'
 import { LoadingBox } from './MiscControls';
 
 const PetitionGroupMembersList = ({ petitionGroupId }) => {
-    const { data:members, loading, error } = useFetchData(`/api/get_members/${petitionGroupId}`, '/api/add_members');
+    const { data:members, loading, error } = useFetchData({ getUrl:`/api/members/${petitionGroupId}` });
   
     return (
       <>
@@ -31,7 +31,7 @@ return (
 const PetitionGroupView = ({ basePath }) => {
     const location = useLocation();
     const petitionGroupId = location.pathname.replace(basePath, '');
-    const { data:petitionGroup, loading, error } = useFetchData(`/api/petition_groups/${petitionGroupId}`, '');
+    const { data:petitionGroup, loading, error } = useFetchData({ getUrl:`/api/petition_groups/${petitionGroupId}` });
 
     return (
         <section>

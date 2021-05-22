@@ -4,7 +4,7 @@ import { LoadingBox } from './MiscControls';
 import { Link } from 'react-router-dom';
 
 const PetitionGroupsListView = () => {
-  const { data:groups, addData:addGroup, loading, error } = useFetchData('/api/get_petition_groups', '/api/add_petition_group');
+  const { data:groups, addData:addGroup, loading, error } = useFetchData({ getUrl:'/api/petition_groups', postUrl:'/api/petition_groups'});
   
   return (
       <section>

@@ -19,8 +19,10 @@ db = SQLAlchemy(app)
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.Text)
+    email = db.Column(db.Text)
     password = db.Column(db.Text)
+    first_name = db.Column(db.Text)
+    last_name = db.Column(db.Text)
 
 class PetitionGroup(db.Model):
     __tablename__ = 'petition_groups'
@@ -57,12 +59,12 @@ def add_members(emails, petition_group_id):
 def get_members(petition_group_id):
     return Member.query.filter_by(petition_group_id=petition_group_id).all()
 
-def get_all_users():
+def get_users():
     return User.query.all()
 
-def add_user(username, password):
+def add_user(email, password, first_name, last_name):
     password_hashed = generate_password_hash(password)
-    new_user = User(name=username, password=password_hashed)
+    new_user = User(email=email, password=password_hashed, first_name=first_name, last_name=last_name)
     db.session.add(new_user)
     db.session.commit()
     return new_user

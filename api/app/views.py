@@ -8,55 +8,46 @@ def index():
     return app.send_static_file('index.html')
 
 def user_to_dict(user):
-    return { 'id' : user.id, 'name' : user.name }
+    return { 'id' : user.id, 'email' : user.email, 'first_name' : user.first_name, 'last_name' : user.last_name }
 
-@app.route('/api/get_users', methods=['GET'])
-def get_users():
-    all_users = db.get_all_users()
-    return jsonify([ user_to_dict(user) for user in all_users])
-
-@app.route('/api/add_user', methods=['POST'])
-def add_user():
-    user_name = request.json['username']
-    password = request.json['password']
-    new_user = db.add_user(user_name, password)
-    return jsonify(user_to_dict(new_user))
-
+@app.route('/api/users', methods=['GET', 'POST'])
+def users():
+    if request.method == 'GET':
+        return jsonify([ user_to_dict(user) for user in  db.get_users()])
+    elif request.method == 'POST':
+        json = request.json
+        new_user = db.add_user(json['email'], json['password'], json['first_name'], json['last_name'])
+        return jsonify(user_to_dict(new_user))
+    
 def group_to_dict(g):
     return { 'id':g.id, 'group_name':g.group_name, 'listserv_email':g.listserv_email }
 
-@app.route('/api/get_petition_groups', methods=['GET'])
-def get_petition_groups():
-    petition_groups = db.get_all_petition_groups()
-    group_list = [group_to_dict(g) for g in petition_groups]
-    return jsonify(group_list)
+@app.route('/api/petition_groups', methods=['GET', 'POST'])
+def petition_groups():
+    if request.method == 'GET':
+        petition_groups = [group_to_dict(g) for g in db.get_all_petition_groups()]
+        return jsonify(petition_groups)
+    elif request.method == 'POST':
+        json = request.json
+        use_custom_emails = json['email_type'] == 'custom_emails'
+        listserv_email = 'custom_emails' if use_custom_emails else json['listserv_email']
+        new_group = db.add_petition_group(group_name=json['group_name'], listserv_email=listserv_email)
+        if use_custom_emails:
+            add_members_to_petition(json, new_group.id)
+        return jsonify(group_to_dict(new_group))
 
 @app.route('/api/petition_groups/<petition_group_id>', methods=['GET'])
-def get_petition_group(petition_group_id):
+def petition_group(petition_group_id):
     print(f"get_petition_group running - {petition_group_id}")
     petition_group = db.get_petition_group(petition_group_id)
     return jsonify(group_to_dict(petition_group))
 
-@app.route('/api/add_petition_group', methods=['POST'])
-def add_petition_group():
-    json = request.json
-    group_name = json['group_name']
-    use_custom_emails = json['email_type'] == 'custom_emails'
-    listserv_email = 'custom_emails' if use_custom_emails else json['listserv_email']
-    new_group = db.add_petition_group(group_name=group_name, listserv_email=listserv_email)
+@app.route('/api/members/<petition_group_id>', methods=['GET'])
+def member(petition_group_id):
+    return jsonify([ member_to_dict(member) for member in db.get_members(petition_group_id)])
 
-    if use_custom_emails:
-        add_members_to_petition(json, new_group.id)
-
-    return jsonify(group_to_dict(new_group))
-
-@app.route('/api/get_members/<petition_group_id>', methods=['GET'])
-def get_members(petition_group_id):
-    all_members = db.get_members(petition_group_id)
-    return jsonify([ member_to_dict(member) for member in all_members])
-
-@app.route('/api/add_members', methods=['POST'])
-def add_members(json, petition_group_id):
+@app.route('/api/members', methods=['POST'])
+def members(json, petition_group_id):
     return add_members_to_petition(json, petition_group_id)
 
 def add_members_to_petition(json, petition_id):

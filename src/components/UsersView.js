@@ -2,8 +2,12 @@ import useFetchData from  '../hooks/useFetchData';
 import AddUserForm from './AddUserForm';
 
 const UsersView = () => {
-  const { data:users, addData:addUser, loading, error } = useFetchData('/api/get_users', '/api/add_user');
-  console.log('rendering...');
+  const { data:users, addData:addUser, loading, error } = useFetchData({ getUrl:'/api/users', postUrl:'/api/users'});
+
+  if(users) {
+    users.forEach(user => console.log(user));
+  }
+  
 
   return (
       <section>
@@ -18,7 +22,7 @@ const UsersView = () => {
 
         <ul className='users_list_group'>
           { users && users.map((user) => 
-              <li key={user['id']} className='users_list_item'>id:{user['id']} | {user['name']}</li>
+              <li key={user['id']} className='users_list_item'>id:{user['id']} | {user['email']}<br/>{user['first_name']} {user['last_name']}</li>
           )}
         </ul>
       </section>
