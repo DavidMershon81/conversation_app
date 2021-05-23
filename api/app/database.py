@@ -50,7 +50,7 @@ def add_petition(petition_group_id, petition_text):
     return new_petition
 
 def get_petitions(petition_group_id):
-    return Petition.query.filter_by(id=petition_group_id).all()
+    return Petition.query.filter_by(petition_group_id=petition_group_id).all()
 
 def get_petition_groups():
     return PetitionGroup.query.all()

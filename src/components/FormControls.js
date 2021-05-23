@@ -45,4 +45,9 @@ const FormRadioButtonGroup = ({ varName, visibleName, buttonsConfig, onClick }) 
     )
 };
 
-export { FormErrorMessage, FormTextInput, FormRadioButton, FormRadioButtonGroup };
+const FormHiddenInput = ({ varName, varValue }) => {
+    const { register } = useContext(FormContext);
+    return (<input type="hidden" value={varValue} {...register(varName)} />);
+};
+
+export { FormErrorMessage, FormTextInput, FormRadioButton, FormRadioButtonGroup, FormHiddenInput };

@@ -62,7 +62,7 @@ def member_to_dict(member):
 
 #petitions //////////////////////////////////////////
 def petition_to_dict(p):
-    return { 'id':p.id, 'petition_group_id' : p.petition_group_id, 'group_name':p.petition_text }
+    return { 'id':p.id, 'petition_group_id' : p.petition_group_id, 'petition_text':p.petition_text }
 
 @app.route('/api/petitions', methods=['GET', 'POST'])
 def petitions():

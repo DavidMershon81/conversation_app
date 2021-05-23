@@ -4,17 +4,26 @@ import { LoadingBox } from './MiscControls';
 import AddPetitionForm from './AddPetitionForm';
 import { useRef } from 'react';
 
-const PetitionGroupPetitionsList = ({ petitionGroupId }) => {
+const PetitionGroupPetitionsSection = ({ petitionGroupId }) => {
     const getRequestParams = useRef({ petition_group_id : petitionGroupId });
-    const { data:petitions, loading, error } = useFetchData({ getUrl:'/api/petitions', getRequestParams:getRequestParams.current });
+    const { data:petitions, addData:addPetition, loading, error } = useFetchData({ 
+        getUrl:'/api/petitions', postUrl:'/api/petitions', getRequestParams:getRequestParams.current 
+    });
+
+    if(petitions) {
+        petitions.forEach(p => console.log(p));
+    }
     
     return (
       <>
-      <br/><strong>Members</strong>
+      <br/><strong>Petitions</strong>
       <LoadingBox loading={loading} error={error} />
+      <AddPetitionForm petitionGroupId={petitionGroupId} onSubmit={addPetition} />
       <ul className='users_list_group'>
       { (petitions && petitions.length > 0) ? petitions.map((petition, index) => 
-        <li className='users_list_item' key={index}>{petition['petition_text']}</li>) : 
+        <li className='users_list_item' key={index}>
+            <p>Petition Text: {petition['petition_text']}</p>
+        </li>) : 
         <p>This group has no petition yet.</p>
       }
       </ul>
@@ -61,8 +70,7 @@ const PetitionGroupView = ({ basePath }) => {
             <LoadingBox loading={loading} error={error} />
             <PetitionGroupSummary petitionGroup={petitionGroup} />
             <PetitionGroupMembersList petitionGroupId={petitionGroupId} />
-            <AddPetitionForm petitionGroupId={petitionGroup['id']} />
-            <PetitionGroupPetitionsList petitionGroupId={petitionGroup['id']} />
+            <PetitionGroupPetitionsSection petitionGroupId={petitionGroup['id']} />
         </section> : <section></section>
     );
 }
