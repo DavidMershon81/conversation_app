@@ -102,10 +102,9 @@ def get_user(user_id):
     return User.query.filter_by(id=user_id).first()
 
 def get_petition_group_users(petition_group_id):
-    result = db.session.query(Member,User).filter(Member.email == User.email, Member.petition_group_id==petition_group_id).with_entities(User.id, User.email, User.first_name, User.last_name).all()
-    for beep in result:
-        print(beep)
-    return result
+    return db.session.query(Member,User).\
+        filter(Member.email == User.email, Member.petition_group_id==petition_group_id).\
+            with_entities(User.id, User.email, User.first_name, User.last_name).all()
 
 def add_user(email, password, first_name, last_name):
     password_hashed = generate_password_hash(password)

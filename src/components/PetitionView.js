@@ -2,9 +2,14 @@ import { useLocation } from 'react-router-dom';
 import useFetchData from  '../hooks/useFetchData'
 import { LoadingBox } from './MiscControls';
 import AddTestSignatureForm from './AddTestSignatureForm';
+import { useRef } from 'react';
 
-const TestSignaturesView = ({ petitionId }) => {
-    const { data:users, addData:addUser, loading, error } = useFetchData({ getUrl:'/api/users', postUrl:'/api/users'});  
+const TestSignaturesView = ({ petition }) => {
+    const getRequestParams = useRef({ petition_group_id : petition['petition_group_id'] });
+    const { data:users, addData:addUser, loading, error } = useFetchData({ 
+        getUrl:'/api/users', getRequestParams:getRequestParams.current 
+    });
+
     const onSignatureSubmit = (data) => {
         console.log(data);
     }
@@ -18,9 +23,10 @@ const TestSignaturesView = ({ petitionId }) => {
                 { users && users.map((user) => 
                     <li key={user['id']} className='users_list_item test_signature_user_box'>
                         <p>id:{user['id']} | {user['email']} | {user['first_name']} {user['last_name']}</p>
-                        <AddTestSignatureForm onSubmit={onSignatureSubmit} petitionId={petitionId} user={user}/>
+                        <AddTestSignatureForm onSubmit={onSignatureSubmit} petition={petition} user={user}/>
                     </li>
                 )}
+                { users && users.length < 1 && <li>No users can sign this petition.</li>}
                 </ul>
             </>}
         </section>
@@ -38,7 +44,7 @@ const PetitionView = ({ basePath }) => {
             {petition && <>
                 <h2>Petition: {petition['subject']}</h2>
                 <p>Petition Text: {petition['petition_text']}</p>
-                <TestSignaturesView petitionId={petition['id']} />
+                <TestSignaturesView petition={petition} />
             </>}
         </section>
     );
