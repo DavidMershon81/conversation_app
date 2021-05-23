@@ -23,7 +23,8 @@ strong {
 }
 
 .users_list_group,
-.petition_groups_list_group {
+.petition_groups_list_group,
+.petitions_list_group {
   display:flex;
   flex-direction: column;
   list-style: none;
@@ -32,7 +33,8 @@ strong {
 }
 
 .users_list_item,
-.petition_groups_list_item {
+.petition_groups_list_item,
+.petitions_list_item {
   display:flex;
   background-color: lightgray;
   margin-bottom: 6px;
@@ -45,17 +47,21 @@ strong {
   flex-direction: column;
 }
 
+.petitions_list_item,
 .petition_groups_list_item {
   padding: 0px;
   justify-content:left;
   flex-direction: row;
+  display: flex;
 }
 
-.petition_groups_list_item span {
+.petition_groups_list_item span,
+.petitions_list_item span {
   padding: 10px;
   min-width: 30px;
 }
 
+.petitions_list_btn,
 .petition_groups_list_btn {
   background-color: dimgray;
   color: lightgray;

@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import useFetchData from  '../hooks/useFetchData'
 import { LoadingBox } from './MiscControls';
 import AddPetitionForm from './AddPetitionForm';
@@ -9,21 +9,17 @@ const PetitionGroupPetitionsSection = ({ petitionGroupId }) => {
     const { data:petitions, addData:addPetition, loading, error } = useFetchData({ 
         getUrl:'/api/petitions', postUrl:'/api/petitions', getRequestParams:getRequestParams.current 
     });
-
-    if(petitions) {
-        petitions.forEach(p => console.log(p));
-    }
     
     return (
       <>
       <br/><strong>Petitions</strong>
       <LoadingBox loading={loading} error={error} />
       <AddPetitionForm petitionGroupId={petitionGroupId} onSubmit={addPetition} />
-      <ul className='users_list_group'>
+      <ul className='petitions_list_group'>
       { (petitions && petitions.length > 0) ? petitions.map((petition, index) => 
-        <li className='users_list_item' key={index}>
-            <h4>Subject: {petition['subject']}</h4>
-            <p>Petition Text: {petition['petition_text']}</p>
+        <li className='petitions_list_item' key={index}>
+            <Link className='petitions_list_btn' to={`/petitions/${petition['id']}`}>View</Link>
+            <span>Subject: {petition['subject']}</span>
         </li>) : 
         <p>This group has no petition yet.</p>
       }
@@ -65,14 +61,14 @@ const PetitionGroupView = ({ basePath }) => {
     const { data:petitionGroup, loading, error } = useFetchData({ getUrl:`/api/petition_groups/${petitionGroupId}` });
 
     return (
-        petitionGroup ?
         <section>
-            <h2>Petition Group: {petitionGroup.group_name}</h2>
             <LoadingBox loading={loading} error={error} />
+            { petitionGroup && (<>
+            <h2>Petition Group: {petitionGroup.group_name}</h2>
             <PetitionGroupSummary petitionGroup={petitionGroup} />
             <PetitionGroupMembersList petitionGroupId={petitionGroupId} />
-            <PetitionGroupPetitionsSection petitionGroupId={petitionGroup['id']} />
-        </section> : <section></section>
+            <PetitionGroupPetitionsSection petitionGroupId={petitionGroup['id']} /></>) }
+        </section>
     );
 }
 

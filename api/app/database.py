@@ -70,6 +70,9 @@ def add_petition(petition_group_id, subject, petition_text):
 def get_petitions(petition_group_id):
     return Petition.query.filter_by(petition_group_id=petition_group_id).all()
 
+def get_petition(petition_id):
+    return Petition.query.filter_by(id=petition_id).first()
+
 def get_petition_groups():
     return PetitionGroup.query.all()
 
