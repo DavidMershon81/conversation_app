@@ -4,6 +4,24 @@ import { LoadingBox } from './MiscControls';
 import AddPetitionForm from './AddPetitionForm';
 import { useRef } from 'react';
 
+const PetitionGroupPetitionsList = ({ petitionGroupId }) => {
+    const getRequestParams = useRef({ petition_group_id : petitionGroupId });
+    const { data:petitions, loading, error } = useFetchData({ getUrl:'/api/petitions', getRequestParams:getRequestParams.current });
+    
+    return (
+      <>
+      <br/><strong>Members</strong>
+      <LoadingBox loading={loading} error={error} />
+      <ul className='users_list_group'>
+      { (petitions && petitions.length > 0) ? petitions.map((petition, index) => 
+        <li className='users_list_item' key={index}>{petition['petition_text']}</li>) : 
+        <p>This group has no petition yet.</p>
+      }
+      </ul>
+      </>
+    );
+};
+
 const PetitionGroupMembersList = ({ petitionGroupId }) => {
     const getRequestParams = useRef({ petition_group_id : petitionGroupId });
     const { data:members, loading, error } = useFetchData({ getUrl:'/api/members', getRequestParams:getRequestParams.current });
@@ -15,7 +33,7 @@ const PetitionGroupMembersList = ({ petitionGroupId }) => {
       <ul className='users_list_group'>
       { (members && members.length > 0) ? members.map((member) => 
         <li className='users_list_item' key={member['email']}>{member['email']}</li>) : 
-        <p>This petition has no members yet.</p>
+        <p>This group has no members yet.</p>
       }
       </ul>
       </>
@@ -44,6 +62,7 @@ const PetitionGroupView = ({ basePath }) => {
             <PetitionGroupSummary petitionGroup={petitionGroup} />
             <PetitionGroupMembersList petitionGroupId={petitionGroupId} />
             <AddPetitionForm petitionGroupId={petitionGroup['id']} />
+            <PetitionGroupPetitionsList petitionGroupId={petitionGroup['id']} />
         </section> : <section></section>
     );
 }

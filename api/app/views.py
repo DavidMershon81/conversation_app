@@ -67,7 +67,8 @@ def petition_to_dict(p):
 @app.route('/api/petitions', methods=['GET', 'POST'])
 def petitions():
     if request.method == 'GET':
-        petitions = [petition_to_dict(p) for p in db.get_petitions()]
+        petition_group_id = request.args['petition_group_id']
+        petitions = [petition_to_dict(p) for p in db.get_petitions(petition_group_id)]
         return jsonify(petitions)
     elif request.method == 'POST':
         json = request.json
