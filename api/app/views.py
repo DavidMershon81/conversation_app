@@ -62,7 +62,7 @@ def member_to_dict(member):
 
 #petitions //////////////////////////////////////////
 def petition_to_dict(p):
-    return { 'id':p.id, 'petition_group_id' : p.petition_group_id, 'petition_text':p.petition_text }
+    return { 'id':p.id, 'petition_group_id' : p.petition_group_id, 'subject':p.subject, 'petition_text':p.petition_text }
 
 @app.route('/api/petitions', methods=['GET', 'POST'])
 def petitions():
@@ -72,5 +72,5 @@ def petitions():
         return jsonify(petitions)
     elif request.method == 'POST':
         json = request.json
-        new_petition = db.add_petition(petition_group_id=json['petition_group_id'], petition_text=json['petition_text'])
+        new_petition = db.add_petition(petition_group_id=json['petition_group_id'], subject=json['subject'], petition_text=json['petition_text'])
         return petition_to_dict(new_petition)

@@ -41,10 +41,28 @@ class Petition(db.Model):
     __tablename__ = 'petitions'
     id = db.Column(db.Integer, primary_key=True)
     petition_group_id = db.Column(db.Integer)
+    subject = db.Column(db.Text)
     petition_text = db.Column(db.Text)
 
-def add_petition(petition_group_id, petition_text):
-    new_petition = Petition(petition_group_id=petition_group_id, petition_text=petition_text)
+class Signature(db.Model):
+    __tablename__ = 'signatures'
+    id = db.Column(db.Integer, primary_key=True)
+    petition_id = db.Column(db.Integer)
+    user_id = db.Column(db.Integer)
+    reveal_threshold = db.Column(db.Integer)
+
+
+def add_signature(petition_id, user_id, reveal_threshold):
+    new_signature = Signature(petition_id=petition_id, user_id=user_id, reveal_threshold=reveal_threshold)
+    db.session.add(new_signature)
+    db.session.commit()
+    return new_signature
+
+def get_signatures(petition_id):
+    return Signature.query.filter_by(petition_id=petition_id).all()
+
+def add_petition(petition_group_id, subject, petition_text):
+    new_petition = Petition(petition_group_id=petition_group_id, subject=subject, petition_text=petition_text)
     db.session.add(new_petition)
     db.session.commit()
     return new_petition

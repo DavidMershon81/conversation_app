@@ -22,6 +22,7 @@ const PetitionGroupPetitionsSection = ({ petitionGroupId }) => {
       <ul className='users_list_group'>
       { (petitions && petitions.length > 0) ? petitions.map((petition, index) => 
         <li className='users_list_item' key={index}>
+            <h4>Subject: {petition['subject']}</h4>
             <p>Petition Text: {petition['petition_text']}</p>
         </li>) : 
         <p>This group has no petition yet.</p>

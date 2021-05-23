@@ -12,6 +12,7 @@ const AddPetitionForm = ({ onSubmit, petitionGroupId }) => {
     return (
         <form className="input_form" onSubmit={handleSubmit(onSubmitClick)}>
             <FormContext.Provider value={{ register, unregister, watch, errors }}>
+                <FormTextInput type='text' varName='subject' visibleName='subject' />
                 <FormTextInput type='textarea' varName='petition_text' visibleName='petition text' />
                 <FormHiddenInput varName='petition_group_id' varValue={petitionGroupId} />
             </FormContext.Provider>
