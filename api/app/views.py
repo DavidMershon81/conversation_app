@@ -14,7 +14,13 @@ def user_to_dict(user):
 @app.route('/api/users', methods=['GET', 'POST'])
 def users():
     if request.method == 'GET':
-        return jsonify([ user_to_dict(user) for user in  db.get_users()])
+        if 'petition_group_id' in request.args:
+            petition_group_id = request.args['petition_group_id']
+            print(f"petition_group_id: {petition_group_id}")
+            petition_users = db.get_petition_group_users(petition_group_id)
+            return jsonify([ user_to_dict(user) for user in petition_users])
+        else:
+            return jsonify([ user_to_dict(user) for user in  db.get_users()])
     elif request.method == 'POST':
         json = request.json
         new_user = db.add_user(json['email'], json['password'], json['first_name'], json['last_name'])
