@@ -98,6 +98,9 @@ def get_members(petition_group_id):
 def get_users():
     return User.query.all()
 
+def get_user(user_id):
+    return User.query.filter_by(id=user_id).first()
+
 def add_user(email, password, first_name, last_name):
     password_hashed = generate_password_hash(password)
     new_user = User(email=email, password=password_hashed, first_name=first_name, last_name=last_name)

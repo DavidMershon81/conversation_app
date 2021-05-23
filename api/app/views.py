@@ -20,6 +20,11 @@ def users():
         new_user = db.add_user(json['email'], json['password'], json['first_name'], json['last_name'])
         return jsonify(user_to_dict(new_user))
 
+@app.route('/api/users/<user_id>', methods=['GET'])
+def user(user_id):
+    user = db.get_user(user_id)
+    return jsonify(user_to_dict(user))
+
 #petition groups //////////////////////////////////////////
 def group_to_dict(g):
     return { 'id':g.id, 'group_name':g.group_name, 'listserv_email':g.listserv_email }

@@ -24,7 +24,8 @@ strong {
 
 .users_list_group,
 .petition_groups_list_group,
-.petitions_list_group {
+.petitions_list_group,
+.test_signature_user_group {
   display:flex;
   flex-direction: column;
   list-style: none;
@@ -41,7 +42,8 @@ strong {
   color: black;
 }
 
-.users_list_item {
+.users_list_item,
+.test_signature_user_box {
   padding: 4px 10px;
   justify-content: left;
   flex-direction: column;
@@ -68,6 +70,15 @@ strong {
   padding: 10px;
   text-align: center;
   text-decoration: none;
+}
+
+.test_signature_user_group {
+  margin-top: -14px;
+}
+
+.test_signature_user_box {
+  background-color: white;
+  padding-top: 0px;
 }
 
 .input_form {
@@ -157,7 +168,6 @@ strong {
   background-color: #2196F3;
   font-size: 1em;
 }
-
 /* Everything below this is just custom checkmark code for the radio buttons */
 
 .form_radio_button_set {
