@@ -97,9 +97,10 @@ def signature_to_dict(s):
 
 @app.route('/api/signatures', methods=['GET', 'POST'])
 def signatures():
+    print('signatures API')
     if request.method == 'GET':
         petition_id = request.args['petition_id']
-        signatures = [petition_to_dict(p) for p in db.get_signatures(petition_id)]
+        signatures = [signature_to_dict(p) for p in db.get_signatures(petition_id)]
         return jsonify(signatures)
     elif request.method == 'POST':
         json = request.json

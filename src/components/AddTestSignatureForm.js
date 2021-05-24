@@ -5,7 +5,6 @@ import { FormContext } from '../contexts/FormContext';
 const AddTestSignatureForm = ({ onSubmit, petition, user }) => {
     const { register, unregister, handleSubmit, formState: { errors }, watch } = useForm();
     const onSubmitClick = (data) => {
-        console.log(data);
         onSubmit(data);
     };
 

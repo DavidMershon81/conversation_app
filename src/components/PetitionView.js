@@ -4,16 +4,7 @@ import { LoadingBox } from './MiscControls';
 import AddTestSignatureForm from './AddTestSignatureForm';
 import { useRef } from 'react';
 
-const TestSignaturesView = ({ petition }) => {
-    const getRequestParams = useRef({ petition_group_id : petition['petition_group_id'] });
-    const { data:users, addData:addUser, loading, error } = useFetchData({ 
-        getUrl:'/api/users', getRequestParams:getRequestParams.current 
-    });
-
-    const onSignatureSubmit = (data) => {
-        console.log(data);
-    }
-
+const TestSignatureUsers = ({ petition, onSignatureSubmit, users, loading, error }) => {
     return (
         <section>
             <LoadingBox loading={loading} error={error} />
@@ -33,6 +24,52 @@ const TestSignaturesView = ({ petition }) => {
     );
 }
 
+const TestSignaturesList = ({ petition }) => {
+    const getSignatureParams = useRef({ petition_id : petition['id'] });
+    const { data:signatures, addData:addSignature, loading, error } = useFetchData({ 
+        getUrl:'/api/signatures', 
+        getRequestParams:getSignatureParams.current,
+        postUrl:'/api/signatures'
+    });
+
+    const getUsersParams = useRef(petition ? { petition_group_id : petition['petition_group_id'] } : {});
+    const { data:users, uLoading, uError } = useFetchData({ 
+        getUrl:'/api/users', getRequestParams:getUsersParams.current 
+    });
+
+    const onSignatureSubmit = (data) => {
+        console.log("onSignatureSubmit");
+        console.log(data);
+        addSignature(data);
+    }
+
+    const userForSig = (sig) => {
+        return users.filter(u => u['id'] == sig['user_id'])[0];
+    }   
+
+    return (
+        <section>
+            <LoadingBox loading={loading} error={error} />
+            { signatures && <>
+                <h4>Signatures</h4>
+                <ul className='test_signature_user_group'>
+                { (signatures && users) && signatures.map((sig) => 
+                    <li key={sig['id']} className='users_list_item test_signature_user_box'>
+                        <span>id:{sig['id']}</span>
+                        <span>petition_id:{sig['petition_id']}</span>
+                        <span>user_id:{sig['user_id']}</span>
+                        <span>reveal_threshold:{sig['reveal_threshold']}</span>
+                        <span>email:{userForSig(sig)['email']}</span>
+                    </li>
+                )}
+                { signatures && signatures.length < 1 && <li>Nobody has signed this petition.</li>}
+                </ul>
+                <TestSignatureUsers petition={petition} onSignatureSubmit={onSignatureSubmit} users={users} loading={uLoading} error={uError} />
+            </>}
+        </section>
+    );
+}
+
 const PetitionView = ({ basePath }) => {
     const location = useLocation();
     const petitionId = location.pathname.replace(basePath, '');
@@ -44,7 +81,7 @@ const PetitionView = ({ basePath }) => {
             {petition && <>
                 <h2>Petition: {petition['subject']}</h2>
                 <p>Petition Text: {petition['petition_text']}</p>
-                <TestSignaturesView petition={petition} />
+                <TestSignaturesList petition={petition}/>
             </>}
         </section>
     );
