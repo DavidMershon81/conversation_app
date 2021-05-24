@@ -33,7 +33,7 @@ const TestSignaturesList = ({ petition }) => {
     });
 
     const getUsersParams = useRef(petition ? { petition_group_id : petition['petition_group_id'] } : {});
-    const { data:users, uLoading, uError } = useFetchData({ 
+    const { data:users, loading:uLoading, error:uError } = useFetchData({ 
         getUrl:'/api/users', getRequestParams:getUsersParams.current 
     });
 
