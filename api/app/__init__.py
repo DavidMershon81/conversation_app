@@ -12,3 +12,4 @@ from app import petition_group_endpoints
 from app import member_endpoints
 from app import petition_endpoints
 from app import signature_endpoints
+from app import login_endpoints
