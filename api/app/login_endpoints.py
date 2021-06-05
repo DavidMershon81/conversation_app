@@ -29,5 +29,5 @@ def unprotected():
 
 @app.route('/api/protected', methods=['GET'])
 @tokens.token_required
-def protected(token_data):
-    return jsonify({'message' : 'only people with a token can read this', 'token_data' : token_data })
+def protected(current_user):
+    return jsonify({'message' : 'only people with a token can read this', 'current_user.email' : current_user.email })

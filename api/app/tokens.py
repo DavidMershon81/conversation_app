@@ -1,4 +1,5 @@
 from flask import request, jsonify
+from app import database as db
 import jwt
 from functools import wraps
 from dotenv import dotenv_values
@@ -21,9 +22,10 @@ def token_required(f):
 
         try:
             token_data = jwt.decode(token, secret_key, algorithms=['HS256'])
+            current_user = db.get_user_by_email(token_data['email'])
         except:
             return jsonify({'message' : 'Token is invalid!'}), 403
         
-        return f(token_data, *args, **kwargs)
+        return f(current_user, *args, **kwargs)
     
     return decorated
