@@ -1,8 +1,7 @@
 from flask import request, make_response, jsonify
-from app import app
+from app import app, tokens
 from app import database as db
 from werkzeug.security import check_password_hash
-from app import tokens
 
 @app.route('/api/login', methods=['POST'])
 def login():
