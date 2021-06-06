@@ -5,7 +5,12 @@ import { AppContext } from '../contexts/AppContext';
 
 const UsersView = () => {
   const { authToken } = useContext(AppContext);
-  const { data:users, addData:addUser, loading, error } = useFetchData({ getUrl:'/api/users', postUrl:'/api/users', initAuth:authToken});
+  const { data:users, addData:addUser, loading, error } = useFetchData({ 
+    getUrl:'/api/users', 
+    postUrl:'/api/users', 
+    //initAuth:authToken
+    requireAuth:false
+  });
 
   return (
       <section>
