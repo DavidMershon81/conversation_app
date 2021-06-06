@@ -18,7 +18,7 @@ const LoginView = () => {
         if(loginData) {
             setAuthToken(loginData.token);
         }
-    },[loginData]);
+    },[loginData, setAuthToken]);
 
     return (
         <section>

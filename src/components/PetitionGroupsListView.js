@@ -12,8 +12,6 @@ const PetitionGroupsListView = () => {
     postUrl:'/api/petition_groups',
     authToken:authToken
   });
-
-  console.log("PetitionGroupsListView.js - authToken:" + authToken);
   
   return (
       <section>

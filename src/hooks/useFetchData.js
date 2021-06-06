@@ -1,31 +1,53 @@
 import { useState, useEffect, useCallback } from 'react'
 import axios from 'axios';
 
-const useFetchData = ({ getUrl, postUrl, getRequestParams, authToken }) => {
+const useFetchData = ({ getUrl, postUrl, getRequestParams, authToken, requireAuth=true }) => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [userPassAuth, setUserPassAuth] = useState(null);
 
-    const getData = useCallback(() => {
+    const buildRequestConfig = useCallback((params) => {
+      const result = {};
+      if(userPassAuth) {
+        result.auth = userPassAuth;
+      }
+      if(authToken) {
+        result.headers = { 'Authorization' : authToken };
+      }
+      if(params) {
+        result.params = params
+      }
+      return result;
+    }, [userPassAuth, authToken]);
+
+    const clearLoadingErrorStates = () => {
       setLoading(true);
       setError(false);
       setErrorMessage("");
-      const getRequestConfig = { params : getRequestParams, auth : userPassAuth, headers: { 'Authorization' : authToken } };
-      axios.get(getUrl, getRequestConfig).then((response) => {
+    };
+
+    const onResponseError = (error) => {
+      setLoading(false);
+      setError(true);
+      setErrorMessage(error.response.data['message']);
+    };
+
+    const getData = useCallback(() => {
+      clearLoadingErrorStates();
+      const requstConfig = buildRequestConfig(getRequestParams);
+      axios.get(getUrl, requstConfig).then((response) => {
         setData(response.data);
         setLoading(false);
-      }, (error) => {
-        setLoading(false);
-        setError(true);
-        setErrorMessage(error.response.data['message']);
-      });
-    }, [getUrl, getRequestParams, userPassAuth])
+      }, onResponseError);
+    }, [getUrl, getRequestParams, buildRequestConfig])
 
     useEffect(() => {
-      getData();
-    },[getData, userPassAuth, authToken]);
+      if(userPassAuth || authToken || !requireAuth) {
+        getData();
+      }
+    },[getData, userPassAuth, authToken, requireAuth]);
 
     const addData = (newData) => {
       postData(newData, (responseData) => {
@@ -34,18 +56,12 @@ const useFetchData = ({ getUrl, postUrl, getRequestParams, authToken }) => {
     };
 
     const postData = (newData, onResponse) => {
-      setLoading(true);
-      setError(false);
-      setErrorMessage("");
-      const postRequestConfig = { auth : userPassAuth, headers: { 'Authorization' : authToken } };
-      axios.post(postUrl, newData, postRequestConfig).then((response) => {
+      clearLoadingErrorStates();
+      const requstConfig = buildRequestConfig();
+      axios.post(postUrl, newData, requstConfig).then((response) => {
         setLoading(false);
         onResponse(response.data)
-      }, (error) => {
-        setLoading(false);
-        setError(true);
-        setErrorMessage(error.response.data);
-      });
+      }, onResponseError);
     }
 
     return { data, getData, postData, addData, setUserPassAuth, loading, error, errorMessage };
