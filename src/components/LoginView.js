@@ -6,11 +6,11 @@ import { AppContext } from '../contexts/AppContext';
 
 const LoginView = () => {
     const { setAuthToken } = useContext(AppContext);
-    const { data:loginData, setRequestAuth, loading, error, errorMessage } = useFetchData({ getUrl:'/api/login'});  
+    const { data:loginData, setUserPassAuth, loading, error, errorMessage } = useFetchData({ getUrl:'/api/login'});  
     const [triedLogin, setTriedLogin] = useState(false);
 
     const submitLogin = (formData) => {
-        setRequestAuth({ "username" : formData.email, "password" : formData.password });
+        setUserPassAuth({ "username" : formData.email, "password" : formData.password });
         setTriedLogin(true);
     };
 

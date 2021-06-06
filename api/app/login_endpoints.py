@@ -21,7 +21,8 @@ def login():
         return __invalid_login()
 
 def __invalid_login():
-    return make_response(f"invalid login", 401, {'WWW-Authenticate' : 'Basic realm="Login Required"'})
+    response_message = jsonify({'message' : 'invalid login'})
+    return make_response(response_message, 401, {'WWW-Authenticate' : 'Basic realm="Login Required"'})
 
 @app.route('/api/unprotected', methods=['GET'])
 def unprotected():

@@ -11,7 +11,7 @@ import { useState } from 'react'
 
 const App = () => {
   const [authToken, setAuthToken] = useState("");
-  console.log("authToken:" + authToken);
+  console.log("app.js - authToken:" + authToken);
 
   return (
     <Router>

@@ -1,9 +1,10 @@
 from flask import request, jsonify
-from app import app
+from app import app, tokens
 from app import database as db
 
 @app.route('/api/members', methods=['GET', 'POST'])
-def members():
+@tokens.token_required
+def members(current_user):
     print(f"hit members endpoint method:{request.method}")
     if request.method == 'GET':
         petition_group_id = request.args['petition_group_id']

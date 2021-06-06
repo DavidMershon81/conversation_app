@@ -15,7 +15,7 @@ def generate_token(email):
 def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        token = request.headers.get('token')
+        token = request.headers.get('Authorization')
 
         if not token:
             return jsonify({'message' : 'Token is missing!'}), 403

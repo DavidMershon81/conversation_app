@@ -7,13 +7,19 @@ import { AppContext } from '../contexts/AppContext';
 
 const PetitionGroupsListView = () => {
   const { authToken } = useContext(AppContext);
-  const { data:groups, addData:addGroup, loading, error } = useFetchData({ getUrl:'/api/petition_groups', postUrl:'/api/petition_groups', initAuth:authToken});
+  const { data:groups, addData:addGroup, loading, error, errorMessage } = useFetchData({ 
+    getUrl:'/api/petition_groups', 
+    postUrl:'/api/petition_groups',
+    authToken:authToken
+  });
+
+  console.log("PetitionGroupsListView.js - authToken:" + authToken);
   
   return (
       <section>
         <h2>Petition Groups</h2>
         <AddPetitionGroupForm onSubmit={addGroup}/>
-        <LoadingBox loading={loading} error={error} />
+        <LoadingBox loading={loading} error={error} errorMessage={errorMessage} />
         <ul className='petition_groups_list_group'>
         {groups && groups.map((petitionGroup) => 
           <li className='petition_groups_list_item' key={petitionGroup['id']}>

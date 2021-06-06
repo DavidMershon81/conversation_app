@@ -1,12 +1,13 @@
 from flask import request, jsonify
-from app import app
+from app import app, tokens
 from app import database as db
 
 def signature_to_dict(s):
     return { 'id':s.id, 'petition_id' : s.petition_id, 'user_id':s.user_id, 'reveal_threshold':s.reveal_threshold }
 
 @app.route('/api/signatures', methods=['GET', 'POST'])
-def signatures():
+@tokens.token_required
+def signatures(current_user):
     print('signatures API')
     if request.method == 'GET':
         petition_id = request.args['petition_id']

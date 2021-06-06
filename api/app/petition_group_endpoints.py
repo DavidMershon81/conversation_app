@@ -1,12 +1,13 @@
 from flask import request, jsonify
-from app import app
+from app import app, tokens
 from app import database as db
 
 def group_to_dict(g):
     return { 'id':g.id, 'group_name':g.group_name, 'listserv_email':g.listserv_email }
 
 @app.route('/api/petition_groups', methods=['GET', 'POST'])
-def petition_groups():
+@tokens.token_required
+def petition_groups(current_user):
     if request.method == 'GET':
         petition_groups = [group_to_dict(g) for g in db.get_petition_groups()]
         return jsonify(petition_groups)
@@ -20,6 +21,7 @@ def petition_groups():
         return jsonify(group_to_dict(new_group))
 
 @app.route('/api/petition_groups/<petition_group_id>', methods=['GET'])
-def petition_group(petition_group_id):
+@tokens.token_required
+def petition_group(current_user, petition_group_id):
     petition_group = db.get_petition_group(petition_group_id)
     return jsonify(group_to_dict(petition_group))

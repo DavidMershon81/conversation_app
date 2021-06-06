@@ -7,9 +7,7 @@ const UsersView = () => {
   const { authToken } = useContext(AppContext);
   const { data:users, addData:addUser, loading, error } = useFetchData({ 
     getUrl:'/api/users', 
-    postUrl:'/api/users', 
-    //initAuth:authToken
-    requireAuth:false
+    postUrl:'/api/users'
   });
 
   return (

@@ -9,7 +9,7 @@ const PetitionGroupPetitionsSection = ({ petitionGroupId }) => {
     const { authToken } = useContext(AppContext);
     const getRequestParams = useRef({ petition_group_id : petitionGroupId });
     const { data:petitions, addData:addPetition, loading, error, errorMessage } = useFetchData({ 
-        getUrl:'/api/petitions', postUrl:'/api/petitions', getRequestParams:getRequestParams.current, initAuth:authToken 
+        getUrl:'/api/petitions', postUrl:'/api/petitions', getRequestParams:getRequestParams.current, authToken:authToken 
     });
     
     return (
@@ -34,7 +34,7 @@ const PetitionGroupMembersList = ({ petitionGroupId }) => {
     const { authToken } = useContext(AppContext);
     const getRequestParams = useRef({ petition_group_id : petitionGroupId });
     const { data:members, loading, error, errorMessage } = useFetchData({ 
-        getUrl:'/api/members', getRequestParams:getRequestParams.current, initAuth:authToken
+        getUrl:'/api/members', getRequestParams:getRequestParams.current, authToken:authToken
     });
     
     return (
@@ -64,7 +64,7 @@ const PetitionGroupView = ({ basePath }) => {
     const { authToken } = useContext(AppContext);
     const location = useLocation();
     const petitionGroupId = location.pathname.replace(basePath, '');
-    const { data:petitionGroup, loading, error, errorMessage } = useFetchData({ getUrl:`/api/petition_groups/${petitionGroupId}`, initAuth:authToken });
+    const { data:petitionGroup, loading, error, errorMessage } = useFetchData({ getUrl:`/api/petition_groups/${petitionGroupId}`, authToken:authToken });
 
     return (
         <section>
