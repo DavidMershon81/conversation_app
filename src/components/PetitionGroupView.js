@@ -6,14 +6,14 @@ import { useRef } from 'react';
 
 const PetitionGroupPetitionsSection = ({ petitionGroupId }) => {
     const getRequestParams = useRef({ petition_group_id : petitionGroupId });
-    const { data:petitions, addData:addPetition, loading, error } = useFetchData({ 
+    const { data:petitions, addData:addPetition, loading, error, errorMessage } = useFetchData({ 
         getUrl:'/api/petitions', postUrl:'/api/petitions', getRequestParams:getRequestParams.current 
     });
     
     return (
       <>
       <br/><strong>Petitions</strong>
-      <LoadingBox loading={loading} error={error} />
+      <LoadingBox loading={loading} error={error} errorMessage={errorMessage} />
       <AddPetitionForm petitionGroupId={petitionGroupId} onSubmit={addPetition} />
       <ul className='petitions_list_group'>
       { (petitions && petitions.length > 0) ? petitions.map((petition, index) => 
@@ -30,12 +30,12 @@ const PetitionGroupPetitionsSection = ({ petitionGroupId }) => {
 
 const PetitionGroupMembersList = ({ petitionGroupId }) => {
     const getRequestParams = useRef({ petition_group_id : petitionGroupId });
-    const { data:members, loading, error } = useFetchData({ getUrl:'/api/members', getRequestParams:getRequestParams.current });
+    const { data:members, loading, error, errorMessage } = useFetchData({ getUrl:'/api/members', getRequestParams:getRequestParams.current });
     
     return (
       <>
       <br/><strong>Members</strong>
-      <LoadingBox loading={loading} error={error} />
+      <LoadingBox loading={loading} error={error} errorMessage={errorMessage} />
       <ul className='users_list_group'>
       { (members && members.length > 0) ? members.map((member) => 
         <li className='users_list_item' key={member['email']}>{member['email']}</li>) : 
@@ -58,11 +58,11 @@ return (
 const PetitionGroupView = ({ basePath }) => {
     const location = useLocation();
     const petitionGroupId = location.pathname.replace(basePath, '');
-    const { data:petitionGroup, loading, error } = useFetchData({ getUrl:`/api/petition_groups/${petitionGroupId}` });
+    const { data:petitionGroup, loading, error, errorMessage } = useFetchData({ getUrl:`/api/petition_groups/${petitionGroupId}` });
 
     return (
         <section>
-            <LoadingBox loading={loading} error={error} />
+            <LoadingBox loading={loading} error={error} errorMessage={errorMessage} />
             { petitionGroup && (<>
             <h2>Petition Group: {petitionGroup.group_name}</h2>
             <PetitionGroupSummary petitionGroup={petitionGroup} />

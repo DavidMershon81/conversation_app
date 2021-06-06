@@ -3,11 +3,11 @@ from app import app, tokens
 from app import database as db
 from werkzeug.security import check_password_hash
 
-@app.route('/api/login', methods=['POST'])
+@app.route('/api/login')
 def login():
     auth = request.authorization
     if not auth or not auth.username or not auth.password:
-        return __could_not_verify()
+        return __invalid_login()
 
     login_user = db.get_user_by_email(auth.username)
     
@@ -16,12 +16,12 @@ def login():
         if password_matches:
             return tokens.generate_token(auth.username)
         else:
-            return __could_not_verify()
+            return __invalid_login()
     else:
-        return __could_not_verify()
+        return __invalid_login()
 
-def __could_not_verify():
-    return make_response(f"could not verify", 401, {'WWW-Authenticate' : 'Basic realm="Login Required"'})
+def __invalid_login():
+    return make_response(f"invalid login", 401, {'WWW-Authenticate' : 'Basic realm="Login Required"'})
 
 @app.route('/api/unprotected', methods=['GET'])
 def unprotected():

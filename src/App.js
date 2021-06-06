@@ -5,6 +5,7 @@ import PetitionGroupsListView from './components/PetitionGroupsListView'
 import PetitionGroupView from './components/PetitionGroupView'
 import TestVariablePaths from './components/TestVariablePaths'
 import PetitionView from './components/PetitionView'
+import LoginView from './components/LoginView'
 
 const App = () => {
   return (
@@ -14,8 +15,10 @@ const App = () => {
       <nav className='top_nav'>
         <Link className='nav_link' to='/users'>Users</Link>
         <Link className='nav_link' to='/petition_groups'>Petition Groups</Link>
+        <Link className='nav_link' to='/login'>Login</Link>
       </nav>
       
+      <Route path='/login' exact component={LoginView} />
       <Route path='/petition_groups' exact component={PetitionGroupsListView} />
       <Route path='/petition_group/' render={ () => (<PetitionGroupView basePath='/petition_group/' />)} />
       <Route path='/petitions/' render={ () => (<PetitionView basePath='/petitions/' />)} />

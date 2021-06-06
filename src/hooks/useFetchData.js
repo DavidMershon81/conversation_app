@@ -1,26 +1,31 @@
 import { useState, useEffect, useCallback } from 'react'
 import axios from 'axios';
 
-const useFetchData = ({ getUrl, postUrl, getRequestParams }) => {
+const useFetchData = ({ getUrl, postUrl, getRequestParams, initAuth=null }) => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+    const [requestAuth, setRequestAuth] = useState(initAuth);
 
     const getData = useCallback(() => {
       setLoading(true);
       setError(false);
-      const getRequestConfig = { params : getRequestParams };
-      axios.get(getUrl, getRequestConfig && getRequestConfig).then((response) => {
+      setErrorMessage("");
+      const getRequestConfig = { params : getRequestParams, auth : requestAuth };
+      axios.get(getUrl, getRequestConfig).then((response) => {
         setData(response.data);
         setLoading(false);
       }, (error) => {
         setLoading(false);
         setError(true);
+        setErrorMessage(error.response.data);
       });
-    }, [getUrl, getRequestParams])
+    }, [getUrl, getRequestParams, requestAuth])
 
     useEffect(() => {
-      getData();
+      if(requestAuth)
+        getData();
     },[getData]);
 
     const addData = (newData) => {
@@ -32,16 +37,19 @@ const useFetchData = ({ getUrl, postUrl, getRequestParams }) => {
     const postData = (newData, onResponse) => {
       setLoading(true);
       setError(false);
-      axios.post(postUrl, newData).then((response) => {
+      setErrorMessage("");
+      const postRequestConfig = { auth : requestAuth };
+      axios.post(postUrl, newData, postRequestConfig).then((response) => {
         setLoading(false);
         onResponse(response.data)
       }, (error) => {
         setLoading(false);
         setError(true);
+        setErrorMessage(error.response.data);
       });
     }
 
-    return { data, getData, postData, addData, loading, error };
+    return { data, getData, postData, addData, setRequestAuth, loading, error, errorMessage };
 }
 
 export default useFetchData

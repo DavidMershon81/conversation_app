@@ -6,14 +6,14 @@ const SimpleButton = ({ id, text, onBtnClick }) => {
     return (<input type="button" className='simple_btn' onClick={onClick} value={text} />);
 }
 
-const LoadingBox = ({ loading, error }) => {
+const LoadingBox = ({ loading, error, errorMessage }) => {
     return (
         <>
         { 
             (loading || error) &&
             <div className="loading_box">
             {loading && <p>Loading...</p>}
-            {error && <p>error: can't connect to server.</p>}
+            {error && <p>error: {errorMessage}</p>}
             </div>
         }
         </>
