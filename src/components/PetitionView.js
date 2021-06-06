@@ -2,12 +2,13 @@ import { useLocation } from 'react-router-dom';
 import useFetchData from  '../hooks/useFetchData'
 import { LoadingBox } from './MiscControls';
 import AddTestSignatureForm from './AddTestSignatureForm';
-import { useRef } from 'react';
+import { useRef, useContext } from 'react';
+import { AppContext } from '../contexts/AppContext';
 
-const TestSignatureUsers = ({ petition, onSignatureSubmit, users, loading, error }) => {
+const TestSignatureUsers = ({ petition, onSignatureSubmit, users, loading, error, errorMessage }) => {
     return (
         <section>
-            <LoadingBox loading={loading} error={error} />
+            <LoadingBox loading={loading} error={error} errorMessage={errorMessage} />
             { users && <>
                 <h4>Users Who Can Sign</h4>
                 <ul className='test_signature_user_group'>
@@ -25,16 +26,18 @@ const TestSignatureUsers = ({ petition, onSignatureSubmit, users, loading, error
 }
 
 const TestSignaturesList = ({ petition }) => {
+    const { authToken } = useContext(AppContext);
     const getSignatureParams = useRef({ petition_id : petition['id'] });
-    const { data:signatures, addData:addSignature, loading, error } = useFetchData({ 
+    const { data:signatures, addData:addSignature, loading, error, errorMessage } = useFetchData({ 
         getUrl:'/api/signatures', 
         getRequestParams:getSignatureParams.current,
-        postUrl:'/api/signatures'
+        postUrl:'/api/signatures',
+        initAuth:authToken
     });
 
     const getUsersParams = useRef(petition ? { petition_group_id : petition['petition_group_id'] } : {});
-    const { data:users, loading:uLoading, error:uError } = useFetchData({ 
-        getUrl:'/api/users', getRequestParams:getUsersParams.current 
+    const { data:users, loading:uLoading, error:uError, errorMessage:uErrorMessage } = useFetchData({ 
+        getUrl:'/api/users', getRequestParams:getUsersParams.current, initAuth:authToken
     });
 
     const onSignatureSubmit = (data) => {
@@ -44,12 +47,12 @@ const TestSignaturesList = ({ petition }) => {
     }
 
     const userForSig = (sig) => {
-        return users.filter(u => u['id'] == sig['user_id'])[0];
+        return users.filter(u => u['id'] === sig['user_id'])[0];
     }   
 
     return (
         <section>
-            <LoadingBox loading={loading} error={error} />
+            <LoadingBox loading={loading} error={error} errorMessage={errorMessage}/>
             { signatures && <>
                 <h4>Signatures</h4>
                 <ul className='test_signature_user_group'>
@@ -64,24 +67,25 @@ const TestSignaturesList = ({ petition }) => {
                 )}
                 { signatures && signatures.length < 1 && <li>Nobody has signed this petition.</li>}
                 </ul>
-                <TestSignatureUsers petition={petition} onSignatureSubmit={onSignatureSubmit} users={users} loading={uLoading} error={uError} />
+                <TestSignatureUsers petition={petition} onSignatureSubmit={onSignatureSubmit} users={users} loading={uLoading} error={uError} errorMessage={uErrorMessage} />
             </>}
         </section>
     );
 }
 
 const PetitionView = ({ basePath }) => {
+    const { authToken } = useContext(AppContext);
     const location = useLocation();
     const petitionId = location.pathname.replace(basePath, '');
-    const { data:petition, loading, error } = useFetchData({ getUrl:`/api/petitions/${petitionId}` });
+    const { data:petition, loading, error, errorMessage } = useFetchData({ getUrl:`/api/petitions/${petitionId}`, initAuth:authToken});
 
     return (
         <section>
-            <LoadingBox loading={loading} error={error} />
+            <LoadingBox loading={loading} error={error} errorMessage={errorMessage}/>
             {petition && <>
                 <h2>Petition: {petition['subject']}</h2>
                 <p>Petition Text: {petition['petition_text']}</p>
-                <TestSignaturesList petition={petition}/>
+                <TestSignaturesList petition={petition}/>          
             </>}
         </section>
     );

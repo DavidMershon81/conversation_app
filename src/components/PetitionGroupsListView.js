@@ -2,9 +2,12 @@ import useFetchData from  '../hooks/useFetchData'
 import AddPetitionGroupForm from './AddPetitionGroupForm';
 import { LoadingBox } from './MiscControls';
 import { Link } from 'react-router-dom';
+import { useContext } from 'react';
+import { AppContext } from '../contexts/AppContext';
 
 const PetitionGroupsListView = () => {
-  const { data:groups, addData:addGroup, loading, error } = useFetchData({ getUrl:'/api/petition_groups', postUrl:'/api/petition_groups'});
+  const { authToken } = useContext(AppContext);
+  const { data:groups, addData:addGroup, loading, error } = useFetchData({ getUrl:'/api/petition_groups', postUrl:'/api/petition_groups', initAuth:authToken});
   
   return (
       <section>

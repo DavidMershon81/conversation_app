@@ -2,12 +2,14 @@ import { useLocation, Link } from 'react-router-dom';
 import useFetchData from  '../hooks/useFetchData'
 import { LoadingBox } from './MiscControls';
 import AddPetitionForm from './AddPetitionForm';
-import { useRef } from 'react';
+import { useRef, useContext } from 'react';
+import { AppContext } from '../contexts/AppContext';
 
 const PetitionGroupPetitionsSection = ({ petitionGroupId }) => {
+    const { authToken } = useContext(AppContext);
     const getRequestParams = useRef({ petition_group_id : petitionGroupId });
     const { data:petitions, addData:addPetition, loading, error, errorMessage } = useFetchData({ 
-        getUrl:'/api/petitions', postUrl:'/api/petitions', getRequestParams:getRequestParams.current 
+        getUrl:'/api/petitions', postUrl:'/api/petitions', getRequestParams:getRequestParams.current, initAuth:authToken 
     });
     
     return (
@@ -29,8 +31,11 @@ const PetitionGroupPetitionsSection = ({ petitionGroupId }) => {
 };
 
 const PetitionGroupMembersList = ({ petitionGroupId }) => {
+    const { authToken } = useContext(AppContext);
     const getRequestParams = useRef({ petition_group_id : petitionGroupId });
-    const { data:members, loading, error, errorMessage } = useFetchData({ getUrl:'/api/members', getRequestParams:getRequestParams.current });
+    const { data:members, loading, error, errorMessage } = useFetchData({ 
+        getUrl:'/api/members', getRequestParams:getRequestParams.current, initAuth:authToken
+    });
     
     return (
       <>
@@ -56,9 +61,10 @@ return (
 };
 
 const PetitionGroupView = ({ basePath }) => {
+    const { authToken } = useContext(AppContext);
     const location = useLocation();
     const petitionGroupId = location.pathname.replace(basePath, '');
-    const { data:petitionGroup, loading, error, errorMessage } = useFetchData({ getUrl:`/api/petition_groups/${petitionGroupId}` });
+    const { data:petitionGroup, loading, error, errorMessage } = useFetchData({ getUrl:`/api/petition_groups/${petitionGroupId}`, initAuth:authToken });
 
     return (
         <section>

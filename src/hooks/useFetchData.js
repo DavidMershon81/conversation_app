@@ -26,7 +26,7 @@ const useFetchData = ({ getUrl, postUrl, getRequestParams, initAuth=null }) => {
     useEffect(() => {
       if(requestAuth)
         getData();
-    },[getData]);
+    },[getData, requestAuth]);
 
     const addData = (newData) => {
       postData(newData, (responseData) => {

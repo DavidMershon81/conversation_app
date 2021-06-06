@@ -1,8 +1,11 @@
 import useFetchData from  '../hooks/useFetchData';
 import AddUserForm from './AddUserForm';
+import { useContext } from 'react';
+import { AppContext } from '../contexts/AppContext';
 
 const UsersView = () => {
-  const { data:users, addData:addUser, loading, error } = useFetchData({ getUrl:'/api/users', postUrl:'/api/users'});  
+  const { authToken } = useContext(AppContext);
+  const { data:users, addData:addUser, loading, error } = useFetchData({ getUrl:'/api/users', postUrl:'/api/users', initAuth:authToken});
 
   return (
       <section>

@@ -1,16 +1,24 @@
 import useFetchData from  '../hooks/useFetchData';
 import LoginForm from './LoginForm';
 import { LoadingBox } from './MiscControls';
-import { useState } from 'react'
+import { useState, useContext, useEffect } from 'react'
+import { AppContext } from '../contexts/AppContext';
 
 const LoginView = () => {
-    const { data:loginData, requestAuth, setRequestAuth, loading, error, errorMessage } = useFetchData({ getUrl:'/api/login'});  
+    const { setAuthToken } = useContext(AppContext);
+    const { data:loginData, setRequestAuth, loading, error, errorMessage } = useFetchData({ getUrl:'/api/login'});  
     const [triedLogin, setTriedLogin] = useState(false);
 
     const submitLogin = (formData) => {
         setRequestAuth({ "username" : formData.email, "password" : formData.password });
         setTriedLogin(true);
     };
+
+    useEffect(() => {
+        if(loginData) {
+            setAuthToken(loginData.token);
+        }
+    },[loginData]);
 
     return (
         <section>
