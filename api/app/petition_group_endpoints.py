@@ -9,7 +9,9 @@ def group_to_dict(g):
 @tokens.token_required
 def petition_groups(current_user):
     if request.method == 'GET':
-        petition_groups = [group_to_dict(g) for g in db.get_petition_groups()]
+        #petition_groups = [group_to_dict(g) for g in db.get_petition_groups()]
+        petition_groups = [group_to_dict(g) for g in db.get_petition_groups_by_user(current_user)]
+        
         return jsonify(petition_groups)
     elif request.method == 'POST':
         json = request.json

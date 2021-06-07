@@ -28,7 +28,6 @@ class PetitionGroup(db.Model):
     __tablename__ = 'petition_groups'
     id = db.Column(db.Integer, primary_key=True)
     group_name = db.Column(db.Text)
-    petition_text = db.Column(db.Text)
     listserv_email = db.Column(db.Text)
 
 class Member(db.Model):
@@ -75,6 +74,11 @@ def get_petition(petition_id):
 
 def get_petition_groups():
     return PetitionGroup.query.all()
+
+def get_petition_groups_by_user(user):
+    return db.session.query(Member,PetitionGroup).\
+        filter(Member.petition_group_id == PetitionGroup.id, Member.email==user.email).\
+            with_entities(PetitionGroup.id, PetitionGroup.group_name, PetitionGroup.listserv_email).all()
 
 def get_petition_group(petition_group_id):
     return PetitionGroup.query.filter_by(id=petition_group_id).first()
