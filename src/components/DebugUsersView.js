@@ -4,8 +4,7 @@ import { LoadingBox } from './MiscControls';
 
 const DebugUsersView = () => {
   const { data:users, addData:addUser, loading, error, errorMessage } = useFetchData({ 
-    getUrl:'/api/users', 
-    postUrl:'/api/users',
+    url:'/api/users', 
     requireAuth:false
   });
 

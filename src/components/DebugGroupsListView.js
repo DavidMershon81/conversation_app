@@ -5,8 +5,7 @@ import { Link } from 'react-router-dom';
 
 const DebugGroupsListView = () => {
   const { data:groups, addData:addGroup, loading, error, errorMessage } = useFetchData({ 
-    getUrl:'/api/debug/petition_groups', 
-    postUrl:'/api/debug/petition_groups',
+    url:'/api/debug/petition_groups',
     requireAuth:false
   });
   

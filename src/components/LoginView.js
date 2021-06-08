@@ -1,7 +1,7 @@
 import useLogin from  '../hooks/useLogin';
 import LoginForm from './LoginForm';
 import { LoadingBox } from './MiscControls';
-import { useState, useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { AppContext } from '../contexts/AppContext';
 
 const LoginView = () => {

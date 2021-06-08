@@ -1,15 +1,14 @@
 import { useLocation, Link } from 'react-router-dom';
-import useFetchData from  '../hooks/useFetchData'
+import useFetchDataAuth from  '../hooks/useFetchDataAuth'
 import { LoadingBox } from './MiscControls';
 import AddPetitionForm from './AddPetitionForm';
-import { useRef, useContext } from 'react';
-import { AppContext } from '../contexts/AppContext';
+import { useRef } from 'react';
 
 const PetitionGroupPetitionsSection = ({ petitionGroupId }) => {
-    const { authToken } = useContext(AppContext);
     const getRequestParams = useRef({ petition_group_id : petitionGroupId });
-    const { data:petitions, addData:addPetition, loading, error, errorMessage } = useFetchData({ 
-        getUrl:'/api/petitions', postUrl:'/api/petitions', getRequestParams:getRequestParams.current, authToken:authToken 
+    const { data:petitions, addData:addPetition, loading, error, errorMessage } = useFetchDataAuth({ 
+        url:'/api/petitions', 
+        getRequestParams:getRequestParams.current
     });
     
     return (
@@ -31,10 +30,10 @@ const PetitionGroupPetitionsSection = ({ petitionGroupId }) => {
 };
 
 const PetitionGroupMembersList = ({ petitionGroupId }) => {
-    const { authToken } = useContext(AppContext);
     const getRequestParams = useRef({ petition_group_id : petitionGroupId });
-    const { data:members, loading, error, errorMessage } = useFetchData({ 
-        getUrl:'/api/members', getRequestParams:getRequestParams.current, authToken:authToken
+    const { data:members, loading, error, errorMessage } = useFetchDataAuth({ 
+        url:'/api/members', 
+        getRequestParams:getRequestParams.current
     });
     
     return (
@@ -61,10 +60,9 @@ return (
 };
 
 const PetitionGroupView = ({ basePath }) => {
-    const { authToken } = useContext(AppContext);
     const location = useLocation();
     const petitionGroupId = location.pathname.replace(basePath, '');
-    const { data:petitionGroup, loading, error, errorMessage } = useFetchData({ getUrl:`/api/petition_groups/${petitionGroupId}`, authToken:authToken });
+    const { data:petitionGroup, loading, error, errorMessage } = useFetchDataAuth({ url:`/api/petition_groups/${petitionGroupId}` });
 
     return (
         <section>

@@ -8,9 +8,7 @@ import { AppContext } from '../contexts/AppContext';
 const UserHomeView = () => {
     const { authToken } = useContext(AppContext);
     const { data:groups, addData:addGroup, loading, error, errorMessage } = useFetchData({ 
-        getUrl:'/api/petition_groups', 
-        postUrl:'/api/petition_groups',
-        authToken:authToken
+        url:'/api/petition_groups', authToken:authToken
     });
     
     return (

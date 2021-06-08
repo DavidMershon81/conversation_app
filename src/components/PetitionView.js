@@ -29,15 +29,14 @@ const TestSignaturesList = ({ petition }) => {
     const { authToken } = useContext(AppContext);
     const getSignatureParams = useRef({ petition_id : petition['id'] });
     const { data:signatures, addData:addSignature, loading, error, errorMessage } = useFetchData({ 
-        getUrl:'/api/signatures', 
+        url:'/api/signatures', 
         getRequestParams:getSignatureParams.current,
-        postUrl:'/api/signatures',
         authToken:authToken
     });
 
     const getUsersParams = useRef(petition ? { petition_group_id : petition['petition_group_id'] } : {});
     const { data:users, loading:uLoading, error:uError, errorMessage:uErrorMessage } = useFetchData({ 
-        getUrl:'/api/users', getRequestParams:getUsersParams.current, authToken:authToken
+        url:'/api/users', getRequestParams:getUsersParams.current, authToken:authToken
     });
 
     const onSignatureSubmit = (data) => {
@@ -77,7 +76,7 @@ const PetitionView = ({ basePath }) => {
     const { authToken } = useContext(AppContext);
     const location = useLocation();
     const petitionId = location.pathname.replace(basePath, '');
-    const { data:petition, loading, error, errorMessage } = useFetchData({ getUrl:`/api/petitions/${petitionId}`, authToken:authToken});
+    const { data:petition, loading, error, errorMessage } = useFetchData({ url:`/api/petitions/${petitionId}`, authToken:authToken});
 
     return (
         <section>

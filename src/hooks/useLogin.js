@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState } from 'react'
 import axios from 'axios';
 
 const useLogin = ({ url, setAuthToken }) => {
@@ -23,7 +23,7 @@ const useLogin = ({ url, setAuthToken }) => {
       });
     };
 
-    return { tryLogin, loading, error, errorMessage };
+    return { triedLogin, tryLogin, loading, error, errorMessage };
 }
 
 export default useLogin
