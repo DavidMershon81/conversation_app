@@ -3,9 +3,10 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import DebugUsersView from './components/DebugUsersView';
 import DebugGroupsListView from './components/DebugGroupsListView';
 import PetitionGroupView from './components/PetitionGroupView';
+import AddPetitionGroupView from './components/AddPetitionGroupView';
 import PetitionView from './components/PetitionView';
 import LoginView from './components/LoginView';
-import UserHomeView from './components/UserHomeView';
+import HomeView from './components/HomeView';
 import { AppContext } from './contexts/AppContext';
 import { useState } from 'react';
 
@@ -25,9 +26,10 @@ const App = () => {
           </nav>
           
           <Route path='/login' exact component={LoginView} />
-          <Route path='/home' exact component={UserHomeView} />
+          <Route path='/home' exact component={HomeView} />
           <Route path='/debug/petition_groups' exact component={DebugGroupsListView} />
           <Route path='/petition_group/' render={ () => (<PetitionGroupView basePath='/petition_group/' />)} />
+          <Route path='/add_petition_group/' exact component={AddPetitionGroupView} />
           <Route path='/petitions/' render={ () => (<PetitionView basePath='/petitions/' />)} />
           <Route path='/debug/users' exact component={DebugUsersView} />
         </AppContext.Provider>

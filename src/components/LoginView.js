@@ -14,7 +14,7 @@ const LoginView = () => {
 
     return (
         <section>
-            <h2>Login</h2>
+            <h2>Login (user view)</h2>
             { !authToken && <LoginForm onSubmit={submitLogin}/> }
             { triedLogin && <LoadingBox loading={loading} error={error} errorMessage={errorMessage} /> }
             { authToken && <p>logged in.</p>}

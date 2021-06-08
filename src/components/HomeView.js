@@ -1,19 +1,13 @@
-import useFetchData from  '../hooks/useFetchData'
-import AddPetitionGroupForm from './AddPetitionGroupForm';
+import useFetchDataAuth from  '../hooks/useFetchDataAuth'
 import { LoadingBox } from './MiscControls';
 import { Link } from 'react-router-dom';
-import { useContext } from 'react';
-import { AppContext } from '../contexts/AppContext';
 
-const UserHomeView = () => {
-    const { authToken } = useContext(AppContext);
-    const { data:groups, addData:addGroup, loading, error, errorMessage } = useFetchData({ 
-        url:'/api/petition_groups', authToken:authToken
-    });
-    
+const HomeView = () => {
+    const { data:groups, loading, error, errorMessage } = useFetchDataAuth({ url:'/api/petition_groups'});
+
     return (
         <section>
-            <h2>User Home View</h2>
+            <h2>Home (user view)</h2>
             <p>Welcome to the petition app!</p>
 
             <p>Here are a list of the petition groups that you're a member of</p>
@@ -25,12 +19,12 @@ const UserHomeView = () => {
                 <span>{petitionGroup['group_name']}</span>
             </li>)}
             </ul>
-
-            <p>Use this form to add a new petition group</p>
-            <AddPetitionGroupForm onSubmit={addGroup}/>
+            {groups && <div className='add_petition_group_btn'>
+                <Link className='add_petition_group_text' to='/add_petition_group'>Add New Petition Group</Link>
+            </div>}
             <LoadingBox loading={loading} error={error} errorMessage={errorMessage} />
         </section>
     );
 }
 
-export default UserHomeView
+export default HomeView

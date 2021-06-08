@@ -1,9 +1,8 @@
 import { useLocation } from 'react-router-dom';
-import useFetchData from  '../hooks/useFetchData'
+import useFetchDataAuth from  '../hooks/useFetchDataAuth'
 import { LoadingBox } from './MiscControls';
 import AddTestSignatureForm from './AddTestSignatureForm';
-import { useRef, useContext } from 'react';
-import { AppContext } from '../contexts/AppContext';
+import { useRef } from 'react';
 
 const TestSignatureUsers = ({ petition, onSignatureSubmit, users, loading, error, errorMessage }) => {
     return (
@@ -26,22 +25,19 @@ const TestSignatureUsers = ({ petition, onSignatureSubmit, users, loading, error
 }
 
 const TestSignaturesList = ({ petition }) => {
-    const { authToken } = useContext(AppContext);
     const getSignatureParams = useRef({ petition_id : petition['id'] });
-    const { data:signatures, addData:addSignature, loading, error, errorMessage } = useFetchData({ 
+    const { data:signatures, addData:addSignature, loading, error, errorMessage } = useFetchDataAuth({ 
         url:'/api/signatures', 
-        getRequestParams:getSignatureParams.current,
-        authToken:authToken
+        getRequestParams:getSignatureParams.current
     });
 
     const getUsersParams = useRef(petition ? { petition_group_id : petition['petition_group_id'] } : {});
-    const { data:users, loading:uLoading, error:uError, errorMessage:uErrorMessage } = useFetchData({ 
-        url:'/api/users', getRequestParams:getUsersParams.current, authToken:authToken
+    const { data:users, loading:uLoading, error:uError, errorMessage:uErrorMessage } = useFetchDataAuth({ 
+        url:'/api/users', 
+        getRequestParams:getUsersParams.current
     });
 
     const onSignatureSubmit = (data) => {
-        console.log("onSignatureSubmit");
-        console.log(data);
         addSignature(data);
     }
 
@@ -73,10 +69,9 @@ const TestSignaturesList = ({ petition }) => {
 }
 
 const PetitionView = ({ basePath }) => {
-    const { authToken } = useContext(AppContext);
     const location = useLocation();
     const petitionId = location.pathname.replace(basePath, '');
-    const { data:petition, loading, error, errorMessage } = useFetchData({ url:`/api/petitions/${petitionId}`, authToken:authToken});
+    const { data:petition, loading, error, errorMessage } = useFetchDataAuth({ url:`/api/petitions/${petitionId}`});
 
     return (
         <section>

@@ -86,6 +86,21 @@ strong {
   flex-direction: column;
 }
 
+.add_petition_group_btn {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  background-color: #2196F3;
+  padding: 16px;
+}
+
+.add_petition_group_text {
+  border-style: none;
+  text-align: center;
+  text-decoration-line: none;
+  color: black;
+}
+
 .form_text_input {
   border-style: none;
 
@@ -102,7 +117,8 @@ strong {
   background-color: lightgray;
 }
 
-.form_submit_btn {
+.form_submit_btn,
+.simple_btn {
   border-style: none;
   padding: 20px;
   background-color: coral;
