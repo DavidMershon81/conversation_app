@@ -18,10 +18,6 @@ const UserHomeView = () => {
             <h2>User Home View</h2>
             <p>Welcome to the petition app!</p>
 
-            <p>Use this form to add a new petition group</p>
-            <AddPetitionGroupForm onSubmit={addGroup}/>
-            <LoadingBox loading={loading} error={error} errorMessage={errorMessage} />
-
             <p>Here are a list of the petition groups that you're a member of</p>
             <ul className='petition_groups_list_group'>
             {groups && groups.map((petitionGroup) => 
@@ -31,6 +27,10 @@ const UserHomeView = () => {
                 <span>{petitionGroup['group_name']}</span>
             </li>)}
             </ul>
+
+            <p>Use this form to add a new petition group</p>
+            <AddPetitionGroupForm onSubmit={addGroup}/>
+            <LoadingBox loading={loading} error={error} errorMessage={errorMessage} />
         </section>
     );
 }
