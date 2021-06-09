@@ -109,6 +109,9 @@ def get_users():
 def get_user(user_id):
     return User.query.filter_by(id=user_id).first()
 
+def get_users_with_ids(user_ids):
+    return User.query.filter(User.id.in_(user_ids)).all()
+
 def get_user_by_email(user_email):
     return User.query.filter_by(email=user_email).first()
 
