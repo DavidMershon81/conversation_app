@@ -10,18 +10,13 @@ def signature_to_dict(s):
 def signatures(current_user):
     print('signatures API')
     if request.method == 'GET':
-        petition_id = request.args['petition_id']
-        signatures = [signature_to_dict(p) for p in db.get_signatures(petition_id)]
-        return jsonify(signatures)
+        return get_revealed_signatures(request.args['petition_id'])
     elif request.method == 'POST':
         json = request.json
         new_signature = db.add_signature(petition_id=json['petition_id'], user_id=json['user_id'], reveal_threshold=json['reveal_threshold'])
         return signature_to_dict(new_signature)
 
-    
-@app.route('/api/test_revealed_signatures', methods=['GET'])
-def test_revealed_signatures():
-    petition_id = request.args['petition_id']
+def get_revealed_signatures(petition_id):
     signatures_raw = db.get_signatures(petition_id)
     revealed_sigs = signature_reveal.get_signatures_for_endpoint(signatures_raw)
     return jsonify(revealed_sigs)
