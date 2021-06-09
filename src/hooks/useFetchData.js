@@ -7,17 +7,6 @@ const useFetchData = ({ url, getRequestParams, authToken, requireAuth=true }) =>
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
-    const buildRequestConfig = useCallback((params) => {
-      const result = {};
-      if(authToken) {
-        result.headers = { 'Authorization' : authToken };
-      }
-      if(params) {
-        result.params = params
-      }
-      return result;
-    },[authToken]);
-
     const clearLoadingErrorStates = () => {
       setLoading(true);
       setError(false);
@@ -32,12 +21,16 @@ const useFetchData = ({ url, getRequestParams, authToken, requireAuth=true }) =>
 
     const getData = useCallback(() => {
       clearLoadingErrorStates();
-      const requstConfig = buildRequestConfig(getRequestParams);
+      const requstConfig = { 
+        'headers' : {'Authorization' : authToken},
+        'params' : getRequestParams
+      };
+
       axios.get(url, requstConfig).then((response) => {
         setData(response.data);
         setLoading(false);
       }, onResponseError);
-    }, [url, getRequestParams, buildRequestConfig])
+    }, [url, getRequestParams, authToken])
 
     useEffect(() => {
       if(authToken || !requireAuth) {
@@ -53,7 +46,9 @@ const useFetchData = ({ url, getRequestParams, authToken, requireAuth=true }) =>
 
     const postData = (newData, onResponse) => {
       clearLoadingErrorStates();
-      const requstConfig = buildRequestConfig();
+      const requstConfig = { 
+        'headers' : {'Authorization' : authToken} 
+      };
       axios.post(url, newData, requstConfig).then((response) => {
         setLoading(false);
         onResponse(response.data)

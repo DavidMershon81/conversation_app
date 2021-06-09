@@ -8,8 +8,8 @@ def signature_to_dict(s):
 @app.route('/api/signatures', methods=['GET', 'POST'])
 @tokens.token_required
 def signatures(current_user):
-    print('signatures API')
     if request.method == 'GET':
+        print(request.args)
         return get_revealed_signatures(request.args['petition_id'])
     elif request.method == 'POST':
         json = request.json
