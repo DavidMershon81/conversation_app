@@ -14,7 +14,7 @@ def get_highest_reveal_threshold(sigs):
   thresholds_set = get_thresholds_set(sigs)
   for thresh in thresholds_set:
     sbt = sigs_below_threshold(thresh, sigs)
-    reveal = len(sbt) >= thresh
+    reveal = len(sbt) > thresh
     if reveal:
       result = thresh
     else:

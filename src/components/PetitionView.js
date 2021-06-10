@@ -46,6 +46,7 @@ const DebugSignPetitionAsUserForm = ({ petition, user, onConfirm }) => {
             <p>id:{user['id']} | {user['email']} | {user['first_name']} {user['last_name']}</p>
             <AddTestSignatureForm onSubmit={onSubmit} petition={petition} user={user}/>
             {confirmMessage && <p>{confirmMessage}</p>}
+            <LoadingBox loading={loading} error={error} errorMessage={errorMessage}/>
         </li>
     );
 }

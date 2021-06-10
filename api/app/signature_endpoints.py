@@ -12,8 +12,11 @@ def signatures(current_user):
         return get_revealed_signatures(request.args['petition_id'])
     elif request.method == 'POST':
         json = request.json
-        user_signed = db.did_user_sign_petition(json['petition_id'], current_user)
+        wrong_user = current_user.id != int(json['user_id'])
+        print(f"current_user.id: {current_user.id} json['user_id']: {json['user_id']}")
+        user_signed = db.did_user_sign_petition(json['petition_id'], json['user_id'])
         print(f"user_signed: {user_signed}")
+        print(f"wrong_user: {wrong_user}")
         if user_signed:
             print('user already signed, returning error message')
             return jsonify({ 'message' : 'user_already_signed'}),403
@@ -30,5 +33,5 @@ def get_revealed_signatures(petition_id):
 @app.route('/api/user_signed', methods=['GET'])
 @tokens.token_required
 def user_signed(current_user):
-    user_signed = db.did_user_sign_petition(request.args['petition_id'], current_user)
+    user_signed = db.did_user_sign_petition(request.args['petition_id'], current_user.id)
     return jsonify({ 'user_signed' : user_signed})
