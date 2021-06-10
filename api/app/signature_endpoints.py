@@ -9,12 +9,18 @@ def signature_to_dict(s):
 @tokens.token_required
 def signatures(current_user):
     if request.method == 'GET':
-        print(request.args)
         return get_revealed_signatures(request.args['petition_id'])
     elif request.method == 'POST':
         json = request.json
-        new_signature = db.add_signature(petition_id=json['petition_id'], user_id=json['user_id'], reveal_threshold=json['reveal_threshold'])
-        return signature_to_dict(new_signature)
+        user_signed = db.did_user_sign_petition(json['petition_id'], current_user)
+        print(f"user_signed: {user_signed}")
+        if user_signed:
+            print('user already signed, returning error message')
+            return jsonify({ 'message' : 'user_already_signed'}),403
+        else:
+            print('adding new signature')
+            new_signature = db.add_signature(petition_id=json['petition_id'], user_id=json['user_id'], reveal_threshold=json['reveal_threshold'])
+            return signature_to_dict(new_signature)
 
 def get_revealed_signatures(petition_id):
     signatures_raw = db.get_signatures(petition_id)
