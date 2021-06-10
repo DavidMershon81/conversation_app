@@ -7,7 +7,7 @@ const AddPetitionGroupView = () => {
 
     return (
         <section>
-            <h2>Add Petition Group (user view)</h2>
+            <h2>Add Petition Group</h2>
             <p>Use this form to add a new petition group.</p>
             <AddPetitionGroupForm onSubmit={addGroup}/>
             <LoadingBox loading={loading} error={error} errorMessage={errorMessage} />

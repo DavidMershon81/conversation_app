@@ -1,9 +1,9 @@
-const SimpleButton = ({ id, text, onBtnClick }) => {
+const SimpleButton = ({ id, text, onBtnClick, className }) => {
     const onClick = () => {
         onBtnClick(id, text);
     }
 
-    return (<input type="button" className='simple_btn' onClick={onClick} value={text} />);
+    return (<button className={className} type="button" onClick={onClick}>{text}</button>);
 }
 
 const LoadingBox = ({ loading, error, errorMessage }) => {

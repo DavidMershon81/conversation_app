@@ -7,7 +7,7 @@ const HomeView = () => {
 
     return (
         <section>
-            <h2>Home (user view)</h2>
+            <h2>Home</h2>
             <p>Welcome to the petition app!</p>
 
             <p>Here are a list of the petition groups that you're a member of</p>
@@ -15,7 +15,6 @@ const HomeView = () => {
             {groups && groups.map((petitionGroup) => 
             <li className='petition_groups_list_item' key={petitionGroup['id']}>
                 <Link className='petition_groups_list_btn' to={`/petition_group/${petitionGroup['id']}`}>View</Link>
-                <span>id:{petitionGroup['id']}</span>
                 <span>{petitionGroup['group_name']}</span>
             </li>)}
             </ul>
