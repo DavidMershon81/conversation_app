@@ -60,6 +60,10 @@ def add_signature(petition_id, user_id, reveal_threshold):
 def get_signatures(petition_id):
     return Signature.query.filter_by(petition_id=petition_id).all()
 
+def did_user_sign_petition(petition_id, user):
+    matches = Signature.query.filter_by(petition_id=petition_id, user_id=user.id).all()
+    return len(matches) > 0
+
 def add_petition(petition_group_id, subject, petition_text):
     new_petition = Petition(petition_group_id=petition_group_id, subject=subject, petition_text=petition_text)
     db.session.add(new_petition)

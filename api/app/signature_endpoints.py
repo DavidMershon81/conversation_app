@@ -20,3 +20,9 @@ def get_revealed_signatures(petition_id):
     signatures_raw = db.get_signatures(petition_id)
     revealed_sigs = signature_reveal.get_signatures_for_endpoint(signatures_raw)
     return jsonify(revealed_sigs)
+
+@app.route('/api/user_signed', methods=['GET'])
+@tokens.token_required
+def user_signed(current_user):
+    user_signed = db.did_user_sign_petition(request.args['petition_id'], current_user)
+    return jsonify({ 'user_signed' : user_signed})
