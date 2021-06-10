@@ -35,6 +35,7 @@ const DebugSignPetitionAsUserForm = ({ petition, user, onConfirm }) => {
     const onSubmit = (formData) =>
     {
         console.log(formData);
+        setConfirmMessage("");
         signPetition(formData, () => {
             setConfirmMessage("signature submitted!");
             onConfirm();

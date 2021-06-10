@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import axios from 'axios';
 
 const usePostData = ({ url, authToken }) => {
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
