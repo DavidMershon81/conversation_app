@@ -100,7 +100,7 @@ def add_members(emails, petition_group_id):
     db.session.commit()
     return new_members
 
-def add_members_to_petition(json, petition_group_id):
+def add_members_to_petition_group(json, petition_group_id):
     member_emails = [ json[key] for key in json.keys() if 'custom_email_' in key ]
     return add_members(member_emails, petition_group_id)
 

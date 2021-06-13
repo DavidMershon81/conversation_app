@@ -34,7 +34,7 @@ def add_petition_group(json):
     listserv_email = 'custom_emails' if use_custom_emails else json['listserv_email']
     new_group = db.add_petition_group(group_name=json['group_name'], listserv_email=listserv_email)
     if use_custom_emails:
-        db.add_members_to_petition(json, new_group.id)
+        db.add_members_to_petition_group(json, new_group.id)
     return jsonify(group_to_dict(new_group))
 
 def group_to_dict(g):
