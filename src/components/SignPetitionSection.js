@@ -3,7 +3,7 @@ import { LoadingBox } from './MiscControls';
 import SignPetitionForm from './SignPetitionForm';
 import { useState } from 'react';
 
-const SignPetitionSection = ({ petition, user, onConfirm }) => {
+const SignPetitionSection = ({ petition, onConfirm }) => {    
     const { postData:signPetition, loading, error, errorMessage } = usePostDataAuth({ url:'/api/signatures', });
     const [confirmMessage, setConfirmMessage] = useState("");
 
