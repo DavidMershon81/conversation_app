@@ -11,7 +11,11 @@ def signatures(current_user):
     if request.method == 'GET':
         return get_revealed_signatures(request.args['petition_id'])
     elif request.method == 'POST':
-        return try_sign_petition(current_user, request.json['petition_id'], request.json['reveal_threshold'])
+        if not request.json or not 'petition_id' in request.json or not 'reveal_threshold' in request.json:
+            print('missing request parameters')
+            return jsonify({ 'message' : 'missing_request_parameters'}),403
+        else:
+            return try_sign_petition(current_user, request.json['petition_id'], request.json['reveal_threshold'])
 
 def try_sign_petition(current_user, petition_id, reveal_threshold):
     user_id = current_user.id

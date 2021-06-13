@@ -22,7 +22,7 @@ const App = () => {
   return (
     <Router>
       <div className="App">
-        <AppContext.Provider value={{ authToken, setAuthToken, setLoggedInUser }}>
+        <AppContext.Provider value={{ authToken, setAuthToken, loggedInUser, setLoggedInUser }}>
           <h1 className='top_heading_text'>Petition App Prototype</h1>
           <nav className='top_nav'>
             <Link className='nav_link' to='/debug/users'>Users(debug)</Link>

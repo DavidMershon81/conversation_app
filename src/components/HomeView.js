@@ -10,7 +10,8 @@ const HomeView = () => {
             <h2>Home</h2>
             <p>Welcome to the petition app!</p>
 
-            <p>Here are a list of the petition groups that you're a member of</p>
+            {groups && groups.length > 0 && <p>Here are a list of the petition groups that you're a member of</p>}
+            {groups && groups.length < 1 && <p>You are not a member of any petition groups yet. Would you like to create one?</p>}
             <ul className='petition_groups_list_group'>
             {groups && groups.map((petitionGroup) => 
             <li className='petition_groups_list_item' key={petitionGroup['id']}>
