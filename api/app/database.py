@@ -124,6 +124,11 @@ def get_petition_group_users(petition_group_id):
         filter(Member.email == User.email, Member.petition_group_id==petition_group_id).\
             with_entities(User.id, User.email, User.first_name, User.last_name).all()
 
+def get_petition_users(petition_id):
+    return db.session.query(Member,User,Petition).\
+        filter(Member.email == User.email, Member.petition_group_id==Petition.petition_group_id, Petition.id==petition_id).\
+            with_entities(User.id, User.email, User.first_name, User.last_name).all()
+
 def add_user(email, password, first_name, last_name):
     password_hashed = generate_password_hash(password)
     new_user = User(email=email, password=password_hashed, first_name=first_name, last_name=last_name)

@@ -11,19 +11,32 @@ def signatures(current_user):
     if request.method == 'GET':
         return get_revealed_signatures(request.args['petition_id'])
     elif request.method == 'POST':
-        json = request.json
-        wrong_user = current_user.id != int(json['user_id'])
-        print(f"current_user.id: {current_user.id} json['user_id']: {json['user_id']}")
-        user_signed = db.did_user_sign_petition(json['petition_id'], json['user_id'])
-        print(f"user_signed: {user_signed}")
-        print(f"wrong_user: {wrong_user}")
-        if user_signed:
-            print('user already signed, returning error message')
-            return jsonify({ 'message' : 'user_already_signed'}),403
-        else:
-            print('adding new signature')
-            new_signature = db.add_signature(petition_id=json['petition_id'], user_id=json['user_id'], reveal_threshold=json['reveal_threshold'])
-            return signature_to_dict(new_signature)
+        return try_sign_petition(current_user, request.json)
+
+def try_sign_petition(current_user, json):
+    wrong_user = current_user.id != int(json['user_id'])
+    user_signed = db.did_user_sign_petition(json['petition_id'], json['user_id'])
+    petition_users = db.get_petition_users(json['petition_id'])
+    petition_user_ids = [u.id for u in petition_users]
+    not_in_group = int(json['user_id']) not in petition_user_ids
+
+    print(f"current_user.id: {current_user.id} json['user_id']: {json['user_id']}")
+    print(f"wrong_user: {wrong_user}")
+    for pu in petition_users:
+        print(pu)
+    print(f"wrong_user: {wrong_user}")
+    print(f"not_in_group: {not_in_group}")
+
+    if user_signed:
+        print('user already signed, returning error message')
+        return jsonify({ 'message' : 'user_already_signed'}),403
+    elif not_in_group:
+        print('user not in petition group, returning error message')
+        return jsonify({ 'message' : 'user_not_in_group'}),403
+    else:
+        print('adding new signature')
+        new_signature = db.add_signature(petition_id=json['petition_id'], user_id=json['user_id'], reveal_threshold=json['reveal_threshold'])
+        return signature_to_dict(new_signature)
 
 def get_revealed_signatures(petition_id):
     signatures_raw = db.get_signatures(petition_id)

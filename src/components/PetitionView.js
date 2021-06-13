@@ -6,10 +6,10 @@ import AddTestSignatureForm from './AddTestSignatureForm';
 import { useRef, useState } from 'react';
 
 const TestSignatureUsers = ({ petition, onConfirm }) => {
-    const getUsersParams = useRef(petition ? { petition_group_id : petition['petition_group_id'] } : {});
+    //const getUsersParams = useRef(petition ? { petition_group_id : petition['petition_group_id'] } : {});
     const { data:users, loading, error, errorMessage } = useFetchDataAuth({ 
-        url:'/api/users', 
-        getRequestParams:getUsersParams.current
+        url:'/api/users'//, 
+        //getRequestParams:getUsersParams.current
     });
 
     return (
