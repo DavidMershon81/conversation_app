@@ -37,7 +37,7 @@ const SignaturesList = ({ petition }) => {
                 </li>)}
 
                 </ul>
-                <SignPetitionSection petition={petition} user='doop' onConfirm={getSignatures} />
+                <SignPetitionSection petition={petition} onConfirm={getSignatures} />
             </>}
         </section>
     );

@@ -1,25 +1,17 @@
-import usePostDataAuth from   '../hooks/usePostDataAuth'
+import { usePostDataAuth } from   '../hooks/usePostData';
 import { LoadingBox } from './MiscControls';
 import SignPetitionForm from './SignPetitionForm';
-import { useState } from 'react';
 
 const SignPetitionSection = ({ petition, onConfirm }) => {    
-    const { postData:signPetition, loading, error, errorMessage } = usePostDataAuth({ url:'/api/signatures', });
-    const [confirmMessage, setConfirmMessage] = useState("");
-
-    const onSubmit = (formData) =>
-    {
-        console.log(formData);
-        setConfirmMessage("");
-        signPetition(formData, () => {
-            setConfirmMessage("signature submitted!");
-            onConfirm();
-        });
-    }
+    const { post, confirmMessage, loading, error, errorMessage } = usePostDataAuth({ 
+        url:'/api/signatures', 
+        onConfirm:onConfirm,
+        confirmText:'Submitted Signature'
+    });
 
     return (
         <section className='users_list_item test_signature_user_box'>
-            <SignPetitionForm onSubmit={onSubmit} petition={petition} />
+            <SignPetitionForm onSubmit={post} petition={petition} />
             {confirmMessage && <p>{confirmMessage}</p>}
             <LoadingBox loading={loading} error={error} errorMessage={errorMessage}/>
         </section>
