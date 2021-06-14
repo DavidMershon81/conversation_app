@@ -99,19 +99,36 @@ strong {
   flex-direction: column;
 }
 
-.add_petition_group_btn {
+.petition_group_view {
+  display: flex;
+  flex-direction: column;
+}
+
+.petition_group_section {
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.add_petition_group_btn,
+.full_width_btn {
   display: flex;
   flex-direction: column;
   text-align: center;
   background-color: #2196F3;
   padding: 16px;
+  border-style: none;
+  cursor: pointer;
+  font-size: 16px;
 }
 
-.add_petition_group_text {
+.add_petition_group_text,
+.add_petition_btn_text {
   border-style: none;
   text-align: center;
   text-decoration-line: none;
   color: black;
+  font-size: 16px;
 }
 
 .form_text_input {
@@ -130,12 +147,11 @@ strong {
   background-color: lightgray;
 }
 
-.form_submit_btn,
-.simple_btn {
+.form_submit_btn {
   border-style: none;
   padding: 20px;
   background-color: coral;
-  font-size: 1em;
+  font-size: 16px;
   cursor: pointer;
 }
 
@@ -154,7 +170,7 @@ strong {
   display:flex;
   border-style: none;
   padding: 10px;
-  font-size: 20px;
+  font-size: 16px;
   background-color: lightgray; 
   text-decoration-line: none;
   color:black;
@@ -177,7 +193,7 @@ strong {
   border-style: none;
   padding: 5px;
   margin:0px;
-  font-size: 20px;
+  font-size: 16px;
   text-align: center;
   text-decoration-line: none;
   color: lightgray;
@@ -201,7 +217,7 @@ strong {
   border-style: none;
   padding: 20px;
   background-color: #2196F3;
-  font-size: 1em;
+  font-size: 16px;
   cursor: pointer;
 }
 /* Everything below this is just custom checkmark code for the radio buttons */
