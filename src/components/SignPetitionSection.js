@@ -3,7 +3,7 @@ import { LoadingBox } from './MiscControls';
 import SignPetitionForm from './SignPetitionForm';
 
 const SignPetitionSection = ({ petition, onConfirm }) => {    
-    const { post, confirmMessage, loading, error, errorMessage } = usePostDataAuth({ 
+    const { post:postSignature, confirmMessage, loading, error, errorMessage } = usePostDataAuth({ 
         url:'/api/signatures', 
         onConfirm:onConfirm,
         confirmText:'Submitted Signature'
@@ -11,7 +11,7 @@ const SignPetitionSection = ({ petition, onConfirm }) => {
 
     return (
         <section className='users_list_item test_signature_user_box'>
-            <SignPetitionForm onSubmit={post} petition={petition} />
+            <SignPetitionForm onSubmit={postSignature} petition={petition} />
             {confirmMessage && <p>{confirmMessage}</p>}
             <LoadingBox loading={loading} error={error} errorMessage={errorMessage}/>
         </section>

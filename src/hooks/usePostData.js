@@ -30,7 +30,10 @@ const usePostData = ({ url, authToken, onConfirm, confirmText }) => {
             setLoading(false);
             setResponseData(response.data);
             setConfirmMessage(confirmText);
-            onConfirm();
+
+            if(onConfirm) {
+                onConfirm();
+            }
         }, onResponseError);
     }
 
