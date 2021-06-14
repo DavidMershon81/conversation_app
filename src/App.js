@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import DebugUsersView from './components/DebugUsersView';
 import PetitionGroupView from './components/PetitionGroupView';
 import AddPetitionGroupView from './components/AddPetitionGroupView';
+import AddPetitionView from './components/AddPetitionView';
 import PetitionView from './components/PetitionView';
 import LoginView from './components/LoginView';
 import HomeView from './components/HomeView';
@@ -36,6 +37,7 @@ const App = () => {
           <Route path='/home' exact component={HomeView} />
           <Route path='/petition_group/' render={ () => (<PetitionGroupView basePath='/petition_group/' />)} />
           <Route path='/add_petition_group/' exact component={AddPetitionGroupView} />
+          <Route path='/add_petition/' render={ () => (<AddPetitionView basePath='/add_petition/' />)} />
           <Route path='/petitions/' render={ () => (<PetitionView basePath='/petitions/' />)} />
           <Route path='/debug/users' exact component={DebugUsersView} />
         </AppContext.Provider>

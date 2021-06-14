@@ -1,12 +1,11 @@
 import { useLocation, Link } from 'react-router-dom';
 import useFetchDataAuth from  '../hooks/useFetchDataAuth'
 import { LoadingBox } from './MiscControls';
-import AddPetitionForm from './AddPetitionForm';
 import { useRef } from 'react';
 
 const PetitionGroupPetitionsSection = ({ petitionGroupId }) => {
     const getRequestParams = useRef({ petition_group_id : petitionGroupId });
-    const { data:petitions, addData:addPetition, loading, error, errorMessage } = useFetchDataAuth({ 
+    const { data:petitions, loading, error, errorMessage } = useFetchDataAuth({ 
         url:'/api/petitions', 
         getRequestParams:getRequestParams.current
     });
@@ -15,7 +14,6 @@ const PetitionGroupPetitionsSection = ({ petitionGroupId }) => {
       <>
       <br/><strong>Petitions</strong>
       <LoadingBox loading={loading} error={error} errorMessage={errorMessage} />
-      <AddPetitionForm petitionGroupId={petitionGroupId} onSubmit={addPetition} />
       <ul className='petitions_list_group'>
       { (petitions && petitions.length > 0) ? petitions.map((petition, index) => 
         <li className='petitions_list_item' key={index}>
@@ -25,6 +23,9 @@ const PetitionGroupPetitionsSection = ({ petitionGroupId }) => {
         <p>This group has no petition yet.</p>
       }
       </ul>
+        {petitions && <div className='add_petition_group_btn'>
+          <Link className='add_petition_group_text' to={`/add_petition/${petitionGroupId}`}>Add New Petition</Link>
+        </div>}
       </>
     );
 };
