@@ -1,13 +1,18 @@
 import useFetchDataAuth from  '../hooks/useFetchDataAuth'
 import { LoadingBox } from './MiscControls';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import { useContext } from 'react';
+import { AppContext } from '../contexts/AppContext';
 
 const HomeView = () => {
+    const { loggedInUser } = useContext(AppContext);
     const { data:groups, loading, error, errorMessage } = useFetchDataAuth({ url:'/api/petition_groups'});
 
+    if(!loggedInUser) {
+        return <Redirect to='/login' />
+    }
     return (
         <section>
-            <h2>Home</h2>
             <p>Welcome to the petition app!</p>
 
             {groups && groups.length > 0 && <p>Here are a list of the petition groups that you're a member of</p>}

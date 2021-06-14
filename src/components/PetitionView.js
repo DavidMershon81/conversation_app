@@ -1,8 +1,9 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, Redirect } from 'react-router-dom';
 import useFetchDataAuth from  '../hooks/useFetchDataAuth'
 import { LoadingBox } from './MiscControls';
 import SignPetitionSection from './SignPetitionSection';
-import { useRef } from 'react';
+import { useRef, useContext } from 'react';
+import { AppContext } from '../contexts/AppContext';
 
 const SignaturesList = ({ petition }) => {
     const getSignatureParams = useRef({ petition_id : petition['id'] });
@@ -44,10 +45,14 @@ const SignaturesList = ({ petition }) => {
 }
 
 const PetitionView = ({ basePath }) => {
+    const { loggedInUser } = useContext(AppContext);
     const location = useLocation();
     const petitionId = location.pathname.replace(basePath, '');
     const { data:petition, loading, error, errorMessage } = useFetchDataAuth({ url:`/api/petitions/${petitionId}`});
 
+    if(!loggedInUser) {
+        return <Redirect to='/login' />
+    }
     return (
         <section>
             <LoadingBox loading={loading} error={error} errorMessage={errorMessage}/>

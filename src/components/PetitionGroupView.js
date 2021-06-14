@@ -1,7 +1,8 @@
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link, Redirect } from 'react-router-dom';
 import useFetchDataAuth from  '../hooks/useFetchDataAuth'
 import { LoadingBox } from './MiscControls';
-import { useRef } from 'react';
+import { useRef, useContext } from 'react';
+import { AppContext } from '../contexts/AppContext';
 
 const PetitionGroupPetitionsSection = ({ petitionGroupId }) => {
     const getRequestParams = useRef({ petition_group_id : petitionGroupId });
@@ -61,20 +62,24 @@ return (
 };
 
 const PetitionGroupView = ({ basePath }) => {
-    const location = useLocation();
-    const petitionGroupId = location.pathname.replace(basePath, '');
-    const { data:petitionGroup, loading, error, errorMessage } = useFetchDataAuth({ url:`/api/petition_groups/${petitionGroupId}` });
+  const { loggedInUser } = useContext(AppContext);
+  const location = useLocation();
+  const petitionGroupId = location.pathname.replace(basePath, '');
+  const { data:petitionGroup, loading, error, errorMessage } = useFetchDataAuth({ url:`/api/petition_groups/${petitionGroupId}` });
 
-    return (
-        <section>
-            <LoadingBox loading={loading} error={error} errorMessage={errorMessage} />
-            { petitionGroup && (<>
-            <h2>Petition Group: {petitionGroup.group_name}</h2>
-            <PetitionGroupSummary petitionGroup={petitionGroup} />
-            <PetitionGroupMembersList petitionGroupId={petitionGroupId} />
-            <PetitionGroupPetitionsSection petitionGroupId={petitionGroup['id']} /></>) }
-        </section>
-    );
+  if(!loggedInUser) {
+    return <Redirect to='/login' />
+  }
+  return (
+      <section>
+          <LoadingBox loading={loading} error={error} errorMessage={errorMessage} />
+          { petitionGroup && (<>
+          <h2>Petition Group: {petitionGroup.group_name}</h2>
+          <PetitionGroupSummary petitionGroup={petitionGroup} />
+          <PetitionGroupMembersList petitionGroupId={petitionGroupId} />
+          <PetitionGroupPetitionsSection petitionGroupId={petitionGroup['id']} /></>) }
+      </section>
+  );
 }
 
 export default PetitionGroupView;
