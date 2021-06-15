@@ -3,26 +3,20 @@ import LoginForm from './LoginForm';
 import { LoadingBox } from './MiscControls';
 import { useContext } from 'react'
 import { AppContext } from '../contexts/AppContext';
-import { useHistory, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 const LoginView = () => {
-    const history = useHistory();
-    const onLoginConfirm = () => {
-        history.push('/');
-    }
-
     const { loggedInUser, setLoggedInUser } = useContext(AppContext);
     const { triedLogin, tryLogin, loading, error, errorMessage } = useLogin({ 
         url:'/api/login', 
-        setLoggedInUser:setLoggedInUser,
-        onConfirm:onLoginConfirm
+        setLoggedInUser:setLoggedInUser
     });
 
     const submitLogin = (formData) => {
         tryLogin(formData.email, formData.password);
     };
 
-    if(loggedInUser) {
+    if(!loading && loggedInUser) {
         return <Redirect to='/' />
     }
     return (
