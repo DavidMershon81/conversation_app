@@ -16,7 +16,7 @@ const LoginView = () => {
         tryLogin(formData.email, formData.password);
     };
 
-    if(!loading && loggedInUser) {
+    if((!loading || !triedLogin) && loggedInUser) {
         return <Redirect to='/' />
     }
     return (
