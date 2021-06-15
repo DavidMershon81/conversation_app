@@ -1,7 +1,10 @@
-from flask import Flask
+from flask import Flask, session
+from dotenv import dotenv_values
 
 #init flask app
 app = Flask(__name__, static_folder='../../build', static_url_path='/')
+config = dotenv_values("app_env")
+app.config['SECRET_KEY'] = config['SECRET_KEY']
 
 from app import database as db
 db.connect()

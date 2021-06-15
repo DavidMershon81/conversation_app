@@ -1,14 +1,14 @@
 import { useLocation, Link, Redirect } from 'react-router-dom';
-import useFetchDataAuth from  '../hooks/useFetchDataAuth'
+import useGetData from  '../hooks/useGetData'
 import { LoadingBox, SimpleButton } from './MiscControls';
 import { useRef, useContext, useState } from 'react';
 import { AppContext } from '../contexts/AppContext';
 
 const PetitionGroupPetitionsSection = ({ petitionGroupId }) => {
-  const getRequestParams = useRef({ petition_group_id : petitionGroupId });
-  const { data:petitions, loading, error, errorMessage } = useFetchDataAuth({ 
+  const requestParams = useRef({ petition_group_id : petitionGroupId });
+  const { data:petitions, loading, error, errorMessage } = useGetData({ 
       url:'/api/petitions', 
-      getRequestParams:getRequestParams.current
+      params:requestParams.current
   });
     
   return (
@@ -32,10 +32,10 @@ const PetitionGroupPetitionsSection = ({ petitionGroupId }) => {
 };
 
 const PetitionGroupMembersSection = ({ petitionGroupId }) => {
-  const getRequestParams = useRef({ petition_group_id : petitionGroupId });
-  const { data:members, loading, error, errorMessage } = useFetchDataAuth({ 
+  const requestParams = useRef({ petition_group_id : petitionGroupId });
+  const { data:members, loading, error, errorMessage } = useGetData({ 
       url:'/api/members', 
-      getRequestParams:getRequestParams.current
+      params:requestParams.current
   });
 
   const [showMembers, setShowMembers] = useState(false);
@@ -73,7 +73,7 @@ const PetitionGroupView = ({ basePath }) => {
   const { loggedInUser } = useContext(AppContext);
   const location = useLocation();
   const petitionGroupId = location.pathname.replace(basePath, '');
-  const { data:petitionGroup, loading, error, errorMessage } = useFetchDataAuth({ url:`/api/petition_groups/${petitionGroupId}` });
+  const { data:petitionGroup, loading, error, errorMessage } = useGetData({ url:`/api/petition_groups/${petitionGroupId}` });
 
   if(!loggedInUser) {
     return <Redirect to='/login' />

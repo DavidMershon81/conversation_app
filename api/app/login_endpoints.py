@@ -1,5 +1,5 @@
 from flask import request, make_response, jsonify
-from app import app, tokens
+from app import app, tokens, session
 from app import database as db
 from werkzeug.security import check_password_hash
 
@@ -14,7 +14,9 @@ def login():
     if login_user:
         password_matches = check_password_hash(login_user.password, auth.password)
         if password_matches:
-            return tokens.generate_token(auth.username)
+            session['user_email'] = auth.username
+            return jsonify({'message' : 'login_successful'})
+            #return tokens.generate_token(auth.username)
         else:
             return __invalid_login()
     else:
@@ -24,11 +26,13 @@ def __invalid_login():
     response_message = jsonify({'message' : 'invalid login'})
     return make_response(response_message, 401, {'WWW-Authenticate' : 'Basic realm="Login Required"'})
 
-@app.route('/api/unprotected', methods=['GET'])
-def unprotected():
-    return jsonify({'message' : 'anyone can read this'})
+@app.route('/api/set/<value>')
+def set_session(value):
+    session['value'] = value
+    return f"set value to {value}"
 
-@app.route('/api/protected', methods=['GET'])
-@tokens.token_required
-def protected(current_user):
-    return jsonify({'message' : 'only people with a token can read this', 'current_user.email' : current_user.email })
+@app.route('/api/get')
+def get_session():
+    session_value = session.get('value')
+    return f"the value in the session is: {session_value}"
+

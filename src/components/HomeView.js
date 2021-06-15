@@ -1,4 +1,4 @@
-import useFetchDataAuth from  '../hooks/useFetchDataAuth'
+import useGetData from  '../hooks/useGetData'
 import { LoadingBox } from './MiscControls';
 import { Link, Redirect } from 'react-router-dom';
 import { useContext } from 'react';
@@ -6,7 +6,7 @@ import { AppContext } from '../contexts/AppContext';
 
 const HomeView = () => {
     const { loggedInUser } = useContext(AppContext);
-    const { data:groups, loading, error, errorMessage } = useFetchDataAuth({ url:'/api/petition_groups'});
+    const { data:groups, loading, error, errorMessage } = useGetData({ url:'/api/petition_groups' });
 
     if(!loggedInUser) {
         return <Redirect to='/login' />
