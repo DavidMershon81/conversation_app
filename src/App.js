@@ -9,15 +9,33 @@ import LoginView from './components/LoginView';
 import HomeView from './components/HomeView';
 import TopNavSection from './components/TopNavSection';
 import { AppContext } from './contexts/AppContext';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import useGetData from  './hooks/useGetData';
+import usePostData from  './hooks/usePostData';
+import { LoadingBox } from './components/MiscControls'; 
 
 const App = () => {
-  const [authToken, setAuthToken] = useState("");
-  const [loggedInUser, setLoggedInUser] = useState("");
+  const [loggedInUser, setLoggedInUser] = useState(null);
+  const onLogoutConfirm = () => {
+    setLoggedInUser(null);
+  }
+  const { data:login_info, loading, error, errorMessage } = useGetData({ url:'/api/get_current_user' });
+  const { post:logout } = usePostData({ 
+    url:'/api/logout',
+    onConfirm:onLogoutConfirm
+  });
+  
+  useEffect(() => {
+    if(login_info) {
+      setLoggedInUser(login_info.user_email);
+    }
+  },[login_info]);
 
   return (
       <div className="App">
-          <AppContext.Provider value={{ authToken, setAuthToken, loggedInUser, setLoggedInUser }}>
+          <AppContext.Provider value={{ loggedInUser, setLoggedInUser, logout }}>
+            { !error && <LoadingBox loading={loading} error={error} errorMessage={errorMessage} /> }
+            {!loading && 
             <Router>
               <TopNavSection />
               <Switch>
@@ -29,7 +47,7 @@ const App = () => {
                 <Route path='/petitions/' component={ () => <PetitionView basePath='/petitions/' />} />
                 <Route exact path='/debug/users' component={DebugUsersView} />
               </Switch>
-            </Router>    
+            </Router>}
           </AppContext.Provider>
       </div>
   );

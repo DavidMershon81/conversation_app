@@ -1,7 +1,5 @@
 import { useState } from 'react'
 import axios from 'axios';
-import { useContext } from 'react';
-import { AppContext } from '../contexts/AppContext';
 
 const usePostData = ({ url, authToken, onConfirm, confirmText }) => {
     const [loading, setLoading] = useState(false);
@@ -40,9 +38,4 @@ const usePostData = ({ url, authToken, onConfirm, confirmText }) => {
     return { post, responseData, loading, error, confirmMessage, errorMessage  };
 }
 
-const usePostDataAuth = ({ url, onConfirm, confirmText }) => {
-    const { authToken } = useContext(AppContext);
-    return usePostData({ url:url, authToken:authToken, onConfirm, confirmText });
-};
-
-export { usePostData, usePostDataAuth };
+export default usePostData;

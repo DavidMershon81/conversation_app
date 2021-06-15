@@ -35,7 +35,7 @@ const PetitionGroupMembersSection = ({ petitionGroupId }) => {
   const requestParams = useRef({ petition_group_id : petitionGroupId });
   const { data:members, loading, error, errorMessage } = useGetData({ 
       url:'/api/members', 
-      params:requestParams.current
+      params:requestParams.current,
   });
 
   const [showMembers, setShowMembers] = useState(false);
@@ -73,7 +73,9 @@ const PetitionGroupView = ({ basePath }) => {
   const { loggedInUser } = useContext(AppContext);
   const location = useLocation();
   const petitionGroupId = location.pathname.replace(basePath, '');
-  const { data:petitionGroup, loading, error, errorMessage } = useGetData({ url:`/api/petition_groups/${petitionGroupId}` });
+  const { data:petitionGroup, loading, error, errorMessage } = useGetData({ 
+    url:`/api/petition_groups/${petitionGroupId}`
+  });
 
   if(!loggedInUser) {
     return <Redirect to='/login' />

@@ -1,4 +1,4 @@
-import { usePostDataAuth } from   '../hooks/usePostData';
+import usePostData from '../hooks/usePostData';
 import AddPetitionGroupForm from './AddPetitionGroupForm';
 import { LoadingBox } from './MiscControls';
 import { Redirect } from 'react-router-dom';
@@ -7,7 +7,7 @@ import { AppContext } from '../contexts/AppContext';
 
 const AddPetitionGroupView = () => {
     const { loggedInUser } = useContext(AppContext);
-    const { post:postGroup, confirmMessage, loading, error, errorMessage } = usePostDataAuth({ 
+    const { post:postGroup, confirmMessage, loading, error, errorMessage } = usePostData({ 
         url:'/api/petition_groups', 
         confirmText:'Added Petition Group'
     });

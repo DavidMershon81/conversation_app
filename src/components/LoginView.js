@@ -3,7 +3,7 @@ import LoginForm from './LoginForm';
 import { LoadingBox } from './MiscControls';
 import { useContext } from 'react'
 import { AppContext } from '../contexts/AppContext';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Redirect } from 'react-router-dom';
 
 const LoginView = () => {
     const history = useHistory();
@@ -11,10 +11,9 @@ const LoginView = () => {
         history.push('/');
     }
 
-    const { authToken, setAuthToken, setLoggedInUser } = useContext(AppContext);
+    const { loggedInUser, setLoggedInUser } = useContext(AppContext);
     const { triedLogin, tryLogin, loading, error, errorMessage } = useLogin({ 
         url:'/api/login', 
-        setAuthToken:setAuthToken,
         setLoggedInUser:setLoggedInUser,
         onConfirm:onLoginConfirm
     });
@@ -23,12 +22,15 @@ const LoginView = () => {
         tryLogin(formData.email, formData.password);
     };
 
+    if(loggedInUser) {
+        return <Redirect to='/' />
+    }
     return (
         <section>
             <h2>Login</h2>
-            { !authToken && <LoginForm onSubmit={submitLogin}/> }
+            { !loggedInUser && <LoginForm onSubmit={submitLogin}/> }
             { triedLogin && <LoadingBox loading={loading} error={error} errorMessage={errorMessage} /> }
-            { authToken && <p>logged in.</p>}
+            { loggedInUser && <p>logged in.</p>}
         </section>
     );
 }

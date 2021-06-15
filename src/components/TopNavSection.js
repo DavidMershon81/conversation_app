@@ -5,11 +5,10 @@ import { useContext } from 'react'
 import { AppContext } from '../contexts/AppContext';
 
 const TopNavSection = () => {
-    const { loggedInUser, setAuthToken, setLoggedInUser } = useContext(AppContext);
+    const { loggedInUser, logout } = useContext(AppContext);
 
     const onLogout = (id, text) => {
-        setAuthToken("");
-        setLoggedInUser("");
+        logout();
     };
 
     return (

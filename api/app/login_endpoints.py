@@ -26,13 +26,16 @@ def __invalid_login():
     response_message = jsonify({'message' : 'invalid login'})
     return make_response(response_message, 401, {'WWW-Authenticate' : 'Basic realm="Login Required"'})
 
-@app.route('/api/set/<value>')
-def set_session(value):
-    session['value'] = value
-    return f"set value to {value}"
 
-@app.route('/api/get')
-def get_session():
-    session_value = session.get('value')
-    return f"the value in the session is: {session_value}"
+@app.route('/api/get_current_user')
+@tokens.token_required
+def get_current_user(current_user):
+    return jsonify({ "user_email" : current_user.email })
+
+@app.route('/api/logout', methods=['POST'])
+@tokens.token_required
+def logout(current_user):
+    print('hit logout endpoint')
+    session.clear()
+    return jsonify({'message' : 'logout_successful'}) 
 

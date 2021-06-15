@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import axios from 'axios';
 
-const useLogin = ({ url, setAuthToken, setLoggedInUser, onConfirm }) => {
+const useLogin = ({ url, setLoggedInUser, onConfirm }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
@@ -14,7 +14,6 @@ const useLogin = ({ url, setAuthToken, setLoggedInUser, onConfirm }) => {
         setTriedLogin(true);
         const requstConfig =  { auth:{ "username" : username, "password" : password } };
         axios.get(url, requstConfig).then((response) => {
-            setAuthToken(response.data.token);
             setLoggedInUser(username);
             setLoading(false);
             onConfirm();

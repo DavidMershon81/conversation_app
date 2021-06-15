@@ -1,9 +1,9 @@
-import { usePostDataAuth } from   '../hooks/usePostData';
+import usePostData from '../hooks/usePostData';
 import { LoadingBox } from './MiscControls';
 import SignPetitionForm from './SignPetitionForm';
 
 const SignPetitionSection = ({ petition, onConfirm }) => {    
-    const { post:postSignature, confirmMessage, loading, error, errorMessage } = usePostDataAuth({ 
+    const { post:postSignature, confirmMessage, loading, error, errorMessage } = usePostData({ 
         url:'/api/signatures', 
         onConfirm:onConfirm,
         confirmText:'Submitted Signature'

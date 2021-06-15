@@ -17,18 +17,14 @@ const useGetData = ({ url, params }) => {
         setLoading(true);
         setError(false);
         setErrorMessage("");
-        const requstConfig = { 
-        'params' : params
-        };
-
-        axios.get(url, requstConfig).then((response) => {
-            setData(response.data);
-            setLoading(false);
-      }, onResponseError);
+        axios.get(url, { 'params' : params }).then((response) => {
+          setData(response.data);
+          setLoading(false);
+        }, onResponseError);
     }, [url, params])
 
     useEffect(() => {
-        getData();
+      getData();
     },[getData]);
 
     return { data, getData, loading, error, errorMessage };
