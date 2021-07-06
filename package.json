@@ -16,7 +16,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "start-api": "cd api && env/bin/python run.py",
+    "start-api": "cd api && env/bin/python3 run.py",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
