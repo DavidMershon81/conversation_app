@@ -6,6 +6,7 @@ import AddPetitionGroupView from './components/AddPetitionGroupView';
 import AddPetitionView from './components/AddPetitionView';
 import PetitionView from './components/PetitionView';
 import LoginView from './components/LoginView';
+import RegisterView from './components/RegisterView';
 import HomeView from './components/HomeView';
 import TopNavSection from './components/TopNavSection';
 import { AppContext } from './contexts/AppContext';
@@ -41,6 +42,7 @@ const App = () => {
               <Switch>
                 <Route exact path='/' component={HomeView} />
                 <Route exact path='/login' component={LoginView} />
+                <Route exact path='/register' component={RegisterView} />
                 <Route path='/petition_group/' component={ () => <PetitionGroupView basePath='/petition_group/' />} />
                 <Route exact path='/add_petition_group/'  component={AddPetitionGroupView} />
                 <Route path='/add_petition/' component={ () => <AddPetitionView basePath='/add_petition/' />} />

@@ -3,7 +3,7 @@ import LoginForm from './LoginForm';
 import { LoadingBox } from './MiscControls';
 import { useContext } from 'react'
 import { AppContext } from '../contexts/AppContext';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 
 const LoginView = () => {
     const { loggedInUser, setLoggedInUser } = useContext(AppContext);
@@ -25,6 +25,7 @@ const LoginView = () => {
             { !loggedInUser && <LoginForm onSubmit={submitLogin}/> }
             { triedLogin && <LoadingBox loading={loading} error={error} errorMessage={errorMessage} /> }
             { loggedInUser && <p>logged in.</p>}
+            <p>Don't have an account yet?<Link className='inline_link' to={`/register`}>Register A New Account</Link></p>
         </section>
     );
 }
