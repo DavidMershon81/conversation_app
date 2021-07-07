@@ -28,9 +28,14 @@ def add_user(json):
     params_present = utilities.check_required_params(request_params=json, required_params=['email','password','first_name','last_name'])
     if not params_present:
         return jsonify({'message' : 'missing required json params!'}), 403    
-    #new_user = db.add_user(json['email'], json['password'], json['first_name'], json['last_name'])
-    #return jsonify(user_to_dict(new_user))
-    return "disabled user adding, but a user would have been added here"
+    
+    user_email =json['email']
+    user_already_exists = db.get_user_by_email(user_email=user_email)
+    if(user_already_exists):
+        return jsonify({'message' : f"user with email {user_email} already exists"}), 403 
+    
+    new_user = db.add_user(user_email, json['password'], json['first_name'], json['last_name'])
+    return jsonify(user_to_dict(new_user))
 
 @app.route('/api/users/<user_id>', methods=['GET'])
 def user(user_id):
