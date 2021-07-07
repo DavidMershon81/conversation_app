@@ -119,9 +119,6 @@ def get_user_by_email(user_email):
 def get_users_with_ids(user_ids):
     return User.query.filter(User.id.in_(user_ids)).all()
 
-def get_user_by_email(user_email):
-    return User.query.filter_by(email=user_email).first()
-
 def get_petition_group_users(petition_group_id):
     return db.session.query(Member,User).\
         filter(Member.email == User.email, Member.petition_group_id==petition_group_id).\
