@@ -9,7 +9,7 @@ const RegisterUserForm = ({ onSubmit }) => {
     };
 
     const onValidateConfirmPass = (value) => {
-        return getValues('password') == value;
+        return getValues('password') === value;
     }
 
     return (

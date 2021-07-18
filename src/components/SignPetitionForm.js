@@ -1,11 +1,8 @@
 import { useForm } from 'react-hook-form';
 import { FormTextInput, FormHiddenInput } from './FormControls';
 import { FormContext } from '../contexts/FormContext';
-import { useContext } from 'react';
-import { AppContext } from '../contexts/AppContext';
 
 const SignPetitionForm = ({ onSubmit, petition }) => {
-    const { loggedInUser } = useContext(AppContext);
     const { register, unregister, handleSubmit, formState: { errors }, watch } = useForm();
     const onSubmitClick = (data) => {
         onSubmit(data);
