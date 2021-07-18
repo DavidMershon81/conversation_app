@@ -1,12 +1,12 @@
 from flask import request, jsonify
-from app import app, tokens
+from app import app, session_check
 from app import database as db
 
 def petition_to_dict(p):
     return { 'id':p.id, 'petition_group_id' : p.petition_group_id, 'subject':p.subject, 'petition_text':p.petition_text }
 
 @app.route('/api/petitions', methods=['GET', 'POST'])
-@tokens.token_required
+@session_check.session_required
 def petitions(current_user):
     if request.method == 'GET':
         petition_group_id = request.args['petition_group_id']
@@ -18,7 +18,7 @@ def petitions(current_user):
         return petition_to_dict(new_petition)
 
 @app.route('/api/petitions/<petition_id>', methods=['GET'])
-@tokens.token_required
+@session_check.session_required
 def petition(current_user, petition_id):
     petition = db.get_petition(petition_id)
     return jsonify(petition_to_dict(petition))

@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from app import app, tokens
+from app import app, session_check
 from app import database as db
 
 @app.route('/api/debug/petition_groups', methods=['GET', 'POST'])
@@ -10,7 +10,7 @@ def debug_petition_groups():
         return add_petition_group(request.json)
 
 @app.route('/api/petition_groups', methods=['GET', 'POST'])
-@tokens.token_required
+@session_check.session_required
 def petition_groups(current_user):
     if request.method == 'GET':
         return get_petition_groups_by_user(current_user)
@@ -18,7 +18,7 @@ def petition_groups(current_user):
         return add_petition_group(request.json)
 
 @app.route('/api/petition_groups/<petition_group_id>', methods=['GET'])
-@tokens.token_required
+@session_check.session_required
 def petition_group(current_user, petition_group_id):
     petition_group = db.get_petition_group(petition_group_id)
     return jsonify(group_to_dict(petition_group))

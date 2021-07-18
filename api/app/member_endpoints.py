@@ -1,9 +1,9 @@
 from flask import request, jsonify
-from app import app, tokens
+from app import app, session_check
 from app import database as db
 
 @app.route('/api/members', methods=['GET'])
-@tokens.token_required
+@session_check.session_required
 def members(current_user):
     #this will have a post menthod eventually when listserv groups are fleshed out
     #but right now the only time new members are added is when a petition group is created
