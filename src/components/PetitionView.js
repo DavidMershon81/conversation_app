@@ -11,14 +11,23 @@ const SignaturesList = ({ petition }) => {
         url:'/api/signatures', 
         params:requestParams.current
     });
-    
-    if(sigData) {
-        console.log(sigData);
-    }
+
+    const { data:userSignedData, getData:getUserSigned, usLoading, usError, usErrorMessage } = useGetData({ 
+        url:'/api/user_signed',
+        params:requestParams.current
+    });
+
+    const onConfirmSign = () => {
+        getSignatures();
+        getUserSigned();
+    };
+
+    const show_sign_form = userSignedData != null && !userSignedData['user_signed'];
 
     return (
         <section>
             <LoadingBox loading={loading} error={error} errorMessage={errorMessage}/>
+            <LoadingBox loading={usLoading} error={usError} errorMessage={usErrorMessage}/>
             { sigData && <>
                 <h4>Revealed Signatures</h4>
                 <ul className='test_signature_user_group'>
@@ -38,7 +47,9 @@ const SignaturesList = ({ petition }) => {
                 </li>)}
 
                 </ul>
-                <SignPetitionSection petition={petition} onConfirm={getSignatures} />
+                { show_sign_form ? <SignPetitionSection petition={petition} onConfirm={onConfirmSign} /> :
+                    <p>You have already signed this petition.</p>
+                }
             </>}
         </section>
     );

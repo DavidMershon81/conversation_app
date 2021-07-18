@@ -41,5 +41,7 @@ def get_revealed_signatures(petition_id):
 @app.route('/api/user_signed', methods=['GET'])
 @session_check.session_required
 def user_signed(current_user):
+    print(f"checking user_signed for : {current_user.email}")
     user_signed = db.did_user_sign_petition(request.args['petition_id'], current_user.id)
-    return jsonify({ 'user_signed' : user_signed})
+    print(f"user_signed: {user_signed}")
+    return jsonify({ 'user_signed' : user_signed })

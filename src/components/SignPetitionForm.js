@@ -11,15 +11,13 @@ const SignPetitionForm = ({ onSubmit, petition }) => {
         onSubmit(data);
     };
 
-    const btnLabel = `Sign Petition as ${loggedInUser}`;
-
     return (
         <form className="input_form" onSubmit={handleSubmit(onSubmitClick)}>
             <FormContext.Provider value={{ register, unregister, watch, errors }}>
                 <FormTextInput type='number' varName='reveal_threshold' visibleName='reveal threshold' />
                 <FormHiddenInput varName='petition_id' varValue={petition['id']} />
             </FormContext.Provider>
-            <input className="form_submit_btn" type="submit" value={btnLabel}/>
+            <input className="form_submit_btn" type="submit" value='Sign Petition'/>
         </form>
     );
 }
