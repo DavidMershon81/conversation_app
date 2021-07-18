@@ -2,6 +2,7 @@ from flask import request, make_response, jsonify
 from app import app, session, session_check
 from app import database as db
 from werkzeug.security import check_password_hash
+from app import utilities
 
 @app.route('/api/login')
 def login():
@@ -15,8 +16,8 @@ def login():
         password_matches = check_password_hash(login_user.password, auth.password)
         if password_matches:
             session['user_email'] = auth.username
+            session['exp_timestamp'] = utilities.generate_exp_timestamp()
             return jsonify({'message' : 'login_successful'})
-            #return tokens.generate_token(auth.username)
         else:
             return __invalid_login()
     else:
