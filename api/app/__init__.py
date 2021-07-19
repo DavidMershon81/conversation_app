@@ -5,7 +5,11 @@ from dotenv import dotenv_values
 app = Flask(__name__, static_folder='../../build', static_url_path='/')
 config = dotenv_values("app_env")
 app.config['SECRET_KEY'] = config['SECRET_KEY']
-#app.config['SESSION_COOKIE_SAMESITE'] = 'Strict'
+
+#note - this should be strict when this is properly deployed
+#but I think setting this to Lax is the only thing that's going to work
+#until HTTPS is set up
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 
 from app import database as db
 db.connect()
