@@ -14,6 +14,7 @@ import { useState, useEffect } from 'react';
 import useGetData from  './hooks/useGetData';
 import usePostData from  './hooks/usePostData';
 import { LoadingBox } from './components/MiscControls'; 
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 const App = () => {
   const [loggedInUser, setLoggedInUser] = useState(null);
@@ -32,9 +33,12 @@ const App = () => {
     }
   },[login_info]);
 
+  const queryClient = new QueryClient();
+
   return (
       <div className="App">
           <AppContext.Provider value={{ loggedInUser, setLoggedInUser, logout }}>
+          <QueryClientProvider client={queryClient}>
             { !error && <LoadingBox loading={loading} error={error} errorMessage={errorMessage} /> }
             {!loading && 
             <Router>
@@ -50,6 +54,7 @@ const App = () => {
                 <Route exact path='/debug/users' component={DebugUsersView} />
               </Switch>
             </Router>}
+          </QueryClientProvider>
           </AppContext.Provider>
       </div>
   );
