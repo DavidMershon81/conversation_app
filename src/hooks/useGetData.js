@@ -1,15 +1,21 @@
 import { useQuery } from 'react-query';
 import axios from 'axios';
-import React from 'react';
 
-const useGetData = ({ url, params }) => {
+const useGetData = ({ url, params, maxRetries=3, checkRetry=() => true }) => {
     const fetchData = async (url, params) => {      
-        console.log("fetching data from url: "+ url);
-        const res = await axios.get(url, { 'params' : params });
-        return res.data;
+        try {
+            const res = await axios.get(url, { 'params' : params });
+            return res.data;   
+        } catch (error) {
+            throw new Error(error.response.data.message);
+        }
     }
 
-    const { data, refetch, isLoading, isError, error } = useQuery(['data', url], () => fetchData(url, params));
+    const onRetry = (failureCount, error) => {
+        return checkRetry(error.message) && failureCount < maxRetries;
+    }
+
+    const { data, refetch, isLoading, isError, error } = useQuery(['data', url], () => fetchData(url, params), { retry:onRetry });
     return { data, getData:refetch, loading:isLoading, error:isError, errorMessage:error };
 }
 

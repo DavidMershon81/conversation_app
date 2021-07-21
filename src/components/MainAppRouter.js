@@ -19,7 +19,12 @@ const MainAppRouter = () => {
   const onLogoutConfirm = () => {
     setLoggedInUser(null);
   }
-  const { data:login_info, loading, error, errorMessage } = useGetData({ url:'/api/get_current_user' });
+
+  const { data:login_info, loading, error, errorMessage } = useGetData({ 
+    url:'/api/get_current_user', 
+    checkRetry:(errorMessage) => { return errorMessage !== "Not logged in!"; }
+  });
+  
   const { post:logout } = usePostData({ 
     url:'/api/logout',
     onConfirm:onLogoutConfirm
