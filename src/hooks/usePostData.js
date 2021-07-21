@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import axios from 'axios';
 
-const usePostData = ({ url, authToken, onConfirm, confirmText }) => {
+const usePostData = ({ url, onConfirm, confirmText }) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
@@ -21,10 +21,7 @@ const usePostData = ({ url, authToken, onConfirm, confirmText }) => {
         setConfirmMessage("");
         setResponseData(null);
 
-        const requstConfig = { 
-            'headers' : {'Authorization' : authToken} 
-        };
-        axios.post(url, newData, requstConfig).then((response) => {
+        axios.post(url, newData).then((response) => {
             setLoading(false);
             setResponseData(response.data);
             setConfirmMessage(confirmText);

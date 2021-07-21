@@ -1,45 +1,16 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useQuery } from 'react-query';
 import axios from 'axios';
+import React from 'react';
 
 const useGetData = ({ url, params }) => {
-    const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(false);
-    const [errorMessage, setErrorMessage] = useState("");
-    const isMounted = useRef(true);
+    const fetchData = async (url, params) => {      
+        console.log("fetching data from url: "+ url);
+        const res = await axios.get(url, { 'params' : params });
+        return res.data;
+    }
 
-    const onResponseError = (error) => {
-      if(isMounted.current) {
-        setLoading(false);
-        setError(true);
-        setErrorMessage(error.response.data['message']);
-      }
-    };
-
-    const getData = useCallback(() => {
-      if(isMounted.current) {
-        setLoading(true);
-        setError(false);
-        setErrorMessage("");
-      }
-      
-      axios.get(url, { 'params' : params }).then((response) => {
-        if(isMounted.current) {
-          setData(response.data);
-          setLoading(false);
-        }
-        }, onResponseError);
-    }, [url, params])
-
-    useEffect(() => {
-      getData();
-
-      return () => {
-        isMounted.current = false;
-      };
-    },[getData]);
-
-    return { data, getData, loading, error, errorMessage };
+    const { data, refetch, isLoading, isError, error } = useQuery(['data', url], () => fetchData(url, params));
+    return { data, getData:refetch, loading:isLoading, error:isError, errorMessage:error };
 }
 
 export default useGetData

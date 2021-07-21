@@ -1,9 +1,8 @@
-//import useGetData from  '../hooks/useGetData';
-import useGetDataNew from  '../hooks/useGetDataNew';
+import useGetData from  '../hooks/useGetData';
 import { LoadingBox } from './MiscControls';
 
 const DebugUsersView = () => {
-  const { data:users, loading, error, errorMessage } = useGetDataNew({ 
+  const { data:users, loading, error, errorMessage } = useGetData({ 
     url:'/api/users'
   });
 
