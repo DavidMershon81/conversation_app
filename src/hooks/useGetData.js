@@ -1,9 +1,7 @@
 import { useQuery } from 'react-query';
 import axios from 'axios';
-import { useState } from 'react'
 
 const getDataFromApi = async (url, params, logout) => {    
-    console.log('getDataFromApi() - url: ' + url);
     if(logout) {
         throw new Error('Not logged in!');
     }
@@ -17,7 +15,6 @@ const getDataFromApi = async (url, params, logout) => {
 
 const useGetData = ({ url, params, logout=false, checkRetry = () => true }) => {
     const onRetry = (failureCount, error) => {
-        //console.log("onRetry() - error.message:" + error.message);
         return checkRetry(error.message);
     }
 

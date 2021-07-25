@@ -10,8 +10,7 @@ const useGetAuthData = () => {
     });
 
     const loggedIn = authData != null && 'user_email' in authData;
-    console.log("useGetAuthData - loggedIn: " + loggedIn);
-
+    
     const refreshAuth = () => {
         setLogout(false);
         getAuthData();

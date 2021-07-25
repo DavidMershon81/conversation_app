@@ -8,18 +8,7 @@ import usePostData from  '../hooks/usePostData';
 const TopNavSection = () => {
     const { authData, loggedIn, setLogout }= useContext(AppContext);
     const loggedInUser = loggedIn ? authData.user_email : "";
-
-    const onLogoutConfirm = () => {
-        console.log("onLogoutConfirm!");
-        setLogout(true);
-    }
-
-    const { post:logout } = usePostData({ 
-        url:'/api/logout',
-        onConfirm:onLogoutConfirm
-    });
-
-    console.log("TopNavSection - loggedIn: " + loggedIn);
+    const { post:logout } = usePostData({ url:'/api/logout', onConfirm:() => setLogout(true) });
 
     return (
         <section>

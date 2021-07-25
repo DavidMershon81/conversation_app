@@ -1,12 +1,8 @@
 import { useForm } from 'react-hook-form';
 import { FormTextInput, FormHiddenInput } from './FormControls';
 import { FormContext } from '../contexts/FormContext';
-import { Redirect } from 'react-router-dom';
-import { useContext } from 'react';
-import { AppContext } from '../contexts/AppContext';
 
 const AddPetitionForm = ({ onSubmit, petitionGroupId }) => {
-    const { loggedIn } = useContext(AppContext);
     const { register, unregister, handleSubmit, formState: { errors }, watch } = useForm();
     const onSubmitClick = (data) => {
         console.log(data);
