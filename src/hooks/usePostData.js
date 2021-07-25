@@ -5,8 +5,7 @@ import { useMutation } from 'react-query';
 const usePostData = ({ url, onConfirm, confirmText }) => {
     const postData = async (dataToPost) => {
         try {
-            const res = await axios.post(url, dataToPost);
-            return res.data;
+            return (await axios.post(url, dataToPost)).data;
         }catch (error) {
             throw new Error(error.response.data.message);
         }
@@ -16,7 +15,7 @@ const usePostData = ({ url, onConfirm, confirmText }) => {
 
     useEffect(() => {
         if(isSuccess && onConfirm) {
-            onConfirm();
+            onConfirm(data);
         }
     }, [onConfirm, isSuccess])
 

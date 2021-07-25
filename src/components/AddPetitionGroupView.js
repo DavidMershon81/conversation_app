@@ -1,15 +1,20 @@
 import usePostData from '../hooks/usePostData';
 import AddPetitionGroupForm from './AddPetitionGroupForm';
 import { LoadingBox } from './MiscControls';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import { useContext } from 'react';
 import { AppContext } from '../contexts/AppContext';
 
 const AddPetitionGroupView = () => {
     const { loggedIn } = useContext(AppContext);
+    const history = useHistory();
+    const onConfirmAddGroup = (responseData) => {
+        history.push(`/petition_group/${responseData.id}`)
+    }
     const { post:postGroup, confirmMessage, loading, error, errorMessage } = usePostData({ 
         url:'/api/petition_groups', 
-        confirmText:'Added Petition Group'
+        confirmText:'Added Petition Group',
+        onConfirm:onConfirmAddGroup
     });
 
     if(!loggedIn) {
