@@ -17,7 +17,7 @@ const useLogin = ({ url, onLoginSuccess }) => {
         if(isSuccess) {
             onLoginSuccess();
         }
-    }, [isSuccess])
+    }, [isSuccess, onLoginSuccess])
 
     const tryLogin = ({ username, password }) => {
         mutate({ username, password });

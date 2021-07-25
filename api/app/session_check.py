@@ -11,7 +11,7 @@ def session_required(f):
         exp_timestamp = session.get('exp_timestamp')
 
         if not user_email or not exp_timestamp:
-            return jsonify({'message' : 'Not logged in!'})
+            return jsonify({'message' : 'Not logged in!'}), 403
         
         session_expired = utilities.check_timestamp_expired(exp_timestamp)
         print(f"exp_timestamp: {exp_timestamp} | session_expired: {session_expired}")

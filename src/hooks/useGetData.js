@@ -1,13 +1,16 @@
 import { useQuery } from 'react-query';
 import axios from 'axios';
 
-const useGetData = ({ url, params, maxRetries=3, checkRetry=() => true }) => {
+const useGetData = ({ url, params, maxRetries=3, checkRetry=() => true, ignoreError }) => {
     const fetchData = async (url, params) => {      
         try {
             const res = await axios.get(url, { 'params' : params });
             return res.data;   
         } catch (error) {
-            throw new Error(error.response.data.message);
+            const errorMessage = error.response.data.message;
+            if(ignoreError === null || errorMessage !== ignoreError) {
+                throw new Error(errorMessage);
+            }
         }
     }
 

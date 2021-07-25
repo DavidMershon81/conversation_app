@@ -20,11 +20,12 @@ const MainAppRouter = () => {
   }
 
   const { data:loginInfo, getData:refreshAuth, loading, error, errorMessage } = useGetData({ 
-    url:'/api/get_current_user'//, 
+    url:'/api/get_current_user',
+    ignoreError:'Not logged in!'
     //checkRetry:(errorMessage) => { return errorMessage !== "Not logged in!"; }
   });
 
-  const loggedIn = loginInfo && 'user_email' in loginInfo;
+  const loggedIn = loginInfo != null && 'user_email' in loginInfo;
   console.log("loggedIn:" + loggedIn);
   
   const { post:logout } = usePostData({ 
@@ -34,7 +35,7 @@ const MainAppRouter = () => {
 
   return (
       <>
-          <AppContext.Provider value={{ loggedIn, refreshAuth, logout }}>
+          <AppContext.Provider value={{ loggedIn, loginInfo, refreshAuth, logout }}>
             { !error && <LoadingBox loading={loading} error={error} errorMessage={errorMessage} /> }
             {!loading && 
             <Router>
