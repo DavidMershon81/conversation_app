@@ -7,7 +7,8 @@ import { AppContext } from '../contexts/AppContext';
 const PetitionGroupPetitionsSection = ({ petitionGroupId }) => {
   const requestParams = useRef({ petition_group_id : petitionGroupId });
   const { data:petitions, loading, error, errorMessage } = useGetData({ 
-      url:'/api/petitions', 
+      url:'/api/petitions',
+      queryKey:['petitions_group_petitions',requestParams.current.petition_group_id],
       params:requestParams.current
   });
     
@@ -34,7 +35,8 @@ const PetitionGroupPetitionsSection = ({ petitionGroupId }) => {
 const PetitionGroupMembersSection = ({ petitionGroupId }) => {
   const requestParams = useRef({ petition_group_id : petitionGroupId });
   const { data:members, loading, error, errorMessage } = useGetData({ 
-      url:'/api/members', 
+      url:'/api/members',
+      queryKey:['petition_group_members', requestParams.current.petition_group_id],
       params:requestParams.current,
   });
 
@@ -74,7 +76,8 @@ const PetitionGroupView = ({ basePath }) => {
   const location = useLocation();
   const petitionGroupId = location.pathname.replace(basePath, '');
   const { data:petitionGroup, loading, error, errorMessage } = useGetData({ 
-    url:`/api/petition_groups/${petitionGroupId}`
+    url:`/api/petition_groups/${petitionGroupId}`,
+    queryKey:['petition_group',petitionGroupId]
   });
 
   if(!loggedIn) {

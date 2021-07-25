@@ -9,30 +9,11 @@ import RegisterView from './RegisterView';
 import HomeView from './HomeView';
 import TopNavSection from './TopNavSection';
 import { AppContext } from '../contexts/AppContext';
-import { useState, useEffect } from 'react';
-import useGetData from  '../hooks/useGetData';
-import usePostData from  '../hooks/usePostData';
 import { LoadingBox } from './MiscControls'; 
+import useLoginInfo from '../hooks/useLoginInfo';
 
 const MainAppRouter = () => {
-  const onLogoutConfirm = () => {
-    console.log("onLogoutConfirm!");
-    //refreshAuth();
-  }
-
-  const { data:loginInfo, getData:refreshAuth, loading, error, errorMessage } = useGetData({ 
-    url:'/api/get_current_user',
-    ignoreError:'Not logged in!'
-    //checkRetry:(errorMessage) => { return errorMessage !== "Not logged in!"; }
-  });
-
-  const loggedIn = loginInfo != null && 'user_email' in loginInfo;
-  console.log("loggedIn:" + loggedIn);
-  
-  const { post:logout } = usePostData({ 
-    url:'/api/logout',
-    onConfirm:onLogoutConfirm
-  });
+  const { loginInfo, loggedIn, logout, refreshAuth, loading, error, errorMessage } = useLoginInfo();
 
   return (
       <>
