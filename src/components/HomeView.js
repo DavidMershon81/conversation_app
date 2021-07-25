@@ -7,10 +7,12 @@ import { AppContext } from '../contexts/AppContext';
 const HomeView = () => {
     const { loggedIn } = useContext(AppContext);
     const { data:groups, loading, error, errorMessage } = useGetData({ 
-        url:'/api/petition_groups',
-        queryKey:['petition_groups']
+        url:'/api/petition_groups'
     });
 
+    if(!loggedIn) {
+        return <Redirect to='/login' />
+    }
     return (
         <section>
             <p>Welcome to the petition app!</p>

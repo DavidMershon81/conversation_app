@@ -1,9 +1,12 @@
 import usePostData from   '../hooks/usePostData';
 import AddPetitionForm from './AddPetitionForm';
 import { LoadingBox } from './MiscControls';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Redirect } from 'react-router-dom';
+import { useContext } from 'react'
+import { AppContext } from '../contexts/AppContext';
 
 const AddPetitionView = ({ basePath }) => {
+    const { loggedIn } = useContext(AppContext);
     const location = useLocation();
     const petitionGroupId = location.pathname.replace(basePath, '');
     const { post:postPetition, confirmMessage, loading, error, errorMessage } = usePostData({ 
@@ -11,6 +14,9 @@ const AddPetitionView = ({ basePath }) => {
         confirmText:'Added New Petition'
     });
 
+    if(!loggedIn) {
+        return <Redirect to='/login' />
+    }
     return (
         <section>
             <h2>Add Petition</h2>

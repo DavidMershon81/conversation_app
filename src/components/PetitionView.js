@@ -9,13 +9,11 @@ const SignaturesList = ({ petition }) => {
     const requestParams = useRef({ petition_id : petition['id'] });
     const { data:sigData, getData:getSignatures, loading, error, errorMessage } = useGetData({ 
         url:'/api/signatures',
-        queryKey:['petition_signatures', requestParams.current.petition_id],
         params:requestParams.current
     });
 
     const { data:userSignedData, getData:getUserSigned, usLoading, usError, usErrorMessage } = useGetData({ 
         url:'/api/user_signed',
-        queryKey:['petition_user_signed', requestParams.current.petition_id],
         params:requestParams.current
     });
 
@@ -62,10 +60,12 @@ const PetitionView = ({ basePath }) => {
     const location = useLocation();
     const petitionId = location.pathname.replace(basePath, '');
     const { data:petition, loading, error, errorMessage } = useGetData({ 
-        url:`/api/petitions/${petitionId}`,
-        queryKey:['petition', petitionId],
+        url:`/api/petitions/${petitionId}`
     });
 
+    if(!loggedIn) {
+        return <Redirect to='/login' />
+    }
     return (
         <section>
             <LoadingBox loading={loading} error={error} errorMessage={errorMessage}/>
