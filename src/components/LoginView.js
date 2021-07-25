@@ -6,11 +6,9 @@ import { AppContext } from '../contexts/AppContext';
 import { Redirect, Link } from 'react-router-dom';
 
 const LoginView = () => {
-    const { authData, getAuthData, loggedIn, setLogout } = useContext(AppContext);
+    const { refreshAuth } = useContext(AppContext);
     const onLoginSuccess = () => {
-        console.log("onLoginSuccess!");
-        setLogout(false);
-        getAuthData();
+        refreshAuth();  
     }
 
     const { tryLogin, success, loading, error, errorMessage } = useLogin({ 

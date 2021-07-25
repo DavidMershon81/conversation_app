@@ -6,7 +6,7 @@ import { AppContext } from '../contexts/AppContext';
 import usePostData from  '../hooks/usePostData';
 
 const TopNavSection = () => {
-    const { authData, getAuthData, loggedIn, setLogout }= useContext(AppContext);
+    const { authData, loggedIn, setLogout }= useContext(AppContext);
     const loggedInUser = loggedIn ? authData.user_email : "";
 
     const onLogoutConfirm = () => {

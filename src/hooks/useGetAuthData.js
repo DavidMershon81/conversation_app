@@ -11,7 +11,12 @@ const useGetAuthData = () => {
 
     const loggedIn = authData != null && 'user_email' in authData;
     console.log("useGetAuthData - loggedIn: " + loggedIn);
-    return { authData, getAuthData, loggedIn, setLogout, loading, error, errorMessage };
+
+    const refreshAuth = () => {
+        setLogout(false);
+        getAuthData();
+    }
+    return { authData, refreshAuth, loggedIn, setLogout, loading, error, errorMessage };
 }
 
 export default useGetAuthData;
