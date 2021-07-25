@@ -22,7 +22,7 @@ const useGetData = ({ url, queryKey, params, ignoreError, maxRetries=3, checkRet
     }
 
     const { data, refetch, isLoading, isError, error } = useQuery([queryKey, url, params, ignoreError], 
-        () => fetchData(url, params, ignoreError), { retry:onRetry, cacheTime:0 }
+        () => fetchData(url, params, ignoreError), { retry:onRetry }
     );
     const errorMessage = error ? error.message : "";
     return { data, getData:refetch, loading:isLoading, error:isError, errorMessage:errorMessage };
