@@ -12,9 +12,6 @@ const AddPetitionGroupView = () => {
         confirmText:'Added Petition Group'
     });
 
-    if(!loggedIn) {
-        return <Redirect to='/login' />
-    }
     return (
         <section>
             <h2>Add Petition Group</h2>

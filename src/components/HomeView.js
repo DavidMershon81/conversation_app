@@ -11,9 +11,6 @@ const HomeView = () => {
         queryKey:['petition_groups']
     });
 
-    if(!loggedIn) {
-        return <Redirect to='/login' />
-    }
     return (
         <section>
             <p>Welcome to the petition app!</p>

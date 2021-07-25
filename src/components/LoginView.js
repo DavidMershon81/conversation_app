@@ -21,9 +21,6 @@ const LoginView = () => {
         tryLogin({ username:formData.email, password:formData.password });
     };
 
-    if(loggedIn) {
-        return <Redirect to='/' />
-    }
     return (
         <section>
             <h2>Login</h2>

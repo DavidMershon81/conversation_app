@@ -13,9 +13,6 @@ const AddPetitionForm = ({ onSubmit, petitionGroupId }) => {
         onSubmit(data);
     };
 
-    if(!loggedIn) {
-        return <Redirect to='/login' />
-    }
     return (
         <form className="input_form" onSubmit={handleSubmit(onSubmitClick)}>
             <FormContext.Provider value={{ register, unregister, watch, errors }}>

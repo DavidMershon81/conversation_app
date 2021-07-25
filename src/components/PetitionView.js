@@ -66,9 +66,6 @@ const PetitionView = ({ basePath }) => {
         queryKey:['petition', petitionId],
     });
 
-    if(!loggedIn) {
-        return <Redirect to='/login' />
-    }
     return (
         <section>
             <LoadingBox loading={loading} error={error} errorMessage={errorMessage}/>

@@ -80,9 +80,6 @@ const PetitionGroupView = ({ basePath }) => {
     queryKey:['petition_group',petitionGroupId]
   });
 
-  if(!loggedIn) {
-    return <Redirect to='/login' />
-  }
   return (
       <section className='petition_group_view'>
           <LoadingBox loading={loading} error={error} errorMessage={errorMessage} />

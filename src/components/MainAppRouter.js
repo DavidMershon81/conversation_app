@@ -12,8 +12,32 @@ import { AppContext } from '../contexts/AppContext';
 import { LoadingBox } from './MiscControls'; 
 import useLoginInfo from '../hooks/useLoginInfo';
 
+const LoggedOutViews = () => {
+  return (
+    <Switch>
+      <Route exact path='/register' component={RegisterView} />
+      <Route exact path='/debug/users' component={DebugUsersView} />
+      <Route path='/' component={LoginView} />
+    </Switch>
+  );
+}
+
+const LoggedInViews = () => {
+  return (
+    <Switch>
+      <Route path='/petition_group/' component={ () => <PetitionGroupView basePath='/petition_group/' />} />
+      <Route exact path='/add_petition_group/'  component={AddPetitionGroupView} />
+      <Route path='/add_petition/' component={ () => <AddPetitionView basePath='/add_petition/' />} />
+      <Route path='/petitions/' component={ () => <PetitionView basePath='/petitions/' />} />
+      <Route exact path='/debug/users' component={DebugUsersView} />
+      <Route path='/' component={HomeView} />
+    </Switch>
+  );
+}
+
 const MainAppRouter = () => {
   const { loginInfo, loggedIn, logout, refreshAuth, loading, error, errorMessage } = useLoginInfo();
+  console.log("MainAppRouter - loggedIn: " + loggedIn);
 
   return (
       <>
@@ -22,20 +46,13 @@ const MainAppRouter = () => {
             {!loading && 
             <Router>
               <TopNavSection />
-              <Switch>
-                <Route exact path='/' component={HomeView} />
-                <Route exact path='/login' component={LoginView} />
-                <Route exact path='/register' component={RegisterView} />
-                <Route path='/petition_group/' component={ () => <PetitionGroupView basePath='/petition_group/' />} />
-                <Route exact path='/add_petition_group/'  component={AddPetitionGroupView} />
-                <Route path='/add_petition/' component={ () => <AddPetitionView basePath='/add_petition/' />} />
-                <Route path='/petitions/' component={ () => <PetitionView basePath='/petitions/' />} />
-                <Route exact path='/debug/users' component={DebugUsersView} />
-              </Switch>
+              { loggedIn ? <LoggedInViews /> : <LoggedOutViews /> }
             </Router>}
           </AppContext.Provider>
       </>
   );
 }
+
+
 
 export default MainAppRouter;
