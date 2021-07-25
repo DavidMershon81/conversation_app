@@ -1,32 +1,30 @@
-import { useState } from 'react'
+import { useEffect } from 'react'
 import axios from 'axios';
+import { useMutation } from 'react-query';
 
 const useLogin = ({ url, setLoggedInUser }) => {
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(false);
-    const [errorMessage, setErrorMessage] = useState("");
-    const [triedLogin, setTriedLogin] = useState(false);
+    const postData = async ({ username, password}) => {
+        try {
+            const res = await axios.get(url, { auth:{ "username" : username, "password" : password } });
+            return res.data;
+        } catch (error) {
+            throw new Error(error.response.data.message);
+        }
+    }
+    const { mutate, data, isLoading, isError, error, isSuccess } = useMutation(postData);
 
-    const tryLogin = (username,password) => {
-        const onLoginSuccess = (response) => {
-            setLoggedInUser(username);
-            setLoading(false);
-        };
+    useEffect(() => {
+        if(isSuccess) {
+            setLoggedInUser(data.username);
+        }
+    }, [isSuccess, data, setLoggedInUser])
 
-        const onLoginError = (error) => {
-            setLoading(false);
-            setError(true);
-            setErrorMessage(error.response.data['message']);
-        };
+    const tryLogin = ({ username, password }) => {
+        mutate({ username, password });
+    }
 
-        setLoading(true);
-        setError(false);
-        setErrorMessage("");
-        setTriedLogin(true);
-        axios.get(url, { auth:{ "username" : username, "password" : password } }).then(onLoginSuccess, onLoginError);
-    };
-
-    return { triedLogin, tryLogin, loading, error, errorMessage };
+    const errorMessage = error ? error.message : "";
+    return { tryLogin, success:isSuccess, loading:isLoading, error:isError, errorMessage:errorMessage };
 }
 
-export default useLogin
+export default useLogin;

@@ -16,7 +16,8 @@ const useGetData = ({ url, params, maxRetries=3, checkRetry=() => true }) => {
     }
 
     const { data, refetch, isLoading, isError, error } = useQuery(['data', url], () => fetchData(url, params), { retry:onRetry });
-    return { data, getData:refetch, loading:isLoading, error:isError, errorMessage:error };
+    const errorMessage = error ? error.message : "";
+    return { data, getData:refetch, loading:isLoading, error:isError, errorMessage:errorMessage };
 }
 
 export default useGetData

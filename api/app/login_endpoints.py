@@ -17,7 +17,7 @@ def login():
         if password_matches:
             session['user_email'] = auth.username
             session['exp_timestamp'] = utilities.generate_exp_timestamp()
-            return jsonify({'message' : 'login_successful'})
+            return jsonify({'message' : 'login_successful', 'username' : session['user_email']})
         else:
             return __invalid_login()
     else:
