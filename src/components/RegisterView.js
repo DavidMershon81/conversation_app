@@ -1,7 +1,7 @@
 import usePostData from  '../hooks/usePostData';
 import RegisterUserForm from './RegisterUserForm';
 import { LoadingBox } from './MiscControls';
-
+import { Link } from 'react-router-dom';
 
 const RegisterView = () => {
     const onConfirm = () => {
@@ -19,7 +19,7 @@ const RegisterView = () => {
             <h2>Register</h2>
             <p>Use this form to register a new account.</p>
             <RegisterUserForm onSubmit={postUser}/>
-            {confirmMessage && <p>{confirmMessage}</p>}
+            { confirmMessage && <p>{confirmMessage} <Link className='inline_link' to={`/login`}>Login</Link></p>}
             <LoadingBox loading={loading} error={error} errorMessage={errorMessage} />
         </section>
     );
