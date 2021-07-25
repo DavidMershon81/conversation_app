@@ -10,7 +10,8 @@ import HomeView from './HomeView';
 import TopNavSection from './TopNavSection';
 import { AppContext } from '../contexts/AppContext';
 import { LoadingBox } from './MiscControls'; 
-import useLoginInfo from '../hooks/useLoginInfo';
+import useGetAuthData from '../hooks/useGetAuthData';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 const LoggedOutViews = () => {
   return (
@@ -36,12 +37,11 @@ const LoggedInViews = () => {
 }
 
 const MainAppRouter = () => {
-  const { loginInfo, loggedIn, logout, refreshAuth, loading, error, errorMessage } = useLoginInfo();
-  console.log("MainAppRouter - loggedIn: " + loggedIn);
+  const { authData, getAuthData, loggedIn, setLogout, loading, error, errorMessage } = useGetAuthData();
 
   return (
       <>
-          <AppContext.Provider value={{ loggedIn, loginInfo, refreshAuth, logout }}>
+          <AppContext.Provider value={{ authData, getAuthData, loggedIn, setLogout }}>
             { !error && <LoadingBox loading={loading} error={error} errorMessage={errorMessage} /> }
             {!loading && 
             <Router>
@@ -49,6 +49,7 @@ const MainAppRouter = () => {
               { loggedIn ? <LoggedInViews /> : <LoggedOutViews /> }
             </Router>}
           </AppContext.Provider>
+          <ReactQueryDevtools initialIsOpen={false} />
       </>
   );
 }

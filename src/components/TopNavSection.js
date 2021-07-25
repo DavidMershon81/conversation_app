@@ -1,16 +1,25 @@
 
 import { SimpleButton } from './MiscControls';
 import { Link } from 'react-router-dom';
-import { useContext } from 'react'
+import { useContext } from 'react';
 import { AppContext } from '../contexts/AppContext';
+import usePostData from  '../hooks/usePostData';
 
 const TopNavSection = () => {
-    const { loggedIn, loginInfo, logout } = useContext(AppContext);
-    const loggedInUser = loggedIn ? loginInfo.user_email : "";
+    const { authData, getAuthData, loggedIn, setLogout }= useContext(AppContext);
+    const loggedInUser = loggedIn ? authData.user_email : "";
 
-    const onLogout = (id, text) => {
-        logout();
-    };
+    const onLogoutConfirm = () => {
+        console.log("onLogoutConfirm!");
+        setLogout(true);
+    }
+
+    const { post:logout } = usePostData({ 
+        url:'/api/logout',
+        onConfirm:onLogoutConfirm
+    });
+
+    console.log("TopNavSection - loggedIn: " + loggedIn);
 
     return (
         <section>
@@ -19,7 +28,7 @@ const TopNavSection = () => {
                 <Link className='nav_link' to='/debug/users'>Users(debug)</Link>
                 { loggedIn && <Link className='nav_link' to='/'>Home</Link> }
                 { !loggedIn && <Link className='nav_link' to='/login'>Login</Link> }
-                { loggedIn && <SimpleButton className='nav_link' onBtnClick={onLogout} text='Logout'/> }
+                { loggedIn && <SimpleButton className='nav_link' onBtnClick={logout} text='Logout'/> }
             </nav>
             <p className='logged_in_user_text'>{loggedInUser}</p>
         </section>   
