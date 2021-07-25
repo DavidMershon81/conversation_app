@@ -6,13 +6,13 @@ import { useContext } from 'react';
 import { AppContext } from '../contexts/AppContext';
 
 const AddPetitionGroupView = () => {
-    const { loggedInUser } = useContext(AppContext);
+    const { loggedIn } = useContext(AppContext);
     const { post:postGroup, confirmMessage, loading, error, errorMessage } = usePostData({ 
         url:'/api/petition_groups', 
         confirmText:'Added Petition Group'
     });
 
-    if(!loggedInUser) {
+    if(!loggedIn) {
         return <Redirect to='/login' />
     }
     return (

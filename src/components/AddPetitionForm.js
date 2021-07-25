@@ -6,14 +6,14 @@ import { useContext } from 'react';
 import { AppContext } from '../contexts/AppContext';
 
 const AddPetitionForm = ({ onSubmit, petitionGroupId }) => {
-    const { loggedInUser } = useContext(AppContext);
+    const { loggedIn } = useContext(AppContext);
     const { register, unregister, handleSubmit, formState: { errors }, watch } = useForm();
     const onSubmitClick = (data) => {
         console.log(data);
         onSubmit(data);
     };
 
-    if(!loggedInUser) {
+    if(!loggedIn) {
         return <Redirect to='/login' />
     }
     return (

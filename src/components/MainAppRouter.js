@@ -15,30 +15,26 @@ import usePostData from  '../hooks/usePostData';
 import { LoadingBox } from './MiscControls'; 
 
 const MainAppRouter = () => {
-  const [loggedInUser, setLoggedInUser] = useState(null);
   const onLogoutConfirm = () => {
-    setLoggedInUser(null);
+    console.log("onLogoutConfirm!");
   }
 
-  const { data:login_info, loading, error, errorMessage } = useGetData({ 
-    url:'/api/get_current_user', 
-    checkRetry:(errorMessage) => { return errorMessage !== "Not logged in!"; }
+  const { data:loginInfo, getData:refreshAuth, loading, error, errorMessage } = useGetData({ 
+    url:'/api/get_current_user'//, 
+    //checkRetry:(errorMessage) => { return errorMessage !== "Not logged in!"; }
   });
+
+  const loggedIn = loginInfo && 'user_email' in loginInfo;
+  console.log("loggedIn:" + loggedIn);
   
   const { post:logout } = usePostData({ 
     url:'/api/logout',
     onConfirm:onLogoutConfirm
   });
-  
-  useEffect(() => {
-    if(login_info) {
-      setLoggedInUser(login_info.user_email);
-    }
-  },[login_info]);
 
   return (
       <>
-          <AppContext.Provider value={{ loggedInUser, setLoggedInUser, logout }}>
+          <AppContext.Provider value={{ loggedIn, refreshAuth, logout }}>
             { !error && <LoadingBox loading={loading} error={error} errorMessage={errorMessage} /> }
             {!loading && 
             <Router>

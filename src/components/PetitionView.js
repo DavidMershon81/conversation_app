@@ -56,14 +56,14 @@ const SignaturesList = ({ petition }) => {
 }
 
 const PetitionView = ({ basePath }) => {
-    const { loggedInUser } = useContext(AppContext);
+    const { loggedIn } = useContext(AppContext);
     const location = useLocation();
     const petitionId = location.pathname.replace(basePath, '');
     const { data:petition, loading, error, errorMessage } = useGetData({ 
         url:`/api/petitions/${petitionId}`
     });
 
-    if(!loggedInUser) {
+    if(!loggedIn) {
         return <Redirect to='/login' />
     }
     return (

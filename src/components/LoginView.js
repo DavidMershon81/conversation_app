@@ -6,20 +6,22 @@ import { AppContext } from '../contexts/AppContext';
 import { Redirect, Link } from 'react-router-dom';
 
 const LoginView = () => {
-    const { loggedInUser, setLoggedInUser } = useContext(AppContext);
+    const { loggedIn, refreshAuth } = useContext(AppContext);
+    const onLoginSuccess = () => {
+        console.log("onLoginSuccess!");
+        refreshAuth();
+    }
+
     const { tryLogin, success, loading, error, errorMessage } = useLogin({ 
         url:'/api/login', 
-        setLoggedInUser:setLoggedInUser
+        onLoginSuccess:onLoginSuccess
     });
 
     const submitLogin = (formData) => {
         tryLogin({ username:formData.email, password:formData.password });
     };
 
-    console.log("success: " + success);
-        
-
-    if(success || loggedInUser) {
+    if(loggedIn) {
         return <Redirect to='/' />
     }
     return (

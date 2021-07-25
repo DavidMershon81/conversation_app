@@ -5,10 +5,10 @@ import { useContext } from 'react';
 import { AppContext } from '../contexts/AppContext';
 
 const HomeView = () => {
-    const { loggedInUser } = useContext(AppContext);
+    const { loggedIn } = useContext(AppContext);
     const { data:groups, loading, error, errorMessage } = useGetData({ url:'/api/petition_groups' });
 
-    if(!loggedInUser) {
+    if(!loggedIn) {
         return <Redirect to='/login' />
     }
     return (

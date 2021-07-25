@@ -70,14 +70,14 @@ return (
 };
 
 const PetitionGroupView = ({ basePath }) => {
-  const { loggedInUser } = useContext(AppContext);
+  const { loggedIn } = useContext(AppContext);
   const location = useLocation();
   const petitionGroupId = location.pathname.replace(basePath, '');
   const { data:petitionGroup, loading, error, errorMessage } = useGetData({ 
     url:`/api/petition_groups/${petitionGroupId}`
   });
 
-  if(!loggedInUser) {
+  if(!loggedIn) {
     return <Redirect to='/login' />
   }
   return (
