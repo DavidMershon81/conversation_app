@@ -17,6 +17,7 @@ import { LoadingBox } from './MiscControls';
 const MainAppRouter = () => {
   const onLogoutConfirm = () => {
     console.log("onLogoutConfirm!");
+    //refreshAuth();
   }
 
   const { data:loginInfo, getData:refreshAuth, loading, error, errorMessage } = useGetData({ 

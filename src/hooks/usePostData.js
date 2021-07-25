@@ -4,8 +4,12 @@ import { useMutation } from 'react-query';
 
 const usePostData = ({ url, onConfirm, confirmText }) => {
     const postData = async (dataToPost) => {
-        const res = await axios.post(url, dataToPost);
-        return res.data;
+        try {
+            const res = await axios.post(url, dataToPost);
+            return res.data;
+        }catch (error) {
+            throw new Error(error.response.data.message);
+        }
     }
     const { mutate, data, isLoading, isError, error, isSuccess } = useMutation(postData);
     const confirmMessage = isSuccess ? confirmText : null;
@@ -16,8 +20,8 @@ const usePostData = ({ url, onConfirm, confirmText }) => {
         }
     }, [onConfirm, isSuccess])
 
-
-    return { post:mutate, responseData:data, loading:isLoading, error:isError, confirmMessage, errorMessage:error  };
+    const errorMessage = error ? error.message : "";
+    return { post:mutate, responseData:data, loading:isLoading, error:isError, confirmMessage, errorMessage:errorMessage  };
 }
 
 export default usePostData;
