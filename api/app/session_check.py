@@ -14,7 +14,7 @@ def session_required(f):
             return jsonify({'message' : 'Not logged in!'}), 403
         
         session_expired = utilities.check_timestamp_expired(exp_timestamp)
-        print(f"exp_timestamp: {exp_timestamp} | session_expired: {session_expired}")
+        #print(f"exp_timestamp: {exp_timestamp} | session_expired: {session_expired}")
         if session_expired:
             return jsonify({'message' : 'Session Expired'}), 403
 

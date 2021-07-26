@@ -76,9 +76,6 @@ def get_petitions(petition_group_id):
 def get_petition(petition_id):
     return Petition.query.filter_by(id=petition_id).first()
 
-def get_petition_groups():
-    return PetitionGroup.query.all()
-
 def get_petition_groups_by_user(user):
     return db.session.query(Member,PetitionGroup).\
         filter(Member.petition_group_id == PetitionGroup.id, Member.email==user.email).\
@@ -100,8 +97,10 @@ def add_members(emails, petition_group_id):
     db.session.commit()
     return new_members
 
-def add_members_to_petition_group(json, petition_group_id):
+def add_members_to_petition_group(json, petition_group_id, current_user):
     member_emails = [ json[key] for key in json.keys() if 'custom_email_' in key ]
+    if not current_user.email in member_emails:
+        member_emails.append(current_user.email)
     return add_members(member_emails, petition_group_id)
 
 def get_members(petition_group_id):
