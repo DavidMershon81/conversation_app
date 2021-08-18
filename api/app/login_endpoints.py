@@ -3,6 +3,7 @@ from app import app, session, session_check
 from app import database as db
 from werkzeug.security import check_password_hash
 from app import utilities
+from datetime import timedelta
 
 @app.route('/api/login')
 def login():
@@ -15,13 +16,17 @@ def login():
     if login_user:
         password_matches = check_password_hash(login_user.password, auth.password)
         if password_matches:
-            session['user_email'] = auth.username
-            session['exp_timestamp'] = utilities.generate_exp_timestamp()
+            begin_new_session(auth.username)
             return jsonify({'message' : 'login_successful', 'username' : session['user_email']})
         else:
             return __invalid_login()
     else:
         return __invalid_login()
+
+def begin_new_session(user_email):
+    session.permanent = True
+    app.permanent_session_lifetime = timedelta(seconds=15)
+    session['user_email'] = user_email
 
 def __invalid_login():
     response_message = jsonify({'message' : 'invalid login'})
