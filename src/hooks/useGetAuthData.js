@@ -1,9 +1,9 @@
-import useGetData from  './useGetData';
+import useGetDataBase from  './useGetDataBase';
 import { useState } from 'react';
 
 const useGetAuthData = () => {
     const [ logout, setLogout ] = useState(false);
-    const { data:authData, getData:getAuthData, loading, error, errorMessage } = useGetData({ 
+    const { data:authData, getData:getAuthData, loading, error, errorMessage } = useGetDataBase({ 
         url:'/api/get_current_user',
         logout:logout
     });

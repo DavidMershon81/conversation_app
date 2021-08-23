@@ -1,7 +1,7 @@
 import useLogin from  '../hooks/useLogin';
 import LoginForm from './LoginForm';
 import { LoadingBox } from './MiscControls';
-import { useContext } from 'react'
+import { useContext } from 'react';
 import { AppContext } from '../contexts/AppContext';
 import { Redirect, Link } from 'react-router-dom';
 

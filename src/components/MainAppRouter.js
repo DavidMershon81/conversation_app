@@ -31,6 +31,9 @@ const MainRouterSwitch = () => {
 
 const MainAppRouter = () => {
   const { authData, loggedIn, refreshAuth, setLogout, loading, error, errorMessage } = useGetAuthData();
+  const clearLogout = () => {
+    setLogout(false);
+  }
 
   return (
       <>
