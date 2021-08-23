@@ -13,7 +13,13 @@ const getDataFromApi = async (url, params, logout) => {
     }
 }
 
-const useGetData = ({ url, params, logout=false, checkRetry = () => true }) => {
+const useGetData = ({ url, params, logout=false }) => {
+    const checkRetry = (errorMessage) => {
+        const loggedIn = errorMessage !== "Not logged in!";
+        console.log('checkRetry() - loggedIn=' + loggedIn);
+        return loggedIn;
+    }
+
     const onRetry = (failureCount, error) => {
         return checkRetry(error.message);
     }
