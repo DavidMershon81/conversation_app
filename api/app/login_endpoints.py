@@ -25,7 +25,7 @@ def login():
 
 def begin_new_session(user_email):
     session.permanent = True
-    app.permanent_session_lifetime = timedelta(seconds=15)
+    app.permanent_session_lifetime = timedelta(minutes=30)
     session['user_email'] = user_email
 
 def __invalid_login():
