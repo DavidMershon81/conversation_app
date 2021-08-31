@@ -11,7 +11,8 @@ app.config['SECRET_KEY'] = config['SECRET_KEY']
 #until HTTPS is set up
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 
-from app import database as db
+#from app import database as db
+import app.database.db_model as db
 db.connect()
 
 from app import email

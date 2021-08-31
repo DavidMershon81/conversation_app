@@ -1,6 +1,6 @@
 from flask import request, jsonify
 from app import app
-from app import database as db
+import app.database.db_model as db
 from app import utilities
 
 def user_to_dict(user):

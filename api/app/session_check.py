@@ -1,8 +1,7 @@
 from flask import jsonify
-from app import database as db
+import app.database.db_model as db
 from app import session
 from functools import wraps
-from app import utilities
 
 def session_required(f):
     @wraps(f)

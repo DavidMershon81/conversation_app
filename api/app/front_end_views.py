@@ -1,6 +1,6 @@
 from flask import json, request, jsonify
 from app import app
-from app import database as db
+import app.database.db_model as db
 
 #front end routes (serves react content) //////////////////////////////////////////
 @app.route('/')

@@ -1,5 +1,5 @@
 #find the set of all of the threshold levels that any users have set
-from app import database as db
+import app.database.db_model as db
 
 def get_thresholds_set(sigs):
   return set([sig.reveal_threshold for sig in sigs])

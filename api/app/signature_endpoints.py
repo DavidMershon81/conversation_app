@@ -1,6 +1,7 @@
 from flask import request, jsonify
 from app import app, session_check, signature_reveal
-from app import database as db
+import app.database.db_model as db
+import app.database.signature_queries as sig_queries
 
 def signature_to_dict(s):
     return { 'id':s.id, 'petition_id' : s.petition_id, 'user_id':s.user_id, 'reveal_threshold':s.reveal_threshold }
@@ -19,7 +20,7 @@ def signatures(current_user):
 
 def try_sign_petition(current_user, petition_id, reveal_threshold):
     user_id = current_user.id
-    user_signed = db.did_user_sign_petition(petition_id, user_id)
+    user_signed = sig_queries.did_user_sign_petition(petition_id, user_id)
     not_in_group = user_id not in [u.id for u in db.get_petition_users(petition_id)]
 
     if user_signed:
@@ -30,11 +31,11 @@ def try_sign_petition(current_user, petition_id, reveal_threshold):
         return jsonify({ 'message' : 'user_not_in_group'}),403
     else:
         print('adding new signature')
-        new_signature = db.add_signature(petition_id=petition_id, user_id=user_id, reveal_threshold=reveal_threshold)
+        new_signature = sig_queries.add_signature(petition_id=petition_id, user_id=user_id, reveal_threshold=reveal_threshold)
         return signature_to_dict(new_signature)
 
 def get_revealed_signatures(petition_id):
-    signatures_raw = db.get_signatures(petition_id)
+    signatures_raw = sig_queries.get_signatures(petition_id)
     revealed_sigs = signature_reveal.get_signatures_for_endpoint(signatures_raw)
     return jsonify(revealed_sigs)
 
@@ -42,6 +43,6 @@ def get_revealed_signatures(petition_id):
 @session_check.session_required
 def user_signed(current_user):
     print(f"checking user_signed for : {current_user.email}")
-    user_signed = db.did_user_sign_petition(request.args['petition_id'], current_user.id)
+    user_signed = sig_queries.did_user_sign_petition(request.args['petition_id'], current_user.id)
     print(f"user_signed: {user_signed}")
     return jsonify({ 'user_signed' : user_signed })

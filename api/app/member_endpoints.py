@@ -1,6 +1,6 @@
 from flask import request, jsonify
 from app import app, session_check
-from app import database as db
+import app.database.db_model as db
 
 @app.route('/api/members', methods=['GET'])
 @session_check.session_required

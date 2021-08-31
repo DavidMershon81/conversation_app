@@ -51,44 +51,7 @@ class Signature(db.Model):
     reveal_threshold = db.Column(db.Integer)
 
 
-def add_signature(petition_id, user_id, reveal_threshold):
-    new_signature = Signature(petition_id=petition_id, user_id=user_id, reveal_threshold=reveal_threshold)
-    db.session.add(new_signature)
-    db.session.commit()
-    return new_signature
 
-def get_signatures(petition_id):
-    return Signature.query.filter_by(petition_id=petition_id).all()
-
-def did_user_sign_petition(petition_id, user_id):
-    matches = Signature.query.filter_by(petition_id=petition_id, user_id=user_id).all()
-    return len(matches) > 0
-
-def add_petition(petition_group_id, subject, petition_text):
-    new_petition = Petition(petition_group_id=petition_group_id, subject=subject, petition_text=petition_text)
-    db.session.add(new_petition)
-    db.session.commit()
-    return new_petition
-
-def get_petitions(petition_group_id):
-    return Petition.query.filter_by(petition_group_id=petition_group_id).all()
-
-def get_petition(petition_id):
-    return Petition.query.filter_by(id=petition_id).first()
-
-def get_petition_groups_by_user(user):
-    return db.session.query(Member,PetitionGroup).\
-        filter(Member.petition_group_id == PetitionGroup.id, Member.email==user.email).\
-            with_entities(PetitionGroup.id, PetitionGroup.group_name, PetitionGroup.listserv_email).all()
-
-def get_petition_group(petition_group_id):
-    return PetitionGroup.query.filter_by(id=petition_group_id).first()
-
-def add_petition_group(group_name, listserv_email):
-    new_group = PetitionGroup(group_name=group_name, listserv_email=listserv_email)
-    db.session.add(new_group)
-    db.session.commit()
-    return new_group
 
 def add_members(emails, petition_group_id):
     new_members = [Member(email=email, petition_group_id=petition_group_id) for email in emails]

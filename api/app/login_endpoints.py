@@ -1,8 +1,7 @@
 from flask import request, make_response, jsonify
 from app import app, session, session_check
-from app import database as db
+import app.database.db_model as db
 from werkzeug.security import check_password_hash
-from app import utilities
 from datetime import timedelta
 
 @app.route('/api/login')
