@@ -1,7 +1,6 @@
-from flask import jsonify
+from flask import jsonify, session
 from functools import wraps
 import app.database.user_queries as u_queries
-from app import session
 
 def session_required(f):
     @wraps(f)

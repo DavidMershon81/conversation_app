@@ -1,5 +1,5 @@
-from flask import request, make_response, jsonify
-from app import app, session, session_check
+from flask import request, make_response, jsonify, session
+from app import app, session_check
 import app.database.user_queries as u_queries
 from werkzeug.security import check_password_hash
 from datetime import timedelta

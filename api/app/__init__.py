@@ -1,4 +1,4 @@
-from flask import Flask, session
+from flask import Flask
 from dotenv import dotenv_values
 from app.database.db_model import init_db
 from app.email import init_email
