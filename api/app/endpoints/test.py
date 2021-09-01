@@ -1,6 +1,6 @@
 from app import app, email
-
-@app.route('/test_mail')
+    
+@app.route('/api/test_mail')
 def test_mail():    
     body = """
     Dear Recipient,
@@ -13,3 +13,7 @@ def test_mail():
     mail_sent = email.send_mail(recipients=['wakik47254@5ubo.com'], subject = "A mail to test mails", body=body)
     message = 'successfully sent mail!' if mail_sent else 'failed to send mail.'
     return f"<h1>{message}</h1>"
+
+@app.route('/api/test')
+def test():    
+    return f"<h1>Some Nonsense</h1>"

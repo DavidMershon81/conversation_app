@@ -19,10 +19,4 @@ from app import email
 email.init(app)
 
 from app import front_end_views
-from app import user_endpoints
-from app import petition_group_endpoints
-from app import member_endpoints
-from app import petition_endpoints
-from app import signature_endpoints
-from app import login_endpoints
-#from app import test_endpoints
+from app.endpoints import user, petition_group, member, petition, signature, login, test
