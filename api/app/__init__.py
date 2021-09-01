@@ -1,5 +1,7 @@
 from flask import Flask, session
 from dotenv import dotenv_values
+from app.database.db_model import init_db
+from app.email import init_email
 
 #init flask app
 app = Flask(__name__, static_folder='../../build', static_url_path='/')
@@ -11,12 +13,8 @@ app.config['SECRET_KEY'] = config['SECRET_KEY']
 #until HTTPS is set up
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 
-#from app import database as db
-import app.database.db_model as db
-db.connect()
-
-from app import email
-email.init(app)
+init_db(app, config)
+init_email(app)
 
 from app import front_end_views
 from app.endpoints import user, petition_group, member, petition, signature, login, test

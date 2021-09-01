@@ -2,7 +2,7 @@ from dotenv import dotenv_values
 from flask_mail import Mail, Message
 
 
-def init(app):
+def init_email(app):
     config = dotenv_values("app_env")
 
     app.config['MAIL_SERVER'] = 'mail.gmx.com'

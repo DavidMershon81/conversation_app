@@ -1,19 +1,20 @@
-from app import app
-from dotenv import dotenv_values
 import pymysql
 pymysql.install_as_MySQLdb()
 from flask_sqlalchemy import SQLAlchemy
 from time import sleep
 
-#import and configure database
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = 'false'
+db = SQLAlchemy()
 
-#choose the appropriate database URL depending on if we're running in docker compose in production 
-# or with a standalone test db in development
-config = dotenv_values("app_env")
-db_url_key = 'PRODUCTION_DATABASE_URL' if config['FLASK_ENV'] == 'production' else 'DEVELOPMENT_DATABASE_URL'
-app.config['SQLALCHEMY_DATABASE_URI'] = config[db_url_key]
-db = SQLAlchemy(app)
+def init_db(app, config):
+    #import and configure database
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = 'false'
+
+    #choose the appropriate database URL depending on if we're running in docker compose in production 
+    # or with a standalone test db in development
+    db_url_key = 'PRODUCTION_DATABASE_URL' if config['FLASK_ENV'] == 'production' else 'DEVELOPMENT_DATABASE_URL'
+    app.config['SQLALCHEMY_DATABASE_URI'] = config[db_url_key]
+    db.init_app(app)
+    __connect(app)
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -50,19 +51,21 @@ class Signature(db.Model):
     reveal_threshold = db.Column(db.Integer)
 
 # Connect to the DB
-def connect():
+
+def __connect(app):
     try:
-        _try_connect()
+        __try_connect(app)
     except KeyboardInterrupt:
         print('Interrupted database connect loop, exiting...')
         exit()
     
     
-def _try_connect():
+def __try_connect(app):
     db_connected = False
     while not db_connected:
         try:
-            db.create_all()
+            with app.app_context():
+                db.create_all()
             db_connected = True
             print('Connected to DB!')
         except:
