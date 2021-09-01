@@ -1,8 +1,6 @@
-from flask import json, request, jsonify
 from app import app
-import app.database.db_model as db
 
-#front end routes (serves react content) //////////////////////////////////////////
+#front end routes (serves static react content)
 @app.route('/')
 def index():
     return app.send_static_file('index.html')
