@@ -1,7 +1,7 @@
 from flask import request, jsonify
 from app import app, session_check, signature_reveal
-import app.database.db_model as db
 import app.database.signature_queries as sig_queries
+import app.database.user_queries as u_queries
 
 def signature_to_dict(s):
     return { 'id':s.id, 'petition_id' : s.petition_id, 'user_id':s.user_id, 'reveal_threshold':s.reveal_threshold }
@@ -21,7 +21,7 @@ def signatures(current_user):
 def try_sign_petition(current_user, petition_id, reveal_threshold):
     user_id = current_user.id
     user_signed = sig_queries.did_user_sign_petition(petition_id, user_id)
-    not_in_group = user_id not in [u.id for u in db.get_petition_users(petition_id)]
+    not_in_group = user_id not in [u.id for u in u_queries.get_petition_users(petition_id)]
 
     if user_signed:
         print('user already signed, returning error message')

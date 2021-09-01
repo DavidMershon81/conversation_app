@@ -1,5 +1,5 @@
 #find the set of all of the threshold levels that any users have set
-import app.database.db_model as db
+import app.database.user_queries as u_queries
 
 def get_thresholds_set(sigs):
   return set([sig.reveal_threshold for sig in sigs])
@@ -24,7 +24,7 @@ def get_highest_reveal_threshold(sigs):
 #get an array of the emails of all signatures that have been revealed
 def get_revealed_sig_users(hrt, sigs):
   revealed_sig_ids = [sbt.user_id for sbt in sigs_below_threshold(hrt, sigs)]
-  return [user.email for user in db.get_users_with_ids(revealed_sig_ids)]
+  return [user.email for user in u_queries.get_users_with_ids(revealed_sig_ids)]
 
 #get a list of all of the singatures at a threshold
 def sigs_at_threshold(threshold, sigs):

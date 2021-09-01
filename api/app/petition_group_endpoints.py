@@ -1,7 +1,7 @@
 from flask import request, jsonify
 from app import app, session_check
-import app.database.db_model as db
 import app.database.petition_group_queries as pg_queries
+import app.database.member_queries as mb_queries
 
 @app.route('/api/petition_groups', methods=['GET', 'POST'])
 @session_check.session_required
@@ -29,7 +29,7 @@ def add_petition_group(json, current_user):
     listserv_email = 'custom_emails' if use_custom_emails else json['listserv_email']
     new_group = pg_queries.add_petition_group(group_name=json['group_name'], listserv_email=listserv_email)
     if use_custom_emails:
-        db.add_members_to_petition_group(json=json, petition_group_id=new_group.id, current_user=current_user)
+        mb_queries.add_members_to_petition_group(json=json, petition_group_id=new_group.id, current_user=current_user)
     return jsonify(group_to_dict(new_group))
 
 def group_to_dict(g):

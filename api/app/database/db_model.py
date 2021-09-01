@@ -4,7 +4,6 @@ import pymysql
 pymysql.install_as_MySQLdb()
 from flask_sqlalchemy import SQLAlchemy
 from time import sleep
-from werkzeug.security import generate_password_hash, check_password_hash
 
 #import and configure database
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = 'false'
@@ -49,54 +48,6 @@ class Signature(db.Model):
     petition_id = db.Column(db.Integer)
     user_id = db.Column(db.Integer)
     reveal_threshold = db.Column(db.Integer)
-
-
-
-
-def add_members(emails, petition_group_id):
-    new_members = [Member(email=email, petition_group_id=petition_group_id) for email in emails]
-    for nm in new_members:
-        db.session.add(nm)
-    db.session.commit()
-    return new_members
-
-def add_members_to_petition_group(json, petition_group_id, current_user):
-    member_emails = [ json[key] for key in json.keys() if 'custom_email_' in key ]
-    if not current_user.email in member_emails:
-        member_emails.append(current_user.email)
-    return add_members(member_emails, petition_group_id)
-
-def get_members(petition_group_id):
-    return Member.query.filter_by(petition_group_id=petition_group_id).all()
-
-def get_users():
-    return User.query.all()
-
-def get_user(user_id):
-    return User.query.filter_by(id=user_id).first()
-
-def get_user_by_email(user_email):
-    return User.query.filter_by(email=user_email).first()
-
-def get_users_with_ids(user_ids):
-    return User.query.filter(User.id.in_(user_ids)).all()
-
-def get_petition_group_users(petition_group_id):
-    return db.session.query(Member,User).\
-        filter(Member.email == User.email, Member.petition_group_id==petition_group_id).\
-            with_entities(User.id, User.email, User.first_name, User.last_name).all()
-
-def get_petition_users(petition_id):
-    return db.session.query(Member,User,Petition).\
-        filter(Member.email == User.email, Member.petition_group_id==Petition.petition_group_id, Petition.id==petition_id).\
-            with_entities(User.id, User.email, User.first_name, User.last_name).all()
-
-def add_user(email, password, first_name, last_name):
-    password_hashed = generate_password_hash(password)
-    new_user = User(email=email, password=password_hashed, first_name=first_name, last_name=last_name)
-    db.session.add(new_user)
-    db.session.commit()
-    return new_user
 
 # Connect to the DB
 def connect():

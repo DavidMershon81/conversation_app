@@ -1,6 +1,6 @@
 from flask import request, make_response, jsonify
 from app import app, session, session_check
-import app.database.db_model as db
+import app.database.user_queries as u_queries
 from werkzeug.security import check_password_hash
 from datetime import timedelta
 
@@ -10,7 +10,7 @@ def login():
     if not auth or not auth.username or not auth.password:
         return __invalid_login()
 
-    login_user = db.get_user_by_email(auth.username)
+    login_user = u_queries.get_user_by_email(auth.username)
     
     if login_user:
         password_matches = check_password_hash(login_user.password, auth.password)

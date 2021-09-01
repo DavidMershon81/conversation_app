@@ -1,7 +1,7 @@
 from flask import jsonify
-import app.database.db_model as db
-from app import session
 from functools import wraps
+import app.database.user_queries as u_queries
+from app import session
 
 def session_required(f):
     @wraps(f)
@@ -11,7 +11,7 @@ def session_required(f):
         if not user_email:
             return jsonify({'message' : 'Not logged in!'}), 403
 
-        current_user = db.get_user_by_email(user_email)
+        current_user = u_queries.get_user_by_email(user_email)
         if not current_user:
             return jsonify({'message' : 'Not logged in!'}), 403
 

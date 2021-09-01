@@ -1,6 +1,5 @@
 from app.database.db_model import PetitionGroup, Member, db
 
-
 def get_petition_group(petition_group_id):
     return PetitionGroup.query.filter_by(id=petition_group_id).first()
 
