@@ -1,9 +1,11 @@
-from flask import request, jsonify
-from app import app, session_check
+from flask import request, jsonify, Blueprint
+from app import session_check
 import app.database.petition_group_queries as pg_queries
 import app.database.member_queries as mb_queries
 
-@app.route('/api/petition_groups', methods=['GET', 'POST'])
+bp_petition_group_endpoints = Blueprint('petition_group_endpoints', __name__)
+
+@bp_petition_group_endpoints.route('/api/petition_groups', methods=['GET', 'POST'])
 @session_check.session_required
 def petition_groups(current_user):
     if request.method == 'GET':
@@ -11,7 +13,7 @@ def petition_groups(current_user):
     elif request.method == 'POST':
         return add_petition_group(json=request.json, current_user=current_user)
 
-@app.route('/api/petition_groups/<petition_group_id>', methods=['GET'])
+@bp_petition_group_endpoints.route('/api/petition_groups/<petition_group_id>', methods=['GET'])
 @session_check.session_required
 def petition_group(current_user, petition_group_id):
     petition_group = pg_queries.get_petition_group(petition_group_id)

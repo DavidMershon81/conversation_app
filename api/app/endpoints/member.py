@@ -1,8 +1,10 @@
-from flask import request, jsonify
-from app import app, session_check
+from flask import request, jsonify, Blueprint
+from app import session_check
 import app.database.member_queries as mb_queries
 
-@app.route('/api/members', methods=['GET'])
+bp_member_endpoints = Blueprint('member_endpoints', __name__)
+
+@bp_member_endpoints.route('/api/members', methods=['GET'])
 @session_check.session_required
 def members(current_user):
     #this will have a post menthod eventually when listserv groups are fleshed out

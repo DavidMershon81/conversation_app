@@ -1,12 +1,14 @@
-from flask import request, jsonify
-from app import app, session_check, signature_reveal
+from flask import request, jsonify, Blueprint
+from app import session_check, signature_reveal
 import app.database.signature_queries as sig_queries
 import app.database.user_queries as u_queries
+
+bp_signature_endpoints = Blueprint('signature_endpoints', __name__)
 
 def signature_to_dict(s):
     return { 'id':s.id, 'petition_id' : s.petition_id, 'user_id':s.user_id, 'reveal_threshold':s.reveal_threshold }
 
-@app.route('/api/signatures', methods=['GET', 'POST'])
+@bp_signature_endpoints.route('/api/signatures', methods=['GET', 'POST'])
 @session_check.session_required
 def signatures(current_user):
     if request.method == 'GET':
@@ -39,7 +41,7 @@ def get_revealed_signatures(petition_id):
     revealed_sigs = signature_reveal.get_signatures_for_endpoint(signatures_raw)
     return jsonify(revealed_sigs)
 
-@app.route('/api/user_signed', methods=['GET'])
+@bp_signature_endpoints.route('/api/user_signed', methods=['GET'])
 @session_check.session_required
 def user_signed(current_user):
     print(f"checking user_signed for : {current_user.email}")

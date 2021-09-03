@@ -1,11 +1,10 @@
-from flask import request, jsonify
-from app import app, session_check
+from flask import request, jsonify, Blueprint
+from app import session_check
 import app.database.petition_queries as p_queries
 
-def petition_to_dict(p):
-    return { 'id':p.id, 'petition_group_id' : p.petition_group_id, 'subject':p.subject, 'petition_text':p.petition_text }
+bp_petition_endpoints = Blueprint('petition_endpoints', __name__)
 
-@app.route('/api/petitions', methods=['GET', 'POST'])
+@bp_petition_endpoints.route('/api/petitions', methods=['GET', 'POST'])
 @session_check.session_required
 def petitions(current_user):
     if request.method == 'GET':
@@ -17,8 +16,11 @@ def petitions(current_user):
         new_petition = p_queries.add_petition(petition_group_id=json['petition_group_id'], subject=json['subject'], petition_text=json['petition_text'])
         return petition_to_dict(new_petition)
 
-@app.route('/api/petitions/<petition_id>', methods=['GET'])
+@bp_petition_endpoints.route('/api/petitions/<petition_id>', methods=['GET'])
 @session_check.session_required
 def petition(current_user, petition_id):
     petition = p_queries.get_petition(petition_id)
     return jsonify(petition_to_dict(petition))
+
+def petition_to_dict(p):
+    return { 'id':p.id, 'petition_group_id' : p.petition_group_id, 'subject':p.subject, 'petition_text':p.petition_text }

@@ -1,10 +1,12 @@
-from flask import request, make_response, jsonify, session
-from app import app, session_check
+from flask import request, make_response, jsonify, session, Blueprint
+from app import session_check
 import app.database.user_queries as u_queries
 from werkzeug.security import check_password_hash
 from datetime import timedelta
 
-@app.route('/api/login')
+bp_login_endpoints = Blueprint('login_endpoints', __name__)
+
+@bp_login_endpoints.route('/api/login')
 def login():
     auth = request.authorization
     if not auth or not auth.username or not auth.password:
@@ -24,22 +26,21 @@ def login():
 
 def begin_new_session(user_email):
     session.permanent = True
-    app.permanent_session_lifetime = timedelta(minutes=30)
+    bp_login_endpoints.permanent_session_lifetime = timedelta(minutes=30)
     session['user_email'] = user_email
 
 def __invalid_login():
     response_message = jsonify({'message' : 'invalid login'})
     return make_response(response_message, 401, {'WWW-Authenticate' : 'Basic realm="Login Required"'})
 
-@app.route('/api/get_current_user')
+@bp_login_endpoints.route('/api/get_current_user')
 @session_check.session_required
 def get_current_user(current_user):
     return jsonify({ "user_email" : current_user.email })
 
-@app.route('/api/logout', methods=['POST'])
+@bp_login_endpoints.route('/api/logout', methods=['POST'])
 @session_check.session_required
 def logout(current_user):
-    print('hit logout endpoint')
     session.clear()
     return jsonify({'message' : 'logout_successful'}) 
 

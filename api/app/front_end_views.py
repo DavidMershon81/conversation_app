@@ -1,10 +1,12 @@
-from app import app
+from flask import Blueprint
+
+bp_front_end_views = Blueprint('front_end_views', __name__, static_folder='../../build', static_url_path='/')
 
 #front end routes (serves static react content)
-@app.route('/')
+@bp_front_end_views.route('/')
 def index():
-    return app.send_static_file('index.html')
+    return bp_front_end_views.send_static_file('index.html')
 
-@app.errorhandler(404)
+@bp_front_end_views.errorhandler(404)
 def not_found(e):
-    return app.send_static_file('index.html')
+    return bp_front_end_views.send_static_file('index.html')
