@@ -71,3 +71,4 @@ def __try_connect(app):
         except:
             print('Failed to connect to db, trying again...')
             sleep(5)
+    

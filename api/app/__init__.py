@@ -9,7 +9,9 @@ from app.endpoints.petition_group import bp_petition_group_endpoints
 from app.endpoints.user import bp_user_endpoints
 from app.endpoints.member import bp_member_endpoints
 from app.endpoints.login import bp_login_endpoints
+from app.endpoints.validations import bp_validation_endpoints
 from app.front_end_views import bp_front_end_views
+
 
 def init_app():
     app = Flask(__name__, static_folder='/static', static_url_path='/static_main')
@@ -29,7 +31,8 @@ def init_app():
         bp_petition_group_endpoints,
         bp_user_endpoints,
         bp_member_endpoints,
-        bp_login_endpoints
+        bp_login_endpoints,
+        bp_validation_endpoints
     ]
 
     for bp in all_blueprints:
