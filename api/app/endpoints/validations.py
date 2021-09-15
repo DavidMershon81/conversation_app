@@ -6,6 +6,5 @@ from app import session_check
 bp_validation_endpoints = Blueprint('validation_endpoints', __name__)
 
 @bp_validation_endpoints.route('/api/validations/<validation_hash>', methods=['POST'])
-#@session_check.session_required
 def validations(validation_hash):
         return jsonify({'message' : f"checking validation_hash: {validation_hash}"})#, 403
