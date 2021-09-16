@@ -50,6 +50,13 @@ class Signature(db.Model):
     user_id = db.Column(db.Integer)
     reveal_threshold = db.Column(db.Integer)
 
+class Validation(db.Model):
+    __tablename__ = 'validations'
+    id = db.Column(db.Integer, primary_key=True)
+    guid = db.Column(db.Text)
+    user_id = db.Column(db.Integer)
+
+
 # Connect to the DB
 
 def __connect(app):
