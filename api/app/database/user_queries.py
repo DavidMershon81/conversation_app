@@ -25,7 +25,7 @@ def get_petition_users(petition_id):
 
 def add_user(email, password, first_name, last_name):
     password_hashed = generate_password_hash(password)
-    new_user = User(email=email, password=password_hashed, first_name=first_name, last_name=last_name)
+    new_user = User(email=email, password=password_hashed, first_name=first_name, last_name=last_name, valid=False)
     db.session.add(new_user)
     db.session.commit()
     return new_user

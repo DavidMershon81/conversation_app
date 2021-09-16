@@ -23,6 +23,7 @@ class User(db.Model):
     password = db.Column(db.Text)
     first_name = db.Column(db.Text)
     last_name = db.Column(db.Text)
+    valid = db.Column(db.Boolean)
 
 class PetitionGroup(db.Model):
     __tablename__ = 'petition_groups'

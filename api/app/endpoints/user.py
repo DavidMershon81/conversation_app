@@ -1,6 +1,7 @@
 from flask import request, jsonify, Blueprint
 from app import utilities
 import app.database.user_queries as u_queries
+import app.database.validation_queries as vl_queries
 
 bp_user_endpoints = Blueprint('user_endpoints', __name__)
 
@@ -33,6 +34,7 @@ def add_user(json):
         return jsonify({'message' : f"user with email {user_email} already exists"}), 403 
     
     new_user = u_queries.add_user(user_email, json['password'], json['first_name'], json['last_name'])
+    vl_queries.add_validation(new_user.id)
     return jsonify(user_to_dict(new_user))
 
 @bp_user_endpoints.route('/api/users/<user_id>', methods=['GET'])
@@ -41,4 +43,4 @@ def user(user_id):
     return jsonify(user_to_dict(user))
 
 def user_to_dict(user):
-    return { 'id' : user.id, 'email' : user.email, 'first_name' : user.first_name, 'last_name' : user.last_name }
+    return { 'id' : user.id, 'email' : user.email, 'first_name' : user.first_name, 'last_name' : user.last_name, 'valid' : user.valid }
