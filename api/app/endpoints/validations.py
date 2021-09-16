@@ -2,7 +2,6 @@ from flask import request, jsonify, Blueprint
 from app import session_check
 import app.database.validation_queries as vl_queries
 
-#a test comment
 
 bp_validation_endpoints = Blueprint('validation_endpoints', __name__)
 
