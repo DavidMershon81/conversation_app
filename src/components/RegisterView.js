@@ -11,7 +11,7 @@ const RegisterView = () => {
     const { post:postUser, confirmMessage, loading, error, errorMessage } = usePostData({ 
         url:'/api/users',
         onConfirm:onConfirm,
-        confirmText:'Registered New Account!'
+        confirmText:'Registered New Account, please check your email and validate it!'
     });
 
     return (
@@ -19,7 +19,7 @@ const RegisterView = () => {
             <h2>Register</h2>
             <p>Use this form to register a new account.</p>
             <RegisterUserForm onSubmit={postUser}/>
-            { confirmMessage && <p>{confirmMessage} <Link className='inline_link' to={`/login`}>Login</Link></p>}
+            { confirmMessage && <p>{confirmMessage} </p>}
             <LoadingBox loading={loading} error={error} errorMessage={errorMessage} />
         </section>
     );
