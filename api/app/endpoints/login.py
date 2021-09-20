@@ -16,6 +16,8 @@ def login():
     
     if login_user:
         password_matches = check_password_hash(login_user.password, auth.password)
+        if not login_user.valid:
+            return __not_validated()
         if password_matches:
             begin_new_session(auth.username)
             return jsonify({'message' : 'login_successful', 'username' : session['user_email']})
@@ -31,6 +33,10 @@ def begin_new_session(user_email):
 
 def __invalid_login():
     response_message = jsonify({'message' : 'invalid login'})
+    return make_response(response_message, 401, {'WWW-Authenticate' : 'Basic realm="Login Required"'})
+
+def __not_validated():
+    response_message = jsonify({'message' : 'account not validated'})
     return make_response(response_message, 401, {'WWW-Authenticate' : 'Basic realm="Login Required"'})
 
 @bp_login_endpoints.route('/api/get_current_user')
