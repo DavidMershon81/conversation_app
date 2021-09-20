@@ -1,9 +1,7 @@
-import { useLocation, Redirect } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import usePostData from  '../hooks/usePostData'
 import { LoadingBox } from './MiscControls';
-import SignPetitionSection from './SignPetitionSection';
-import { useRef, useContext, useEffect, useState } from 'react';
-import { AppContext } from '../contexts/AppContext';
+import { useEffect, useState } from 'react';
 
 const ValidationView = ({ basePath }) => {
     const location = useLocation();
