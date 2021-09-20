@@ -1,4 +1,4 @@
-from app.database.db_model import Validation, db
+from app.database.db_model import Validation, User, db
 import uuid
 
 def add_validation(user_id):
@@ -7,3 +7,6 @@ def add_validation(user_id):
     db.session.add(new_validation)
     db.session.commit()
     return new_validation
+
+def get_validation(guid):
+    return Validation.query.filter_by(guid=guid).first()

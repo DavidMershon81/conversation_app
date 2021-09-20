@@ -1,4 +1,4 @@
-from app.database.db_model import User, Member, Petition, db
+from app.database.db_model import User, Member, Petition, Validation, db
 from werkzeug.security import generate_password_hash
 
 def get_users():
@@ -29,3 +29,11 @@ def add_user(email, password, first_name, last_name):
     db.session.add(new_user)
     db.session.commit()
     return new_user
+
+def validate_user(user_id):
+    val_user = User.query.filter_by(id=user_id).first()
+    val_user.valid = True
+    val = Validation.query.filter_by(user_id=user_id).first()
+    db.session.delete(val)
+    db.session.commit()
+    return val_user
