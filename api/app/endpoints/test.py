@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, request
 from app import email
 
 bp_test_endpoints = Blueprint('test_endpoints', __name__)
@@ -17,4 +17,7 @@ def test_mail():
 
 @bp_test_endpoints.route('/api/test')
 def test():    
-    return f"<h1>Some Nonsense</h1>"
+    url_root = request.url_root
+    guid = 'test-guid-blah-blah'
+    validations_url = url_root + '/validations/' + guid
+    return f"validations_url: {validations_url}"

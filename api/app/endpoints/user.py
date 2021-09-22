@@ -1,5 +1,5 @@
 from flask import request, jsonify, Blueprint
-from app import utilities
+from app import utilities, email
 import app.database.user_queries as u_queries
 import app.database.validation_queries as vl_queries
 
@@ -13,7 +13,7 @@ def users():
         else:
             return get_all_users()
     elif request.method == 'POST':
-        return add_user(request.json)
+        return add_user(request.json, request.url_root)
 
 def get_users_in_group(petition_group_id):
     print(f"petition_group_id: {petition_group_id}")
@@ -23,7 +23,7 @@ def get_users_in_group(petition_group_id):
 def get_all_users():
     return jsonify([ user_to_dict(user) for user in  u_queries.get_users()])
 
-def add_user(json):
+def add_user(json, url_root):
     params_present = utilities.check_required_params(request_params=json, required_params=['email','password','first_name','last_name'])
     if not params_present:
         return jsonify({'message' : 'missing required json params!'}), 403    
@@ -34,7 +34,9 @@ def add_user(json):
         return jsonify({'message' : f"user with email {user_email} already exists"}), 403 
     
     new_user = u_queries.add_user(user_email, json['password'], json['first_name'], json['last_name'])
-    vl_queries.add_validation(new_user.id)
+    new_validation = vl_queries.add_validation(new_user.id)
+    email.send_validation_mail(new_user.email, new_validation.guid, url_root)
+
     return jsonify(user_to_dict(new_user))
 
 @bp_user_endpoints.route('/api/users/<user_id>', methods=['GET'])

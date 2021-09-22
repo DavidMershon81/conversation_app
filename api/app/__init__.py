@@ -2,6 +2,7 @@ from flask import Flask
 from dotenv import dotenv_values
 from app.database.db_model import init_db
 from app.email import init_email
+from app.front_end_views import bp_front_end_views
 from app.endpoints.test import bp_test_endpoints
 from app.endpoints.signature import bp_signature_endpoints
 from app.endpoints.petition import bp_petition_endpoints
@@ -10,7 +11,7 @@ from app.endpoints.user import bp_user_endpoints
 from app.endpoints.member import bp_member_endpoints
 from app.endpoints.login import bp_login_endpoints
 from app.endpoints.validations import bp_validation_endpoints
-from app.front_end_views import bp_front_end_views
+#from app.endpoints.test import bp_test_endpoints
 
 
 def init_app():
