@@ -1,5 +1,3 @@
-# Anonymous Conversation App
-
 This is a prototype for an anonymous conversation system. I built this as kind of a combination UX experiment and excuse to learn some full stack React development using a Flask back end.
 
 While I learned a lot about React engineering from working on this, I think the back end is extremely insecure, and probably vulnerable to XSS or XSRF attacks. Were I to do this all again, I would want to think a lot more about authentication, authorization and user account management. Probably a "batteries included" framework like Django would be better at enforcing good security than Flask's piece by piece approach.
